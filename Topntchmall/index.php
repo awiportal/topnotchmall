@@ -2,7 +2,7 @@
 /**
  * Generic fallback template (blog/archive).
  *
- * @package ToptechMachinery
+ * @package TopnotchMall
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,7 +28,7 @@ get_header();
 			the_posts_pagination();
 		else :
 			?>
-			<p><?php esc_html_e( 'Nothing found.', 'toptech-machinery' ); ?></p>
+			<p><?php esc_html_e( 'Nothing found.', 'topnotch-mall' ); ?></p>
 		<?php endif; ?>
 </main>
 <?php

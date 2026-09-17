@@ -2,15 +2,15 @@
 /**
  * Hero: vertical category menu + slider.
  *
- * @package ToptechMachinery
+ * @package TopnotchMall
  */
 
 defined( 'ABSPATH' ) || exit;
 ?>
 <section class="rk-hero">
 	<div class="container">
-		<aside class="rk-vertcat" aria-label="<?php esc_attr_e( 'Shop by category', 'toptech-machinery' ); ?>">
-			<h2><?php esc_html_e( 'All Categories', 'toptech-machinery' ); ?></h2>
+		<aside class="rk-vertcat" aria-label="<?php esc_attr_e( 'Shop by category', 'topnotch-mall' ); ?>">
+			<h2><?php esc_html_e( 'All Categories', 'topnotch-mall' ); ?></h2>
 			<?php
 			if ( has_nav_menu( 'vertical_cats' ) ) {
 				wp_nav_menu( array( 'theme_location' => 'vertical_cats', 'container' => false, 'fallback_cb' => false, 'depth' => 1 ) );
@@ -27,14 +27,14 @@ defined( 'ABSPATH' ) || exit;
 			?>
 		</aside>
 
-		<div class="rk-slider" tabindex="0" aria-roledescription="carousel" aria-label="<?php esc_attr_e( 'Promotions', 'toptech-machinery' ); ?>">
+		<div class="rk-slider" tabindex="0" aria-roledescription="carousel" aria-label="<?php esc_attr_e( 'Promotions', 'topnotch-mall' ); ?>">
 			<?php
-			$slides  = get_theme_mod( 'toptech_slides', array() );
+			$slides  = get_theme_mod( 'topnotch_slides', array() );
 			$rk_shop = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/' );
 			if ( empty( $slides ) || ! is_array( $slides ) ) {
 				$slides = array(
-					array( 'img' => TOPTECH_URI . 'assets/img/banner-tools.jpg', 'title' => __( 'Power Tools & Hardware', 'toptech-machinery' ), 'text' => __( 'Genuine brands. Fair prices. Fast countrywide delivery.', 'toptech-machinery' ), 'url' => $rk_shop ),
-					array( 'img' => TOPTECH_URI . 'assets/img/banner-solar.jpg', 'title' => __( 'Solar Solutions', 'toptech-machinery' ), 'text' => __( 'Panels, inverters, batteries & street lights in stock.', 'toptech-machinery' ), 'url' => $rk_shop ),
+					array( 'img' => TOPNOTCH_URI . 'assets/img/banner-tools.jpg', 'title' => __( 'Power Tools & Hardware', 'topnotch-mall' ), 'text' => __( 'Genuine brands. Fair prices. Fast countrywide delivery.', 'topnotch-mall' ), 'url' => $rk_shop ),
+					array( 'img' => TOPNOTCH_URI . 'assets/img/banner-solar.jpg', 'title' => __( 'Solar Solutions', 'topnotch-mall' ), 'text' => __( 'Panels, inverters, batteries & street lights in stock.', 'topnotch-mall' ), 'url' => $rk_shop ),
 				);
 			}
 			foreach ( $slides as $i => $s ) {
@@ -49,12 +49,12 @@ defined( 'ABSPATH' ) || exit;
 					$img_attr, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- static attribute string.
 					esc_html( $s['text'] ),
 					esc_url( $s['url'] ),
-					esc_html__( 'Shop Now', 'toptech-machinery' )
+					esc_html__( 'Shop Now', 'topnotch-mall' )
 				);
 			}
 			?>
-			<button class="rk-slider__arrow rk-slider__arrow--prev" aria-label="<?php esc_attr_e( 'Previous slide', 'toptech-machinery' ); ?>">&#8249;</button>
-			<button class="rk-slider__arrow rk-slider__arrow--next" aria-label="<?php esc_attr_e( 'Next slide', 'toptech-machinery' ); ?>">&#8250;</button>
+			<button class="rk-slider__arrow rk-slider__arrow--prev" aria-label="<?php esc_attr_e( 'Previous slide', 'topnotch-mall' ); ?>">&#8249;</button>
+			<button class="rk-slider__arrow rk-slider__arrow--next" aria-label="<?php esc_attr_e( 'Next slide', 'topnotch-mall' ); ?>">&#8250;</button>
 			<div class="rk-slider__dots"></div>
 		</div>
 	</div>

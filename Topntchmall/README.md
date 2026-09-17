@@ -1,7 +1,9 @@
-# TopTech Machinery - Premium WooCommerce Theme (v1.0.0)
+# Topnotch Mall - Premium WooCommerce Theme (v1.0.0)
 
-A fast, secure, conversion-focused WooCommerce theme for power tools, solar, and hardware
-retail in Kenya. Brand colours: **Blue `#005EB8`** + **Dark Navy `#0B1E3F`**.
+The official WooCommerce theme for **Topnotch Mall**, Nairobi - a fast, secure,
+conversion-focused storefront for power tools, solar equipment, generators, machinery and
+general hardware, serving customers countrywide. Brand colours: **Blue `#005EB8`** +
+**Dark Navy `#0B1E3F`** (taken from the Topnotch Mall logo).
 
 Built for **WordPress 6.5+**, **WooCommerce 9+**, **PHP 8.1+** (8.3 ready).
 
@@ -9,7 +11,7 @@ Built for **WordPress 6.5+**, **WooCommerce 9+**, **PHP 8.1+** (8.3 ready).
 
 ## What's inside (v1.0.0 foundation)
 
-- **Object-oriented, namespaced** codebase (`ToptechMachinery\`) with an autoloader — no global soup.
+- **Object-oriented, namespaced** codebase (`TopnotchMall\`) with an autoloader — no global soup.
 - **Header**: top contact bar (phone/WhatsApp/email/hours), logo, intelligent AJAX search
   (products + categories + brands + SKU), account/wishlist/cart actions, **sticky on scroll**.
 - **Homepage** (`front-page.php`): hero slider (touch + keyboard + autoplay) with vertical
@@ -31,7 +33,9 @@ Built for **WordPress 6.5+**, **WooCommerce 9+**, **PHP 8.1+** (8.3 ready).
 - **Auto-created, fully editable pages**: About Us, Contact Us, Privacy Policy, Terms &
   Conditions, Shipping & Delivery, Return & Refund, Warranty, Payment Methods, Cookie Policy,
   FAQ, Track Order — with complete, Kenya-specific, Merchant-Center-ready content.
-- **Customizer**: brand colours + contact details (phone, WhatsApp, email, hours, address).
+- **Customizer**: brand colours + contact details (phone, WhatsApp, email, opening hours,
+  address, same-day order cut-off time) - used everywhere: header bar, footer, trust band,
+  product pages, JSON-LD and the auto-generated info pages.
 - **TGMPA plugin installer**: prompts for WooCommerce, Elementor, Perfect Brands, SEO, caching,
   wishlist/compare, Google Listings & Ads, PDF invoices, order tracking, demo import, etc.
 - **Accessibility**: skip link, visible focus states, ARIA labels, reduced-motion support.
@@ -41,22 +45,23 @@ Built for **WordPress 6.5+**, **WooCommerce 9+**, **PHP 8.1+** (8.3 ready).
 
 ## Installation
 
-1. In WordPress: **Appearance → Themes → Add New → Upload Theme** → upload `toptech-machinery.zip` → **Activate**.
+1. In WordPress: **Appearance → Themes → Add New → Upload Theme** → upload `topnotch-mall.zip` → **Activate**.
 2. On activation the theme prompts you to install the required plugins (TGMPA). Install at least
    **WooCommerce** and **Perfect Brands for WooCommerce**, then the recommended ones.
    > Before shipping/using: place the TGMPA library at
    > `inc/tgmpa/class-tgm-plugin-activation.php` (download from https://tgmpluginactivation.com/).
 3. On activation, all legal/info **Pages and menus are created automatically**. Edit any of them
    under **Pages** — the content is real, not placeholder.
-4. Upload your logo at **Appearance → Customize → Site Identity** (use the supplied `TOPTECH-LOGO.webp`).
-5. Set brand colours + contact details under **Customize → TopTech Machinery**.
+4. Upload your logo at **Appearance → Customize → Site Identity** (use the supplied
+   `assets/img/logo.png`, or `assets/img/logo-white.png` for dark headers).
+5. Set brand colours + contact details under **Customize → Topnotch Mall**.
 6. Import your products (see `IMPORT-PRODUCTS.md`).
 7. Set **Settings → Reading → Homepage displays → A static page** and pick a page, or leave the
    default — `front-page.php` renders the homepage automatically.
 
 ## Child theme
 
-Use `toptech-machinery-child/` for any custom code so updates never overwrite your changes. Zip that
+Use `topnotch-mall-child/` for any custom code so updates never overwrite your changes. Zip that
 folder separately and install it the same way, then activate the child.
 
 ## Requirements
@@ -64,10 +69,17 @@ folder separately and install it the same way, then activate the child.
 - WordPress 6.5+, WooCommerce 9+, PHP 8.1+ (tested to 8.3), HTTPS enabled (required for
   Merchant Center and secure checkout).
 
-## Support / brand details baked in
+## Brand details baked in
 
-- Phone / WhatsApp: **0797 720290**  ·  Email: **info@toptechmachinery.co.ke**
-- Address: **This & That Exhibition, Opp. Ronald Ngala Post Office, Shop G15, Ronald Ngala Street, Nairobi, Kenya**
+- Business name: **Topnotch Mall**
+- Phone / WhatsApp (one number for both): **+254 708 777192**
+- Email: **info@topnotchmall.co.ke**
+- Address: **Magomano House, Tom Mboya Street, Nairobi, Kenya**
+- Opening hours: **Mon - Sat, 9AM - 5PM** (closed Sundays and public holidays)
+- Same-day order cut-off: **5:00pm**
+
+All of the above are editable in **Appearance → Customize → Topnotch Mall → Contact & Support**;
+every template, schema block and generated page reads from those settings.
 
 ## Roadmap (phases still to build)
 

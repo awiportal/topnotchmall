@@ -2,12 +2,12 @@
 /**
  * Security hardening: headers, disclosure reduction, safe defaults.
  *
- * @package ToptechMachinery
+ * @package TopnotchMall
  */
 
 declare( strict_types = 1 );
 
-namespace ToptechMachinery;
+namespace TopnotchMall;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -126,6 +126,6 @@ final class Security {
 	 * Generic login error to prevent username/password disclosure.
 	 */
 	public function generic_login_error() {
-		return esc_html__( 'Invalid login details.', 'toptech-machinery' );
+		return esc_html__( 'Invalid login details.', 'topnotch-mall' );
 	}
 }

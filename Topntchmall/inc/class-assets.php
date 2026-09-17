@@ -2,12 +2,12 @@
 /**
  * Front-end + editor asset loading with performance defaults.
  *
- * @package ToptechMachinery
+ * @package TopnotchMall
  */
 
 declare( strict_types = 1 );
 
-namespace ToptechMachinery;
+namespace TopnotchMall;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -26,28 +26,28 @@ final class Assets {
 	}
 
 	public function enqueue(): void {
-		$css_rel = file_exists( TOPTECH_DIR . 'assets/css/theme.min.css' ) ? 'assets/css/theme.min.css' : 'assets/css/theme.css';
-		wp_enqueue_style( 'toptech-theme', TOPTECH_URI . $css_rel, array(), TOPTECH_VERSION );
-		wp_style_add_data( 'toptech-theme', 'rtl', 'replace' );
-		wp_enqueue_style( 'toptech-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap', array(), null );
-		wp_enqueue_style( 'toptech-industrial', TOPTECH_URI . 'assets/css/theme-industrial.css', array( 'toptech-theme' ), TOPTECH_VERSION );
+		$css_rel = file_exists( TOPNOTCH_DIR . 'assets/css/theme.min.css' ) ? 'assets/css/theme.min.css' : 'assets/css/theme.css';
+		wp_enqueue_style( 'topnotch-theme', TOPNOTCH_URI . $css_rel, array(), TOPNOTCH_VERSION );
+		wp_style_add_data( 'topnotch-theme', 'rtl', 'replace' );
+		wp_enqueue_style( 'topnotch-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap', array(), null );
+		wp_enqueue_style( 'topnotch-industrial', TOPNOTCH_URI . 'assets/css/theme-industrial.css', array( 'topnotch-theme' ), TOPNOTCH_VERSION );
 
-		wp_enqueue_script( 'toptech-theme', TOPTECH_URI . 'assets/js/theme.js', array(), TOPTECH_VERSION, true );
+		wp_enqueue_script( 'topnotch-theme', TOPNOTCH_URI . 'assets/js/theme.js', array(), TOPNOTCH_VERSION, true );
 
 		if ( class_exists( 'WooCommerce' ) ) {
-			wp_enqueue_script( 'toptech-ajax', TOPTECH_URI . 'assets/js/ajax-cart.js', array( 'toptech-theme' ), TOPTECH_VERSION, true );
+			wp_enqueue_script( 'topnotch-ajax', TOPNOTCH_URI . 'assets/js/ajax-cart.js', array( 'topnotch-theme' ), TOPNOTCH_VERSION, true );
 			wp_localize_script(
-				'toptech-ajax',
-				'ToptechAjax',
+				'topnotch-ajax',
+				'TopnotchAjax',
 				array(
 					'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
-					'nonce'     => wp_create_nonce( 'toptech_ajax' ),
+					'nonce'     => wp_create_nonce( 'topnotch_ajax' ),
 					'cartUrl'   => wc_get_cart_url(),
 					'i18n'      => array(
-						'added'   => esc_html__( 'Added to cart', 'toptech-machinery' ),
-						'adding'  => esc_html__( 'Adding...', 'toptech-machinery' ),
-						'error'   => esc_html__( 'Something went wrong. Please try again.', 'toptech-machinery' ),
-						'viewCart'=> esc_html__( 'View cart', 'toptech-machinery' ),
+						'added'   => esc_html__( 'Added to cart', 'topnotch-mall' ),
+						'adding'  => esc_html__( 'Adding...', 'topnotch-mall' ),
+						'error'   => esc_html__( 'Something went wrong. Please try again.', 'topnotch-mall' ),
+						'viewCart'=> esc_html__( 'View cart', 'topnotch-mall' ),
 					),
 				)
 			);
@@ -62,14 +62,14 @@ final class Assets {
 	 * Inline minimal critical CSS for fast FCP. Uses system fonts (no webfont download).
 	 */
 	public function preload_and_critical(): void {
-		echo '<style id="toptech-critical">:root{--rk-primary:#005EB8;--rk-navy:#0B1E3F}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1a1f2e;background:#fff}.rk-header{background:var(--rk-navy)}img{max-width:100%;height:auto}</style>' . "\n";
+		echo '<style id="topnotch-critical">:root{--rk-primary:#005EB8;--rk-navy:#0B1E3F}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1a1f2e;background:#fff}.rk-header{background:var(--rk-navy)}img{max-width:100%;height:auto}</style>' . "\n";
 	}
 
 	/**
 	 * Defer all theme JS to remove render-blocking.
 	 */
 	public function defer_scripts( $tag, $handle = '', $src = '' ) {
-		$defer = array( 'toptech-theme', 'toptech-ajax' );
+		$defer = array( 'topnotch-theme', 'topnotch-ajax' );
 		if ( is_string( $tag ) && in_array( $handle, $defer, true ) && false === strpos( $tag, 'defer' ) ) {
 			$tag = str_replace( ' src', ' defer src', $tag );
 		}

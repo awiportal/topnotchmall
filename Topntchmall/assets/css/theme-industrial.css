@@ -1,5 +1,5 @@
 /* ============================================================
-   TopTech Machinery - UI 2.0 . Bold Industrial (v1.19.0)
+   Topnotch Mall - UI 2.0 . Bold Industrial (v1.19.0)
    Layered override (loads after theme.min.css). Redefines the
    design tokens so token-driven components update automatically,
    then restyles each surface. Base stays blue/navy; a teal
@@ -146,3 +146,10 @@ body{background:var(--rk-bg)}
 
 /* All Categories panel: bounded height so it SCROLLS through every category instead of expanding the layout */
 .rk-vertcat ul{max-height:336px;min-height:0;overflow-y:auto}
+
+
+/* Topnotch Mall: opening-hours + same-day cut-off note in the header top bar */
+.rk-header__hours{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px}
+.rk-header__cutoff{position:relative;padding-left:13px;opacity:.85}
+.rk-header__cutoff::before{content:"";position:absolute;left:0;top:50%;width:5px;height:5px;margin-top:-2px;border-radius:50%;background:currentColor;opacity:.6}
+@media (max-width:640px){.rk-header__cutoff{display:none}}

@@ -1,4 +1,4 @@
-# TopTech Machinery - Build Roadmap
+# Topnotch Mall - Build Roadmap
 
 **Delivered in v1.0.0 (this package):** architecture, folder structure, design system,
 header, footer, homepage builder, WooCommerce integration + uniform cards, AJAX add-to-cart +

@@ -2,7 +2,7 @@
 /**
  * Default page template (used by About, Policies, Contact, etc.).
  *
- * @package ToptechMachinery
+ * @package TopnotchMall
  */
 
 defined( 'ABSPATH' ) || exit;

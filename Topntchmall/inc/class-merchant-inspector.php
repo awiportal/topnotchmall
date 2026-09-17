@@ -8,12 +8,12 @@
  * and honest product data. Each finding carries a severity and a concrete fix, and the
  * page links out to request a Merchant Center review once criticals are cleared.
  *
- * @package ToptechMachinery
+ * @package TopnotchMall
  */
 
 declare( strict_types = 1 );
 
-namespace ToptechMachinery;
+namespace TopnotchMall;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Merchant_Inspector {
 
-	const SLUG = 'toptech-merchant-inspector';
+	const SLUG = 'topnotch-merchant-inspector';
 
 	public function hooks(): void {
 		add_action( 'admin_menu', array( $this, 'menu' ), 90 );
@@ -33,8 +33,8 @@ final class Merchant_Inspector {
 		$cap    = current_user_can( 'manage_woocommerce' ) ? 'manage_woocommerce' : 'manage_options';
 		add_submenu_page(
 			$parent,
-			__( 'Merchant Compliance', 'toptech-machinery' ),
-			__( 'Merchant Compliance', 'toptech-machinery' ),
+			__( 'Merchant Compliance', 'topnotch-mall' ),
+			__( 'Merchant Compliance', 'topnotch-mall' ),
 			$cap,
 			self::SLUG,
 			array( $this, 'render' )
@@ -112,35 +112,35 @@ final class Merchant_Inspector {
 		$https = is_ssl() || 0 === strpos( home_url(), 'https://' );
 		$checks[] = $this->check(
 			'Trust & identity',
-			__( 'Secure site (HTTPS)', 'toptech-machinery' ),
+			__( 'Secure site (HTTPS)', 'topnotch-mall' ),
 			$https ? 'pass' : 'critical',
-			$https ? __( 'The store loads over HTTPS.', 'toptech-machinery' ) : __( 'The site is not served over HTTPS. Merchant Center requires a secure checkout.', 'toptech-machinery' ),
-			__( 'Install an SSL certificate (free via your host / LiteSpeed) and set WordPress Address + Site Address to https:// under Settings > General.', 'toptech-machinery' ),
+			$https ? __( 'The store loads over HTTPS.', 'topnotch-mall' ) : __( 'The site is not served over HTTPS. Merchant Center requires a secure checkout.', 'topnotch-mall' ),
+			__( 'Install an SSL certificate (free via your host / LiteSpeed) and set WordPress Address + Site Address to https:// under Settings > General.', 'topnotch-mall' ),
 			admin_url( 'options-general.php' ),
-			__( 'Open General settings', 'toptech-machinery' )
+			__( 'Open General settings', 'topnotch-mall' )
 		);
 
 		$indexable = '1' === (string) get_option( 'blog_public', '1' );
 		$checks[] = $this->check(
 			'Trust & identity',
-			__( 'Search engines allowed to index', 'toptech-machinery' ),
+			__( 'Search engines allowed to index', 'topnotch-mall' ),
 			$indexable ? 'pass' : 'critical',
-			$indexable ? __( 'The site is indexable.', 'toptech-machinery' ) : __( '"Discourage search engines" is ON — this blocks Google and can fail Merchant review.', 'toptech-machinery' ),
-			__( 'Settings > Reading: uncheck "Discourage search engines from indexing this site".', 'toptech-machinery' ),
+			$indexable ? __( 'The site is indexable.', 'topnotch-mall' ) : __( '"Discourage search engines" is ON — this blocks Google and can fail Merchant review.', 'topnotch-mall' ),
+			__( 'Settings > Reading: uncheck "Discourage search engines from indexing this site".', 'topnotch-mall' ),
 			admin_url( 'options-reading.php' ),
-			__( 'Open Reading settings', 'toptech-machinery' )
+			__( 'Open Reading settings', 'topnotch-mall' )
 		);
 
 		$name    = trim( (string) get_bloginfo( 'name' ) );
 		$name_ok = '' !== $name && 0 !== strcasecmp( $name, 'My Site' );
 		$checks[] = $this->check(
 			'Trust & identity',
-			__( 'Business name set', 'toptech-machinery' ),
+			__( 'Business name set', 'topnotch-mall' ),
 			$name_ok ? 'pass' : 'warning',
-			$name_ok ? sprintf( __( 'Site title: %s', 'toptech-machinery' ), $name ) : __( 'Site title is empty or a placeholder.', 'toptech-machinery' ),
-			__( 'Settings > General: set the Site Title to your registered business name.', 'toptech-machinery' ),
+			$name_ok ? sprintf( __( 'Site title: %s', 'topnotch-mall' ), $name ) : __( 'Site title is empty or a placeholder.', 'topnotch-mall' ),
+			__( 'Settings > General: set the Site Title to your registered business name.', 'topnotch-mall' ),
 			admin_url( 'options-general.php' ),
-			__( 'Open General settings', 'toptech-machinery' )
+			__( 'Open General settings', 'topnotch-mall' )
 		);
 
 		$addr    = trim( (string) get_option( 'woocommerce_store_address' ) );
@@ -148,25 +148,25 @@ final class Merchant_Inspector {
 		$addr_ok = '' !== $addr && '' !== $city;
 		$checks[] = $this->check(
 			'Trust & identity',
-			__( 'Physical business address', 'toptech-machinery' ),
+			__( 'Physical business address', 'topnotch-mall' ),
 			$addr_ok ? 'pass' : 'critical',
-			$addr_ok ? __( 'A store address is configured.', 'toptech-machinery' ) : __( 'No store address set. A verifiable physical address is central to the Misrepresentation policy.', 'toptech-machinery' ),
-			__( 'WooCommerce > Settings > General: complete the Store Address, and show it in the footer/Contact page.', 'toptech-machinery' ),
+			$addr_ok ? __( 'A store address is configured.', 'topnotch-mall' ) : __( 'No store address set. A verifiable physical address is central to the Misrepresentation policy.', 'topnotch-mall' ),
+			__( 'WooCommerce > Settings > General: complete the Store Address, and show it in the footer/Contact page.', 'topnotch-mall' ),
 			$has_wc ? admin_url( 'admin.php?page=wc-settings' ) : $admin,
-			__( 'Open WooCommerce settings', 'toptech-machinery' )
+			__( 'Open WooCommerce settings', 'topnotch-mall' )
 		);
 
-		$phone    = trim( (string) get_theme_mod( 'toptech_phone', '' ) );
-		$email    = trim( (string) get_theme_mod( 'toptech_email', '' ) );
+		$phone    = trim( (string) get_theme_mod( 'topnotch_phone', '' ) );
+		$email    = trim( (string) get_theme_mod( 'topnotch_email', '' ) );
 		$contact  = ( '' !== $phone ) || ( '' !== $email );
 		$checks[] = $this->check(
 			'Trust & identity',
-			__( 'Contact details visible (phone/email)', 'toptech-machinery' ),
+			__( 'Contact details visible (phone/email)', 'topnotch-mall' ),
 			$contact ? 'pass' : 'warning',
-			$contact ? __( 'Contact phone/email are set and shown in the header/footer.', 'toptech-machinery' ) : __( 'No contact phone or email configured.', 'toptech-machinery' ),
-			__( 'Appearance > Customize > set the TopTech Machinery phone and email so shoppers can reach a real business.', 'toptech-machinery' ),
+			$contact ? __( 'Contact phone/email are set and shown in the header/footer.', 'topnotch-mall' ) : __( 'No contact phone or email configured.', 'topnotch-mall' ),
+			__( 'Appearance > Customize > set the Topnotch Mall phone and email so shoppers can reach a real business.', 'topnotch-mall' ),
 			admin_url( 'customize.php' ),
-			__( 'Open Customizer', 'toptech-machinery' )
+			__( 'Open Customizer', 'topnotch-mall' )
 		);
 
 		/* ---- Required policies ---- */
@@ -174,57 +174,57 @@ final class Merchant_Inspector {
 		$privacy    = $privacy_id > 0 ? get_permalink( $privacy_id ) : $this->page_url( array( 'privacy-policy', 'privacy' ) );
 		$checks[] = $this->check(
 			'Required policies',
-			__( 'Privacy Policy page', 'toptech-machinery' ),
+			__( 'Privacy Policy page', 'topnotch-mall' ),
 			$privacy ? 'pass' : 'critical',
-			$privacy ? __( 'A Privacy Policy is published.', 'toptech-machinery' ) : __( 'No Privacy Policy page found.', 'toptech-machinery' ),
-			__( 'Settings > Privacy: create/assign a Privacy Policy page, then link it in the footer.', 'toptech-machinery' ),
+			$privacy ? __( 'A Privacy Policy is published.', 'topnotch-mall' ) : __( 'No Privacy Policy page found.', 'topnotch-mall' ),
+			__( 'Settings > Privacy: create/assign a Privacy Policy page, then link it in the footer.', 'topnotch-mall' ),
 			$privacy ? $privacy : admin_url( 'options-privacy.php' ),
-			$privacy ? __( 'View page', 'toptech-machinery' ) : __( 'Create policy', 'toptech-machinery' )
+			$privacy ? __( 'View page', 'topnotch-mall' ) : __( 'Create policy', 'topnotch-mall' )
 		);
 
 		$terms_id = function_exists( 'wc_terms_and_conditions_page_id' ) ? (int) wc_terms_and_conditions_page_id() : 0;
 		$terms    = $terms_id > 0 ? get_permalink( $terms_id ) : $this->page_url( array( 'terms', 'terms-and-conditions', 'terms-conditions' ) );
 		$checks[] = $this->check(
 			'Required policies',
-			__( 'Terms & Conditions page', 'toptech-machinery' ),
+			__( 'Terms & Conditions page', 'topnotch-mall' ),
 			$terms ? 'pass' : 'critical',
-			$terms ? __( 'Terms & Conditions are published.', 'toptech-machinery' ) : __( 'No Terms & Conditions page found.', 'toptech-machinery' ),
-			__( 'Create a Terms & Conditions page and assign it under WooCommerce > Settings > Advanced.', 'toptech-machinery' ),
+			$terms ? __( 'Terms & Conditions are published.', 'topnotch-mall' ) : __( 'No Terms & Conditions page found.', 'topnotch-mall' ),
+			__( 'Create a Terms & Conditions page and assign it under WooCommerce > Settings > Advanced.', 'topnotch-mall' ),
 			$terms ? $terms : admin_url( 'post-new.php?post_type=page' ),
-			$terms ? __( 'View page', 'toptech-machinery' ) : __( 'Create page', 'toptech-machinery' )
+			$terms ? __( 'View page', 'topnotch-mall' ) : __( 'Create page', 'topnotch-mall' )
 		);
 
 		$refund = $this->page_url( array( 'refund_returns', 'refund-returns', 'refund-policy', 'return-policy', 'returns', 'return-refund-policy', 'returns-refunds' ) );
 		$checks[] = $this->check(
 			'Required policies',
-			__( 'Return & Refund Policy page', 'toptech-machinery' ),
+			__( 'Return & Refund Policy page', 'topnotch-mall' ),
 			$refund ? 'pass' : 'critical',
-			$refund ? __( 'A Return/Refund policy is published.', 'toptech-machinery' ) : __( 'No Return/Refund policy found. Merchant Center requires clear returns terms.', 'toptech-machinery' ),
-			__( 'Publish a Return & Refund Policy page (window, conditions, how to request) and link it in the footer.', 'toptech-machinery' ),
+			$refund ? __( 'A Return/Refund policy is published.', 'topnotch-mall' ) : __( 'No Return/Refund policy found. Merchant Center requires clear returns terms.', 'topnotch-mall' ),
+			__( 'Publish a Return & Refund Policy page (window, conditions, how to request) and link it in the footer.', 'topnotch-mall' ),
 			$refund ? $refund : admin_url( 'post-new.php?post_type=page' ),
-			$refund ? __( 'View page', 'toptech-machinery' ) : __( 'Create page', 'toptech-machinery' )
+			$refund ? __( 'View page', 'topnotch-mall' ) : __( 'Create page', 'topnotch-mall' )
 		);
 
 		$shipping_pg = $this->page_url( array( 'shipping', 'delivery', 'shipping-policy', 'shipping-delivery-policy', 'shipping-delivery', 'delivery-policy' ) );
 		$checks[] = $this->check(
 			'Required policies',
-			__( 'Shipping & Delivery Policy page', 'toptech-machinery' ),
+			__( 'Shipping & Delivery Policy page', 'topnotch-mall' ),
 			$shipping_pg ? 'pass' : 'critical',
-			$shipping_pg ? __( 'A Shipping/Delivery policy is published.', 'toptech-machinery' ) : __( 'No Shipping/Delivery policy found.', 'toptech-machinery' ),
-			__( 'Publish a Shipping & Delivery Policy (areas, timelines, costs) and link it in the footer.', 'toptech-machinery' ),
+			$shipping_pg ? __( 'A Shipping/Delivery policy is published.', 'topnotch-mall' ) : __( 'No Shipping/Delivery policy found.', 'topnotch-mall' ),
+			__( 'Publish a Shipping & Delivery Policy (areas, timelines, costs) and link it in the footer.', 'topnotch-mall' ),
 			$shipping_pg ? $shipping_pg : admin_url( 'post-new.php?post_type=page' ),
-			$shipping_pg ? __( 'View page', 'toptech-machinery' ) : __( 'Create page', 'toptech-machinery' )
+			$shipping_pg ? __( 'View page', 'topnotch-mall' ) : __( 'Create page', 'topnotch-mall' )
 		);
 
 		$contact_pg = $this->page_url( array( 'contact', 'contact-us' ) );
 		$checks[] = $this->check(
 			'Required policies',
-			__( 'Contact Us page', 'toptech-machinery' ),
+			__( 'Contact Us page', 'topnotch-mall' ),
 			$contact_pg ? 'pass' : 'warning',
-			$contact_pg ? __( 'A Contact page is published.', 'toptech-machinery' ) : __( 'No dedicated Contact page found.', 'toptech-machinery' ),
-			__( 'Publish a Contact Us page with address, phone, email and hours.', 'toptech-machinery' ),
+			$contact_pg ? __( 'A Contact page is published.', 'topnotch-mall' ) : __( 'No dedicated Contact page found.', 'topnotch-mall' ),
+			__( 'Publish a Contact Us page with address, phone, email and hours.', 'topnotch-mall' ),
 			$contact_pg ? $contact_pg : admin_url( 'post-new.php?post_type=page' ),
-			$contact_pg ? __( 'View page', 'toptech-machinery' ) : __( 'Create page', 'toptech-machinery' )
+			$contact_pg ? __( 'View page', 'topnotch-mall' ) : __( 'Create page', 'topnotch-mall' )
 		);
 
 		/* ---- Store function ---- */
@@ -238,12 +238,12 @@ final class Merchant_Inspector {
 		}
 		$checks[] = $this->check(
 			'Store function',
-			__( 'WooCommerce core pages set', 'toptech-machinery' ),
+			__( 'WooCommerce core pages set', 'topnotch-mall' ),
 			empty( $missing_pages ) ? 'pass' : 'critical',
-			empty( $missing_pages ) ? __( 'Shop, Cart, Checkout and My Account are configured.', 'toptech-machinery' ) : sprintf( __( 'Missing: %s', 'toptech-machinery' ), implode( ', ', $missing_pages ) ),
-			__( 'WooCommerce > Settings > Advanced: assign the Cart, Checkout and My Account pages.', 'toptech-machinery' ),
+			empty( $missing_pages ) ? __( 'Shop, Cart, Checkout and My Account are configured.', 'topnotch-mall' ) : sprintf( __( 'Missing: %s', 'topnotch-mall' ), implode( ', ', $missing_pages ) ),
+			__( 'WooCommerce > Settings > Advanced: assign the Cart, Checkout and My Account pages.', 'topnotch-mall' ),
 			$has_wc ? admin_url( 'admin.php?page=wc-settings&tab=advanced' ) : $admin,
-			__( 'Open Advanced settings', 'toptech-machinery' )
+			__( 'Open Advanced settings', 'topnotch-mall' )
 		);
 
 		$enabled_gw = 0;
@@ -256,12 +256,12 @@ final class Merchant_Inspector {
 		}
 		$checks[] = $this->check(
 			'Store function',
-			__( 'Payment method enabled', 'toptech-machinery' ),
+			__( 'Payment method enabled', 'topnotch-mall' ),
 			$enabled_gw > 0 ? 'pass' : 'critical',
-			$enabled_gw > 0 ? sprintf( __( '%d payment method(s) enabled.', 'toptech-machinery' ), $enabled_gw ) : __( 'No payment method is enabled — shoppers cannot pay.', 'toptech-machinery' ),
-			__( 'WooCommerce > Settings > Payments: enable M-PESA / card / cash on delivery.', 'toptech-machinery' ),
+			$enabled_gw > 0 ? sprintf( __( '%d payment method(s) enabled.', 'topnotch-mall' ), $enabled_gw ) : __( 'No payment method is enabled — shoppers cannot pay.', 'topnotch-mall' ),
+			__( 'WooCommerce > Settings > Payments: enable M-PESA / card / cash on delivery.', 'topnotch-mall' ),
 			$has_wc ? admin_url( 'admin.php?page=wc-settings&tab=checkout' ) : $admin,
-			__( 'Open Payments', 'toptech-machinery' )
+			__( 'Open Payments', 'topnotch-mall' )
 		);
 
 		$has_shipping = false;
@@ -281,23 +281,23 @@ final class Merchant_Inspector {
 		}
 		$checks[] = $this->check(
 			'Store function',
-			__( 'Shipping configured', 'toptech-machinery' ),
+			__( 'Shipping configured', 'topnotch-mall' ),
 			$has_shipping ? 'pass' : 'warning',
-			$has_shipping ? __( 'At least one shipping method exists.', 'toptech-machinery' ) : __( 'No shipping method found. Add rates so delivery cost is transparent.', 'toptech-machinery' ),
-			__( 'WooCommerce > Settings > Shipping: add a zone (Kenya) with flat rate / free shipping.', 'toptech-machinery' ),
+			$has_shipping ? __( 'At least one shipping method exists.', 'topnotch-mall' ) : __( 'No shipping method found. Add rates so delivery cost is transparent.', 'topnotch-mall' ),
+			__( 'WooCommerce > Settings > Shipping: add a zone (Kenya) with flat rate / free shipping.', 'topnotch-mall' ),
 			$has_wc ? admin_url( 'admin.php?page=wc-settings&tab=shipping' ) : $admin,
-			__( 'Open Shipping', 'toptech-machinery' )
+			__( 'Open Shipping', 'topnotch-mall' )
 		);
 
 		$currency = function_exists( 'get_woocommerce_currency' ) ? get_woocommerce_currency() : '';
 		$checks[] = $this->check(
 			'Store function',
-			__( 'Currency set', 'toptech-machinery' ),
+			__( 'Currency set', 'topnotch-mall' ),
 			'' !== $currency ? 'pass' : 'warning',
-			'' !== $currency ? sprintf( __( 'Store currency: %s', 'toptech-machinery' ), $currency ) : __( 'No currency configured.', 'toptech-machinery' ),
-			__( 'WooCommerce > Settings > General: set the currency (KES) and ensure prices match your feed.', 'toptech-machinery' ),
+			'' !== $currency ? sprintf( __( 'Store currency: %s', 'topnotch-mall' ), $currency ) : __( 'No currency configured.', 'topnotch-mall' ),
+			__( 'WooCommerce > Settings > General: set the currency (KES) and ensure prices match your feed.', 'topnotch-mall' ),
 			$has_wc ? admin_url( 'admin.php?page=wc-settings' ) : $admin,
-			__( 'Open settings', 'toptech-machinery' )
+			__( 'Open settings', 'topnotch-mall' )
 		);
 
 		/* ---- Product data quality ---- */
@@ -305,24 +305,24 @@ final class Merchant_Inspector {
 		$total  = $counts && isset( $counts->publish ) ? (int) $counts->publish : 0;
 		$checks[] = $this->check(
 			'Product data',
-			__( 'Products published', 'toptech-machinery' ),
+			__( 'Products published', 'topnotch-mall' ),
 			$total > 0 ? 'pass' : 'critical',
-			sprintf( __( '%d published product(s).', 'toptech-machinery' ), $total ),
-			__( 'Publish real, in-stock products with accurate details before requesting review.', 'toptech-machinery' ),
+			sprintf( __( '%d published product(s).', 'topnotch-mall' ), $total ),
+			__( 'Publish real, in-stock products with accurate details before requesting review.', 'topnotch-mall' ),
 			admin_url( 'edit.php?post_type=product' ),
-			__( 'Open Products', 'toptech-machinery' )
+			__( 'Open Products', 'topnotch-mall' )
 		);
 
 		if ( $total > 0 ) {
 			$no_image = $this->count_products_meta( array( array( 'key' => '_thumbnail_id', 'compare' => 'NOT EXISTS' ) ) );
 			$checks[] = $this->check(
 				'Product data',
-				__( 'Every product has a main image', 'toptech-machinery' ),
+				__( 'Every product has a main image', 'topnotch-mall' ),
 				$no_image > 0 ? 'critical' : 'pass',
-				$no_image > 0 ? sprintf( __( '%d product(s) have no main image.', 'toptech-machinery' ), $no_image ) : __( 'All products have images.', 'toptech-machinery' ),
-				__( 'Add a clear main image to every product. Missing/placeholder images are a common Misrepresentation flag.', 'toptech-machinery' ),
+				$no_image > 0 ? sprintf( __( '%d product(s) have no main image.', 'topnotch-mall' ), $no_image ) : __( 'All products have images.', 'topnotch-mall' ),
+				__( 'Add a clear main image to every product. Missing/placeholder images are a common Misrepresentation flag.', 'topnotch-mall' ),
 				admin_url( 'edit.php?post_type=product' ),
-				__( 'Open Products', 'toptech-machinery' )
+				__( 'Open Products', 'topnotch-mall' )
 			);
 
 			$no_price = $this->count_products_meta(
@@ -334,12 +334,12 @@ final class Merchant_Inspector {
 			);
 			$checks[] = $this->check(
 				'Product data',
-				__( 'Every product has a price', 'toptech-machinery' ),
+				__( 'Every product has a price', 'topnotch-mall' ),
 				$no_price > 0 ? 'critical' : 'pass',
-				$no_price > 0 ? sprintf( __( '%d product(s) have no price.', 'toptech-machinery' ), $no_price ) : __( 'All products are priced.', 'toptech-machinery' ),
-				__( 'Set a price on every product. The price on the page must match checkout and any Merchant feed.', 'toptech-machinery' ),
+				$no_price > 0 ? sprintf( __( '%d product(s) have no price.', 'topnotch-mall' ), $no_price ) : __( 'All products are priced.', 'topnotch-mall' ),
+				__( 'Set a price on every product. The price on the page must match checkout and any Merchant feed.', 'topnotch-mall' ),
 				admin_url( 'edit.php?post_type=product' ),
-				__( 'Open Products', 'toptech-machinery' )
+				__( 'Open Products', 'topnotch-mall' )
 			);
 
 			$no_sku = $this->count_products_meta(
@@ -351,12 +351,12 @@ final class Merchant_Inspector {
 			);
 			$checks[] = $this->check(
 				'Product data',
-				__( 'Products have a SKU', 'toptech-machinery' ),
+				__( 'Products have a SKU', 'topnotch-mall' ),
 				$no_sku > 0 ? 'warning' : 'pass',
-				$no_sku > 0 ? sprintf( __( '%d product(s) have no SKU.', 'toptech-machinery' ), $no_sku ) : __( 'All products have a SKU.', 'toptech-machinery' ),
-				__( 'Add SKUs — they help Merchant feed matching and identity.', 'toptech-machinery' ),
+				$no_sku > 0 ? sprintf( __( '%d product(s) have no SKU.', 'topnotch-mall' ), $no_sku ) : __( 'All products have a SKU.', 'topnotch-mall' ),
+				__( 'Add SKUs — they help Merchant feed matching and identity.', 'topnotch-mall' ),
 				admin_url( 'edit.php?post_type=product' ),
-				__( 'Open Products', 'toptech-machinery' )
+				__( 'Open Products', 'topnotch-mall' )
 			);
 
 			$brand_tax = $this->brand_taxonomy();
@@ -375,12 +375,12 @@ final class Merchant_Inspector {
 				$no_brand = (int) $qb->found_posts;
 				$checks[] = $this->check(
 					'Product data',
-					__( 'Products assigned a brand', 'toptech-machinery' ),
+					__( 'Products assigned a brand', 'topnotch-mall' ),
 					$no_brand > 0 ? 'warning' : 'pass',
-					$no_brand > 0 ? sprintf( __( '%d product(s) have no brand.', 'toptech-machinery' ), $no_brand ) : __( 'All products have a brand.', 'toptech-machinery' ),
-					__( 'Assign the correct brand to each product. Accurate brand data reduces misrepresentation risk.', 'toptech-machinery' ),
+					$no_brand > 0 ? sprintf( __( '%d product(s) have no brand.', 'topnotch-mall' ), $no_brand ) : __( 'All products have a brand.', 'topnotch-mall' ),
+					__( 'Assign the correct brand to each product. Accurate brand data reduces misrepresentation risk.', 'topnotch-mall' ),
 					admin_url( 'edit.php?post_type=product' ),
-					__( 'Open Products', 'toptech-machinery' )
+					__( 'Open Products', 'topnotch-mall' )
 				);
 			}
 		}
@@ -411,21 +411,21 @@ final class Merchant_Inspector {
 		$ready = 0 === $crit;
 		?>
 		<div class="wrap rk-mci">
-			<h1><?php esc_html_e( 'Merchant Compliance Inspector', 'toptech-machinery' ); ?></h1>
-			<p class="rk-mci__intro"><?php esc_html_e( 'Audits your store against Google Merchant Center policies, with emphasis on Misrepresentation. Fix the criticals first, then request a Merchant Center review. Refresh this page to re-scan.', 'toptech-machinery' ); ?></p>
+			<h1><?php esc_html_e( 'Merchant Compliance Inspector', 'topnotch-mall' ); ?></h1>
+			<p class="rk-mci__intro"><?php esc_html_e( 'Audits your store against Google Merchant Center policies, with emphasis on Misrepresentation. Fix the criticals first, then request a Merchant Center review. Refresh this page to re-scan.', 'topnotch-mall' ); ?></p>
 
 			<div class="rk-mci__summary">
-				<span class="rk-mci__pill rk-mci__pill--critical"><?php echo esc_html( sprintf( _n( '%d critical', '%d critical', $crit, 'toptech-machinery' ), $crit ) ); ?></span>
-				<span class="rk-mci__pill rk-mci__pill--warning"><?php echo esc_html( sprintf( _n( '%d warning', '%d warnings', $warn, 'toptech-machinery' ), $warn ) ); ?></span>
-				<span class="rk-mci__pill rk-mci__pill--pass"><?php echo esc_html( sprintf( _n( '%d passed', '%d passed', $pass, 'toptech-machinery' ), $pass ) ); ?></span>
+				<span class="rk-mci__pill rk-mci__pill--critical"><?php echo esc_html( sprintf( _n( '%d critical', '%d critical', $crit, 'topnotch-mall' ), $crit ) ); ?></span>
+				<span class="rk-mci__pill rk-mci__pill--warning"><?php echo esc_html( sprintf( _n( '%d warning', '%d warnings', $warn, 'topnotch-mall' ), $warn ) ); ?></span>
+				<span class="rk-mci__pill rk-mci__pill--pass"><?php echo esc_html( sprintf( _n( '%d passed', '%d passed', $pass, 'topnotch-mall' ), $pass ) ); ?></span>
 			</div>
 
 			<div class="rk-mci__review <?php echo $ready ? 'is-ready' : 'is-blocked'; ?>">
 				<?php if ( $ready ) : ?>
-					<p><strong><?php esc_html_e( 'No criticals remaining.', 'toptech-machinery' ); ?></strong> <?php esc_html_e( 'You can request a Merchant Center review: open your Merchant Center account, go to the Misrepresentation issue, confirm the fixes, and click Request review.', 'toptech-machinery' ); ?></p>
-					<a class="button button-primary" href="https://merchants.google.com/" target="_blank" rel="noopener"><?php esc_html_e( 'Open Google Merchant Center', 'toptech-machinery' ); ?></a>
+					<p><strong><?php esc_html_e( 'No criticals remaining.', 'topnotch-mall' ); ?></strong> <?php esc_html_e( 'You can request a Merchant Center review: open your Merchant Center account, go to the Misrepresentation issue, confirm the fixes, and click Request review.', 'topnotch-mall' ); ?></p>
+					<a class="button button-primary" href="https://merchants.google.com/" target="_blank" rel="noopener"><?php esc_html_e( 'Open Google Merchant Center', 'topnotch-mall' ); ?></a>
 				<?php else : ?>
-					<p><strong><?php esc_html_e( 'Resolve the critical items below before requesting a review.', 'toptech-machinery' ); ?></strong> <?php esc_html_e( 'Requesting a review with unresolved criticals usually results in another rejection.', 'toptech-machinery' ); ?></p>
+					<p><strong><?php esc_html_e( 'Resolve the critical items below before requesting a review.', 'topnotch-mall' ); ?></strong> <?php esc_html_e( 'Requesting a review with unresolved criticals usually results in another rejection.', 'topnotch-mall' ); ?></p>
 				<?php endif; ?>
 			</div>
 
@@ -449,7 +449,7 @@ final class Merchant_Inspector {
 							</td>
 							<td class="rk-mci__action">
 								<?php if ( '' !== $row['link'] ) : ?>
-									<a class="button button-small" href="<?php echo esc_url( $row['link'] ); ?>"><?php echo esc_html( '' !== $row['link_label'] ? $row['link_label'] : __( 'Open', 'toptech-machinery' ) ); ?></a>
+									<a class="button button-small" href="<?php echo esc_url( $row['link'] ); ?>"><?php echo esc_html( '' !== $row['link_label'] ? $row['link_label'] : __( 'Open', 'topnotch-mall' ) ); ?></a>
 								<?php endif; ?>
 							</td>
 						</tr>
@@ -458,7 +458,7 @@ final class Merchant_Inspector {
 				</table>
 			<?php endforeach; ?>
 
-			<p class="rk-mci__foot"><?php esc_html_e( 'This inspector covers the store-side signals Merchant Center weighs most under Misrepresentation. It cannot see your Merchant Center feed diagnostics, so also resolve any product-level issues shown there.', 'toptech-machinery' ); ?></p>
+			<p class="rk-mci__foot"><?php esc_html_e( 'This inspector covers the store-side signals Merchant Center weighs most under Misrepresentation. It cannot see your Merchant Center feed diagnostics, so also resolve any product-level issues shown there.', 'topnotch-mall' ); ?></p>
 		</div>
 		<style>
 			.rk-mci__intro{max-width:820px;color:#50575e}

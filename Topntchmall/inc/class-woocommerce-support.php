@@ -2,12 +2,12 @@
 /**
  * WooCommerce integration: supports, layout wrappers, uniform cards.
  *
- * @package ToptechMachinery
+ * @package TopnotchMall
  */
 
 declare( strict_types = 1 );
 
-namespace ToptechMachinery;
+namespace TopnotchMall;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -145,12 +145,12 @@ final class WooCommerce_Support {
 			return;
 		}
 		if ( $product->is_on_sale() ) {
-			echo '<span class="rk-badge rk-badge--sale">' . esc_html__( 'Sale', 'toptech-machinery' ) . '</span>';
+			echo '<span class="rk-badge rk-badge--sale">' . esc_html__( 'Sale', 'topnotch-mall' ) . '</span>';
 		}
 		if ( ! $product->is_in_stock() ) {
-			echo '<span class="rk-badge rk-badge--oos">' . esc_html__( 'Out of stock', 'toptech-machinery' ) . '</span>';
+			echo '<span class="rk-badge rk-badge--oos">' . esc_html__( 'Out of stock', 'topnotch-mall' ) . '</span>';
 		} elseif ( $product->is_featured() ) {
-			echo '<span class="rk-badge rk-badge--feat">' . esc_html__( 'Featured', 'toptech-machinery' ) . '</span>';
+			echo '<span class="rk-badge rk-badge--feat">' . esc_html__( 'Featured', 'topnotch-mall' ) . '</span>';
 		}
 	}
 
@@ -173,7 +173,7 @@ final class WooCommerce_Support {
 	 */
 	public function breadcrumbs( array $defaults ): array {
 		$defaults['delimiter'] = '<span class="rk-crumb-sep" aria-hidden="true">/</span>';
-		$defaults['wrap_before'] = '<nav class="rk-breadcrumb container" aria-label="' . esc_attr__( 'Breadcrumb', 'toptech-machinery' ) . '">';
+		$defaults['wrap_before'] = '<nav class="rk-breadcrumb container" aria-label="' . esc_attr__( 'Breadcrumb', 'topnotch-mall' ) . '">';
 		$defaults['wrap_after']  = '</nav>';
 		return $defaults;
 	}
@@ -236,7 +236,7 @@ final class WooCommerce_Support {
 		}
 		echo '<button type="button" class="rk-filters-toggle" data-rk-filters-open aria-controls="rk-filters" aria-expanded="false">';
 		echo '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 5h18M6 12h12M10 19h4"/></svg>';
-		echo '<span>' . esc_html__( 'Filters', 'toptech-machinery' ) . '</span>';
+		echo '<span>' . esc_html__( 'Filters', 'topnotch-mall' ) . '</span>';
 		echo '</button>';
 	}
 
@@ -332,17 +332,17 @@ final class WooCommerce_Support {
 
 		$has_active = ( ! empty( $sel_brands ) || '' !== $min_val || '' !== $max_val );
 		?>
-		<aside class="rk-filters" id="rk-filters" aria-label="<?php esc_attr_e( 'Product filters', 'toptech-machinery' ); ?>">
+		<aside class="rk-filters" id="rk-filters" aria-label="<?php esc_attr_e( 'Product filters', 'topnotch-mall' ); ?>">
 			<div class="rk-filters__head">
-				<h2 class="rk-filters__title"><?php esc_html_e( 'Filters', 'toptech-machinery' ); ?></h2>
-				<button type="button" class="rk-filters__close" data-rk-filters-close aria-label="<?php esc_attr_e( 'Close filters', 'toptech-machinery' ); ?>">&times;</button>
+				<h2 class="rk-filters__title"><?php esc_html_e( 'Filters', 'topnotch-mall' ); ?></h2>
+				<button type="button" class="rk-filters__close" data-rk-filters-close aria-label="<?php esc_attr_e( 'Close filters', 'topnotch-mall' ); ?>">&times;</button>
 			</div>
 
 			<?php if ( ! is_wp_error( $cats ) && ! empty( $cats ) ) : ?>
 			<div class="rk-filter">
-				<h3 class="rk-filter__title"><?php esc_html_e( 'Categories', 'toptech-machinery' ); ?></h3>
+				<h3 class="rk-filter__title"><?php esc_html_e( 'Categories', 'topnotch-mall' ); ?></h3>
 				<ul class="rk-filter__cats rk-filter__scroll">
-					<li><a class="rk-filter__cat<?php echo $current_cat ? '' : ' is-active'; ?>" href="<?php echo esc_url( $shop_url ); ?>"><span class="rk-filter__cat-name"><?php esc_html_e( 'All products', 'toptech-machinery' ); ?></span></a></li>
+					<li><a class="rk-filter__cat<?php echo $current_cat ? '' : ' is-active'; ?>" href="<?php echo esc_url( $shop_url ); ?>"><span class="rk-filter__cat-name"><?php esc_html_e( 'All products', 'topnotch-mall' ); ?></span></a></li>
 					<?php foreach ( $cats as $cat ) : ?>
 						<li>
 							<a class="rk-filter__cat<?php echo ( (int) $cat->term_id === $current_cat ) ? ' is-active' : ''; ?>" href="<?php echo esc_url( get_term_link( $cat ) ); ?>">
@@ -362,7 +362,7 @@ final class WooCommerce_Support {
 
 				<?php if ( ! is_wp_error( $brands ) && ! empty( $brands ) ) : ?>
 				<div class="rk-filter">
-					<h3 class="rk-filter__title"><?php esc_html_e( 'Brands', 'toptech-machinery' ); ?></h3>
+					<h3 class="rk-filter__title"><?php esc_html_e( 'Brands', 'topnotch-mall' ); ?></h3>
 					<div class="rk-filter__scroll rk-filter__brands">
 						<?php foreach ( $brands as $brand ) : ?>
 							<label class="rk-check">
@@ -377,33 +377,33 @@ final class WooCommerce_Support {
 				<?php endif; ?>
 
 				<div class="rk-filter">
-					<h3 class="rk-filter__title"><?php esc_html_e( 'Price (KSh)', 'toptech-machinery' ); ?></h3>
+					<h3 class="rk-filter__title"><?php esc_html_e( 'Price (KSh)', 'topnotch-mall' ); ?></h3>
 					<div class="rk-price">
-						<input type="number" class="rk-price__in" name="rk_min" value="<?php echo esc_attr( '' === $min_val ? '' : (string) $min_val ); ?>" placeholder="<?php esc_attr_e( 'Min', 'toptech-machinery' ); ?>" min="0" inputmode="numeric">
+						<input type="number" class="rk-price__in" name="rk_min" value="<?php echo esc_attr( '' === $min_val ? '' : (string) $min_val ); ?>" placeholder="<?php esc_attr_e( 'Min', 'topnotch-mall' ); ?>" min="0" inputmode="numeric">
 						<span class="rk-price__sep">&ndash;</span>
-						<input type="number" class="rk-price__in" name="rk_max" value="<?php echo esc_attr( '' === $max_val ? '' : (string) $max_val ); ?>" placeholder="<?php esc_attr_e( 'Max', 'toptech-machinery' ); ?>" min="0" inputmode="numeric">
+						<input type="number" class="rk-price__in" name="rk_max" value="<?php echo esc_attr( '' === $max_val ? '' : (string) $max_val ); ?>" placeholder="<?php esc_attr_e( 'Max', 'topnotch-mall' ); ?>" min="0" inputmode="numeric">
 					</div>
 				</div>
 
 				<div class="rk-filter">
-					<h3 class="rk-filter__title"><?php esc_html_e( 'Availability', 'toptech-machinery' ); ?></h3>
+					<h3 class="rk-filter__title"><?php esc_html_e( 'Availability', 'topnotch-mall' ); ?></h3>
 					<div class="rk-filter__avail">
 						<label class="rk-check">
 							<input type="checkbox" name="rk_instock" value="1" <?php checked( ! empty( $_GET['rk_instock'] ) ); ?>>
 							<span class="rk-check__box" aria-hidden="true"></span>
-							<span class="rk-check__label"><?php esc_html_e( 'In stock only', 'toptech-machinery' ); ?></span>
+							<span class="rk-check__label"><?php esc_html_e( 'In stock only', 'topnotch-mall' ); ?></span>
 						</label>
 						<label class="rk-check">
 							<input type="checkbox" name="rk_sale" value="1" <?php checked( ! empty( $_GET['rk_sale'] ) ); ?>>
 							<span class="rk-check__box" aria-hidden="true"></span>
-							<span class="rk-check__label"><?php esc_html_e( 'On sale', 'toptech-machinery' ); ?></span>
+							<span class="rk-check__label"><?php esc_html_e( 'On sale', 'topnotch-mall' ); ?></span>
 						</label>
 					</div>
 				</div>
 				<div class="rk-filters__actions">
-					<button type="submit" class="rk-btn rk-btn--primary rk-btn--block"><?php esc_html_e( 'Apply filters', 'toptech-machinery' ); ?></button>
+					<button type="submit" class="rk-btn rk-btn--primary rk-btn--block"><?php esc_html_e( 'Apply filters', 'topnotch-mall' ); ?></button>
 					<?php if ( $has_active ) : ?>
-						<a class="rk-filters__clear" href="<?php echo esc_url( $base ); ?>"><?php esc_html_e( 'Clear all', 'toptech-machinery' ); ?></a>
+						<a class="rk-filters__clear" href="<?php echo esc_url( $base ); ?>"><?php esc_html_e( 'Clear all', 'topnotch-mall' ); ?></a>
 					<?php endif; ?>
 				</div>
 			</form>
@@ -516,7 +516,7 @@ final class WooCommerce_Support {
 		echo '<div class="rk-chips">';
 
 		if ( ! empty( $f ) || $on_cat ) {
-			echo '<span class="rk-chips__label">' . esc_html__( 'Active:', 'toptech-machinery' ) . '</span>';
+			echo '<span class="rk-chips__label">' . esc_html__( 'Active:', 'topnotch-mall' ) . '</span>';
 
 			if ( $on_cat ) {
 				$term = get_queried_object();
@@ -573,7 +573,7 @@ final class WooCommerce_Support {
 				printf(
 					'<a class="rk-chip" href="%s">%s <span class="rk-chip__x" aria-hidden="true">&times;</span></a>',
 					esc_url( $this->filter_url( $rest ) ),
-					esc_html__( 'In stock', 'toptech-machinery' )
+					esc_html__( 'In stock', 'topnotch-mall' )
 				);
 			}
 
@@ -583,7 +583,7 @@ final class WooCommerce_Support {
 				printf(
 					'<a class="rk-chip" href="%s">%s <span class="rk-chip__x" aria-hidden="true">&times;</span></a>',
 					esc_url( $this->filter_url( $rest ) ),
-					esc_html__( 'On sale', 'toptech-machinery' )
+					esc_html__( 'On sale', 'topnotch-mall' )
 				);
 			}
 
@@ -591,7 +591,7 @@ final class WooCommerce_Support {
 				printf(
 					'<a class="rk-chip rk-chip--clear" href="%s">%s</a>',
 					esc_url( $this->base_archive_url() ),
-					esc_html__( 'Clear all', 'toptech-machinery' )
+					esc_html__( 'Clear all', 'topnotch-mall' )
 				);
 			}
 		}
@@ -600,7 +600,7 @@ final class WooCommerce_Support {
 
 		printf(
 			'<div class="rk-result-count">%s</div>',
-			esc_html( sprintf( _n( '%s product', '%s products', $total, 'toptech-machinery' ), number_format( $total ) ) )
+			esc_html( sprintf( _n( '%s product', '%s products', $total, 'topnotch-mall' ), number_format( $total ) ) )
 		);
 
 		echo '</div>';
@@ -615,12 +615,12 @@ final class WooCommerce_Support {
 			return;
 		}
 		$options = array(
-			'menu_order' => __( 'Featured', 'toptech-machinery' ),
-			'popularity' => __( 'Popular', 'toptech-machinery' ),
-			'date'       => __( 'Newest', 'toptech-machinery' ),
-			'price'      => __( 'Price: Low to High', 'toptech-machinery' ),
-			'price-desc' => __( 'Price: High to Low', 'toptech-machinery' ),
-			'rating'     => __( 'Top rated', 'toptech-machinery' ),
+			'menu_order' => __( 'Featured', 'topnotch-mall' ),
+			'popularity' => __( 'Popular', 'topnotch-mall' ),
+			'date'       => __( 'Newest', 'topnotch-mall' ),
+			'price'      => __( 'Price: Low to High', 'topnotch-mall' ),
+			'price-desc' => __( 'Price: High to Low', 'topnotch-mall' ),
+			'rating'     => __( 'Top rated', 'topnotch-mall' ),
 		);
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only catalog ordering.
 		$current = isset( $_GET['orderby'] ) ? wc_clean( wp_unslash( $_GET['orderby'] ) ) : 'menu_order';
@@ -629,7 +629,7 @@ final class WooCommerce_Support {
 		}
 		$params = $this->active_filters();
 		echo '<div class="rk-sort">';
-		echo '<span class="rk-sort__label">' . esc_html__( 'Sort by', 'toptech-machinery' ) . '</span>';
+		echo '<span class="rk-sort__label">' . esc_html__( 'Sort by', 'topnotch-mall' ) . '</span>';
 		echo '<div class="rk-sort__pills">';
 		foreach ( $options as $val => $label ) {
 			$p = $params;
@@ -667,10 +667,10 @@ final class WooCommerce_Support {
 	 */
 	private function payment_chips(): string {
 		$methods = array(
-			__( 'M-PESA', 'toptech-machinery' ),
-			__( 'Visa', 'toptech-machinery' ),
-			__( 'Mastercard', 'toptech-machinery' ),
-			__( 'Cash on Delivery', 'toptech-machinery' ),
+			__( 'M-PESA', 'topnotch-mall' ),
+			__( 'Visa', 'topnotch-mall' ),
+			__( 'Mastercard', 'topnotch-mall' ),
+			__( 'Cash on Delivery', 'topnotch-mall' ),
 		);
 		$out = '<div class="rk-payments rk-payments--checkout">';
 		foreach ( $methods as $m ) {
@@ -692,7 +692,7 @@ final class WooCommerce_Support {
 	 */
 	public function checkout_trust(): void {
 		echo '<div class="rk-checkout-trust">';
-		echo '<p class="rk-secure-note">' . $this->lock_icon() . '<span>' . esc_html__( 'Secure checkout. Your details are encrypted and never shared.', 'toptech-machinery' ) . '</span></p>';
+		echo '<p class="rk-secure-note">' . $this->lock_icon() . '<span>' . esc_html__( 'Secure checkout. Your details are encrypted and never shared.', 'topnotch-mall' ) . '</span></p>';
 		echo $this->payment_chips(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from escaped parts.
 		echo '</div>';
 	}
@@ -702,7 +702,7 @@ final class WooCommerce_Support {
 	 */
 	public function cart_trust(): void {
 		echo '<div class="rk-cart-trust">';
-		echo '<p class="rk-secure-note">' . $this->lock_icon() . '<span>' . esc_html__( 'Secure checkout. M-PESA, cards and cash on delivery accepted.', 'toptech-machinery' ) . '</span></p>';
+		echo '<p class="rk-secure-note">' . $this->lock_icon() . '<span>' . esc_html__( 'Secure checkout. M-PESA, cards and cash on delivery accepted.', 'topnotch-mall' ) . '</span></p>';
 		echo '</div>';
 	}
 
@@ -719,12 +719,12 @@ final class WooCommerce_Support {
 		}
 		$shop  = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/' );
 		$steps = array(
-			array( __( 'Order confirmed', 'toptech-machinery' ), __( 'We have received your order and emailed you a confirmation.', 'toptech-machinery' ) ),
-			array( __( 'We prepare your items', 'toptech-machinery' ), __( 'Our team packs and checks your order for dispatch.', 'toptech-machinery' ) ),
-			array( __( 'Delivery or pickup', 'toptech-machinery' ), __( 'We deliver countrywide or you collect in-store. We will call to confirm.', 'toptech-machinery' ) ),
+			array( __( 'Order confirmed', 'topnotch-mall' ), __( 'We have received your order and emailed you a confirmation.', 'topnotch-mall' ) ),
+			array( __( 'We prepare your items', 'topnotch-mall' ), __( 'Our team packs and checks your order for dispatch.', 'topnotch-mall' ) ),
+			array( __( 'Delivery or pickup', 'topnotch-mall' ), __( 'We deliver countrywide or you collect in-store. We will call to confirm.', 'topnotch-mall' ) ),
 		);
 		echo '<section class="rk-next">';
-		echo '<h2 class="rk-next__title">' . esc_html__( 'What happens next', 'toptech-machinery' ) . '</h2>';
+		echo '<h2 class="rk-next__title">' . esc_html__( 'What happens next', 'topnotch-mall' ) . '</h2>';
 		echo '<ol class="rk-next__steps">';
 		$i = 1;
 		foreach ( $steps as $step ) {
@@ -738,8 +738,8 @@ final class WooCommerce_Support {
 		}
 		echo '</ol>';
 		echo '<div class="rk-next__cta">';
-		printf( '<a class="rk-btn rk-btn--primary" href="%s">%s</a>', esc_url( $shop ), esc_html__( 'Continue shopping', 'toptech-machinery' ) );
-		echo '<p class="rk-next__help">' . esc_html__( 'Questions about your order? Call us on 0797 720290.', 'toptech-machinery' ) . '</p>';
+		printf( '<a class="rk-btn rk-btn--primary" href="%s">%s</a>', esc_url( $shop ), esc_html__( 'Continue shopping', 'topnotch-mall' ) );
+		echo '<p class="rk-next__help">' . esc_html__( 'Questions about your order? Call us on +254 708 777192.', 'topnotch-mall' ) . '</p>';
 		echo '</div>';
 		echo '</section>';
 	}
