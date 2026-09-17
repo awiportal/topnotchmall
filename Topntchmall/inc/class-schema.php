@@ -198,7 +198,7 @@ final class Schema {
 			),
 		);
 		$wa = function_exists( 'rk_whatsapp_number' ) ? rk_whatsapp_number() : '';
-		if ( '' \!== $wa ) {
+		if ( '' !== $wa ) {
 			$data['sameAs'] = array( 'https://wa.me/' . $wa );
 			$data['contactPoint'] = array(
 				'@type'             => 'ContactPoint',

@@ -30,7 +30,7 @@ $rk_cutoff   = get_theme_mod( 'topnotch_cutoff', '5:00pm' );
 		<div class="container">
 			<div class="rk-header__hours">
 				<?php echo esc_html( $rk_hours ); ?>
-				<?php if ( '' \!== trim( (string) $rk_cutoff ) ) : ?>
+				<?php if ( '' !== trim( (string) $rk_cutoff ) ) : ?>
 					<span class="rk-header__cutoff"><?php echo esc_html( sprintf( __( 'Order before %s for same-day dispatch', 'topnotch-mall' ), $rk_cutoff ) ); ?></span>
 				<?php endif; ?>
 			</div>
