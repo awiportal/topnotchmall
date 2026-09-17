@@ -54,8 +54,8 @@ final class Single_Product {
 		// Delivery estimate.
 		echo '<div class="rk-pdp-delivery">';
 		echo $this->icon( '<rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle>' ); // phpcs:ignore
-		echo '<div><strong>' . esc_html__( 'Fast delivery across Kenya.', 'topnotch-mall' ) . '</strong><br>';
-		echo '<span>' . esc_html__( 'Nairobi: same/next-day. Countrywide: 1-3 business days. Order by phone/WhatsApp:', 'topnotch-mall' ) . ' ' . $phone . '</span></div>';
+		echo '<div><strong>' . esc_html__( 'Delivery countrywide, flat KSh 500.', 'topnotch-mall' ) . '</strong><br>';
+		echo '<span>' . esc_html__( 'Nairobi: same or next working day. Upcountry: 2 to 7 working days. Free collection from our Nairobi shop. Bulk orders by phone or WhatsApp:', 'topnotch-mall' ) . ' ' . $phone . '</span></div>';
 		echo '</div>';
 
 		// Trust badges.
@@ -112,10 +112,10 @@ final class Single_Product {
 	public function faq_tab(): void {
 		$phone = esc_html( get_theme_mod( 'topnotch_phone', '+254 708 777192' ) );
 		$faqs  = array(
-			array( __( 'How soon can I get this delivered?', 'topnotch-mall' ), __( 'Nairobi orders are typically delivered same or next business day. Other towns take 1-3 business days. Confirm timing on checkout or by calling us.', 'topnotch-mall' ) ),
+			array( __( 'How soon can I get this delivered?', 'topnotch-mall' ), __( 'Nairobi orders are usually delivered the same or next working day. Upcountry orders take 2 to 7 working days depending on the destination, counted from dispatch. Delivery is a flat KSh 500 anywhere in Kenya, or free if you collect from our shop.', 'topnotch-mall' ) ),
 			array( __( 'How do I pay?', 'topnotch-mall' ), __( 'We accept M-PESA, Visa, Mastercard and cash on delivery where available. All online payments are processed securely.', 'topnotch-mall' ) ),
 			array( __( 'Is this product genuine and covered by warranty?', 'topnotch-mall' ), __( 'Yes. We stock only genuine products from authorised suppliers, backed by the manufacturer warranty where applicable.', 'topnotch-mall' ) ),
-			array( __( 'Can I return it if there is a problem?', 'topnotch-mall' ), __( 'Faulty or incorrect items can be returned within 7 days. See our Return & Refund Policy for details.', 'topnotch-mall' ) ),
+			array( __( 'Can I return it if there is a problem?', 'topnotch-mall' ), __( 'Yes. You can return most items within 7 days of delivery, including if you simply change your mind. We pay the return cost when an item is faulty, damaged or wrong. See our Return &amp; Refund Policy for details.', 'topnotch-mall' ) ),
 			array( __( 'How do I get help before buying?', 'topnotch-mall' ), __( 'Call or WhatsApp us and our team will help you choose the right tool for the job.', 'topnotch-mall' ) . ' ' . $phone ),
 		);
 		echo '<div class="rk-faq">';

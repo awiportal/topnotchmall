@@ -16,6 +16,7 @@ $topnotch_modules = array(
 	'TopnotchMall\\Assets',
 	'TopnotchMall\\Security',
 	'TopnotchMall\\Brand_Guard',
+	'TopnotchMall\\Brand_Migration',
 	'TopnotchMall\\SEO',
 	'TopnotchMall\\WooCommerce_Support',
 	'TopnotchMall\\Ajax',

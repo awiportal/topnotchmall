@@ -721,7 +721,7 @@ final class WooCommerce_Support {
 		$steps = array(
 			array( __( 'Order confirmed', 'topnotch-mall' ), __( 'We have received your order and emailed you a confirmation.', 'topnotch-mall' ) ),
 			array( __( 'We prepare your items', 'topnotch-mall' ), __( 'Our team packs and checks your order for dispatch.', 'topnotch-mall' ) ),
-			array( __( 'Delivery or pickup', 'topnotch-mall' ), __( 'We deliver countrywide or you collect in-store. We will call to confirm.', 'topnotch-mall' ) ),
+			array( __( 'Delivery or pickup', 'topnotch-mall' ), __( 'Flat KSh 500 delivery anywhere in Kenya, or collect free from our Nairobi shop. Bulk orders are arranged by phone or WhatsApp. We will call to confirm.', 'topnotch-mall' ) ),
 		);
 		echo '<section class="rk-next">';
 		echo '<h2 class="rk-next__title">' . esc_html__( 'What happens next', 'topnotch-mall' ) . '</h2>';
