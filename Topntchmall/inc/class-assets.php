@@ -26,19 +26,37 @@ final class Assets {
 			add_action( 'init', array( $this, 'trim_head' ) );
 	}
 
+	/**
+	 * Cache-busting version for a bundled asset.
+	 *
+	 * Returns the file's modification time, falling back to the theme
+	 * version. Bumping TOPNOTCH_VERSION alone is easy to forget, and a
+	 * stale CSS or JS file cached on a phone is indistinguishable from a
+	 * bug that was never fixed. With the mtime in the query string, every
+	 * edited asset is fetched fresh on the next reload, on desktop and
+	 * mobile alike, without anyone clearing a cache by hand.
+	 *
+	 * @param string $rel Path relative to the theme root.
+	 */
+	private function asset_version( string $rel ): string {
+		$path = TOPNOTCH_DIR . $rel;
+		$mtime = file_exists( $path ) ? filemtime( $path ) : false;
+		return false === $mtime ? TOPNOTCH_VERSION : TOPNOTCH_VERSION . '.' . (string) $mtime;
+	}
+
 	public function enqueue(): void {
 		$css_rel = file_exists( TOPNOTCH_DIR . 'assets/css/theme.min.css' ) ? 'assets/css/theme.min.css' : 'assets/css/theme.css';
-		wp_enqueue_style( 'topnotch-theme', TOPNOTCH_URI . $css_rel, array(), TOPNOTCH_VERSION );
+		wp_enqueue_style( 'topnotch-theme', TOPNOTCH_URI . $css_rel, array(), $this->asset_version( $css_rel ) );
 		wp_style_add_data( 'topnotch-theme', 'rtl', 'replace' );
 		wp_enqueue_style( 'topnotch-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap', array(), null );
-		wp_enqueue_style( 'topnotch-industrial', TOPNOTCH_URI . 'assets/css/theme-industrial.css', array( 'topnotch-theme' ), TOPNOTCH_VERSION );
+		wp_enqueue_style( 'topnotch-industrial', TOPNOTCH_URI . 'assets/css/theme-industrial.css', array( 'topnotch-theme' ), $this->asset_version( 'assets/css/theme-industrial.css' ) );
 		// UI 3.0 "Aurora" - the current Topnotch Mall look. Loads last so it wins.
-		wp_enqueue_style( 'topnotch-ui', TOPNOTCH_URI . 'assets/css/theme-topnotch.css', array( 'topnotch-industrial' ), TOPNOTCH_VERSION );
+		wp_enqueue_style( 'topnotch-ui', TOPNOTCH_URI . 'assets/css/theme-topnotch.css', array( 'topnotch-industrial' ), $this->asset_version( 'assets/css/theme-topnotch.css' ) );
 
-		wp_enqueue_script( 'topnotch-theme', TOPNOTCH_URI . 'assets/js/theme.js', array(), TOPNOTCH_VERSION, true );
+		wp_enqueue_script( 'topnotch-theme', TOPNOTCH_URI . 'assets/js/theme.js', array(), $this->asset_version( 'assets/js/theme.js' ), true );
 
 		if ( class_exists( 'WooCommerce' ) ) {
-			wp_enqueue_script( 'topnotch-ajax', TOPNOTCH_URI . 'assets/js/ajax-cart.js', array( 'topnotch-theme' ), TOPNOTCH_VERSION, true );
+			wp_enqueue_script( 'topnotch-ajax', TOPNOTCH_URI . 'assets/js/ajax-cart.js', array( 'topnotch-theme' ), $this->asset_version( 'assets/js/ajax-cart.js' ), true );
 			wp_localize_script(
 				'topnotch-ajax',
 				'TopnotchAjax',
