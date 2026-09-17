@@ -2,20 +2,20 @@
    Topnotch Mall - UI 2.0 . Bold Industrial (v1.19.0)
    Layered override (loads after theme.min.css). Redefines the
    design tokens so token-driven components update automatically,
-   then restyles each surface. Base stays blue/navy; a teal
-   accent drives CTAs, prices and tags. Headings use a condensed
+   then restyles each surface. Base is brand green / deep green; a
+   gold accent drives CTAs, prices and tags. Headings use a condensed
    industrial display face (Oswald).
    ============================================================ */
 
 /* ---------------- Design tokens ---------------- */
 :root{
-  --rk-primary:#005EB8;--rk-primary-600:#00468A;--rk-primary-300:#5AA9F0;
-  --rk-navy:#0B1E3F;--rk-navy-700:#081733;--rk-navy-900:#05101f;
-  --rk-accent:#10B5A8;--rk-accent-600:#0E9E93;--rk-accent-700:#0A756D;--rk-accent-tint:rgba(16,181,168,.14);
-  --rk-ink:#141a26;--rk-muted:#5b6472;--rk-line:#dde3ec;--rk-bg:#eef2f7;--rk-white:#fff;
+  --rk-primary:#0F8A44;--rk-primary-600:#0B6E35;--rk-primary-300:#6FD394;
+  --rk-navy:#0B2A1D;--rk-navy-700:#071F15;--rk-navy-900:#051510;
+  --rk-accent:#E8A317;--rk-accent-600:#CC8F0F;--rk-accent-700:#A6730B;--rk-accent-tint:rgba(232,163,23,.14);
+  --rk-ink:#16211A;--rk-muted:#5C6B61;--rk-line:#DCE6DE;--rk-bg:#EDF4EF;--rk-white:#fff;
   --rk-radius:6px;--rk-radius-sm:4px;
-  --rk-shadow:0 2px 10px rgba(11,30,63,.08);
-  --rk-shadow-lg:0 18px 44px rgba(11,30,63,.20);
+  --rk-shadow:0 2px 10px rgba(11,42,29,.08);
+  --rk-shadow-lg:0 18px 44px rgba(11,42,29,.20);
   --rk-font:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
   --rk-display:"Oswald",Impact,"Arial Narrow",system-ui,sans-serif;
 }

@@ -19,6 +19,7 @@ final class Assets {
 	public function hooks(): void {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
 		add_action( 'wp_head', array( $this, 'preload_and_critical' ), 1 );
+		add_action( 'wp_head', array( $this, 'favicons' ), 2 );
 		add_filter( 'script_loader_tag', array( $this, 'defer_scripts' ), 10, 3 );
 		// Trim WooCommerce bloat on non-woo pages (perf).
 		add_action( 'wp_enqueue_scripts', array( $this, 'dequeue_woo_bloat' ), 99 );
@@ -59,10 +60,49 @@ final class Assets {
 	}
 
 	/**
+	 * Output the bundled Topnotch Mall favicon / app icons.
+	 *
+	 * Skipped when a Site Icon has been set in Settings > General, so an icon
+	 * chosen in wp-admin always wins.
+	 */
+	public function favicons(): void {
+		if ( function_exists( 'has_site_icon' ) && has_site_icon() ) {
+			return;
+		}
+		$icons = array(
+			array( 'rel' => 'icon', 'file' => 'favicon-32x32.png', 'type' => 'image/png', 'sizes' => '32x32' ),
+			array( 'rel' => 'icon', 'file' => 'favicon-16x16.png', 'type' => 'image/png', 'sizes' => '16x16' ),
+			array( 'rel' => 'icon', 'file' => 'favicon-96x96.png', 'type' => 'image/png', 'sizes' => '96x96' ),
+			array( 'rel' => 'apple-touch-icon', 'file' => 'apple-touch-icon.png', 'type' => '', 'sizes' => '180x180' ),
+			array( 'rel' => 'icon', 'file' => 'icon-192.png', 'type' => 'image/png', 'sizes' => '192x192' ),
+		);
+		foreach ( $icons as $icon ) {
+			$path = TOPNOTCH_DIR . 'assets/img/' . $icon['file'];
+			if ( file_exists( $path ) === false ) {
+				continue;
+			}
+			printf(
+				'<link rel="%1$s" href="%2$s"%3$s%4$s>' . "\n",
+				esc_attr( $icon['rel'] ),
+				esc_url( TOPNOTCH_URI . 'assets/img/' . $icon['file'] ),
+				'' === $icon['type'] ? '' : ' type="' . esc_attr( $icon['type'] ) . '"',
+				' sizes="' . esc_attr( $icon['sizes'] ) . '"'
+			);
+		}
+		if ( file_exists( TOPNOTCH_DIR . 'assets/img/favicon.ico' ) ) {
+			printf(
+				'<link rel="shortcut icon" href="%s">' . "\n",
+				esc_url( TOPNOTCH_URI . 'assets/img/favicon.ico' )
+			);
+		}
+		printf( '<meta name="theme-color" content="%s">' . "\n", esc_attr( sanitize_hex_color( (string) get_theme_mod( 'topnotch_primary', '#0F8A44' ) ) ) );
+	}
+
+	/**
 	 * Inline minimal critical CSS for fast FCP. Uses system fonts (no webfont download).
 	 */
 	public function preload_and_critical(): void {
-		echo '<style id="topnotch-critical">:root{--rk-primary:#005EB8;--rk-navy:#0B1E3F}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1a1f2e;background:#fff}.rk-header{background:var(--rk-navy)}img{max-width:100%;height:auto}</style>' . "\n";
+		echo '<style id="topnotch-critical">:root{--rk-primary:#0F8A44;--rk-navy:#0B2A1D}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#17211B;background:#fff}.rk-header{background:var(--rk-navy)}img{max-width:100%;height:auto}</style>' . "\n";
 	}
 
 	/**

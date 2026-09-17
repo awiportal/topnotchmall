@@ -39,7 +39,7 @@ with the same SKU are updated, not duplicated.
 ## Step 5 - Brand it
 - Upload your logo: Appearance -> Customize -> Site Identity (use `assets/img/logo.png`,
   or `assets/img/logo-white.png` on the dark header).
-- Colours + contact details: Customize -> Topnotch Mall (blue #005EB8 / navy #0B1E3F,
+- Colours + contact details: Customize -> Topnotch Mall (green #0F8A44 / deep green #0B2A1D,
   phone and WhatsApp +254 708 777192, email info@topnotchmall.co.ke,
   address Magomano House, Tom Mboya Street, Nairobi, hours Mon - Sat, 9AM - 5PM,
   order cut-off 5:00pm).

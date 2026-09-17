@@ -22,9 +22,14 @@ The WordPress/WooCommerce codebase for **Topnotch Mall**, Nairobi.
 
 ## Branding
 
-- Primary blue `#005EB8`, dark navy `#0B1E3F` - taken from the Topnotch Mall logo.
-- Logo assets live in `Topntchmall/assets/img/`: `logo.png` / `logo.webp` for light
-  backgrounds and `logo-white.png` / `logo-white.webp` for the dark navy header.
+- Primary green `#0F8A44`, deep green `#0B2A1D`, gold accent `#E8A317`. Greys carry a
+  subtle green tint; sale red and the official WhatsApp green are left as they are.
+- Logo assets live in `Topntchmall/assets/img/`: `logo.png` / `logo.webp` (brand green, for
+  light backgrounds), `logo-white.png` / `logo-white.webp` (white knockout, for the dark
+  green header) and `logo-original-blue.png` (the original blue artwork, kept for reference).
+- Icons: `favicon.ico` plus `favicon-16x16.png` ... `favicon-96x96.png`,
+  `apple-touch-icon.png` (180px), `icon-192.png` and `site-icon-512.png`. The theme prints
+  these automatically and stands aside once a Site Icon is set in Settings -> General.
 - All contact information, opening hours and the order cut-off time are editable in
   **Appearance -> Customize -> Topnotch Mall -> Contact & Support**; the header, footer,
   trust band, product pages, JSON-LD structured data and the auto-generated info and legal

@@ -29,8 +29,8 @@ final class Customizer {
 
 		// Colours.
 		$wp_customize->add_section( 'topnotch_colors', array( 'title' => __( 'Brand Colours', 'topnotch-mall' ), 'panel' => 'topnotch_panel' ) );
-		$this->color( $wp_customize, 'topnotch_primary', '#005EB8', __( 'Primary (Blue)', 'topnotch-mall' ) );
-		$this->color( $wp_customize, 'topnotch_navy', '#0B1E3F', __( 'Secondary (Dark Blue)', 'topnotch-mall' ) );
+		$this->color( $wp_customize, 'topnotch_primary', '#0F8A44', __( 'Primary (Green)', 'topnotch-mall' ) );
+		$this->color( $wp_customize, 'topnotch_navy', '#0B2A1D', __( 'Secondary (Dark Green)', 'topnotch-mall' ) );
 
 		// Contact + support.
 		$wp_customize->add_section( 'topnotch_contact', array( 'title' => __( 'Contact & Support', 'topnotch-mall' ), 'panel' => 'topnotch_panel' ) );
@@ -56,12 +56,12 @@ final class Customizer {
 	 * Print brand colours as CSS custom properties.
 	 */
 	public function output_css_vars(): void {
-		$yellow = sanitize_hex_color( (string) get_theme_mod( 'topnotch_primary', '#005EB8' ) );
-		$navy   = sanitize_hex_color( (string) get_theme_mod( 'topnotch_navy', '#0B1E3F' ) );
+		$green = sanitize_hex_color( (string) get_theme_mod( 'topnotch_primary', '#0F8A44' ) );
+		$dark  = sanitize_hex_color( (string) get_theme_mod( 'topnotch_navy', '#0B2A1D' ) );
 		printf(
 			'<style id="topnotch-brand">:root{--rk-primary:%s;--rk-navy:%s}</style>' . "\n",
-			esc_html( $yellow ),
-			esc_html( $navy )
+			esc_html( $green ),
+			esc_html( $dark )
 		);
 	}
 }

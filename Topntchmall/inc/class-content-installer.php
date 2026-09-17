@@ -32,6 +32,7 @@ final class Content_Installer {
 		add_action( 'admin_init', array( $this, 'refresh_contact_details' ) );
 		add_action( 'admin_init', array( $this, 'refresh_pages_content' ) );
 		add_action( 'admin_init', array( $this, 'seed_contact_defaults' ) );
+		add_action( 'admin_init', array( $this, 'refresh_brand_colors' ) );
 		add_action( 'admin_init', array( $this, 'cleanup_competitor_brand' ) );
 		add_action( 'admin_init', array( $this, 'reclassify_dewalt_welders' ) );
 	}
@@ -350,6 +351,43 @@ final class Content_Installer {
             error_log( 'Topnotch Mall pages content refresh failed: ' . $e->getMessage() );
         }
     }
+
+	/**
+	 * Move the saved brand colours from the old blue palette to the green one.
+	 * The Customizer writes these as theme mods, and a saved mod overrides the
+	 * stylesheet, so without this an existing site would keep rendering blue.
+	 * Only rewrites a value that still equals an old default, so a colour the
+	 * owner picked themselves is left alone. Idempotent (own flag).
+	 */
+	public function refresh_brand_colors(): void {
+		if ( get_option( 'topnotch_brand_colors_v1' ) ) {
+			return;
+		}
+		if ( function_exists( 'current_user_can' ) === false || current_user_can( 'edit_theme_options' ) === false ) {
+			return;
+		}
+		try {
+			$map = array(
+				'topnotch_primary' => array(
+					'new' => '#0F8A44',
+					'old' => array( '#005EB8', '#005eb8', '#FDB913', '#fdb913' ),
+				),
+				'topnotch_navy'    => array(
+					'new' => '#0B2A1D',
+					'old' => array( '#0B1E3F', '#0b1e3f' ),
+				),
+			);
+			foreach ( $map as $key => $spec ) {
+				$current = (string) get_theme_mod( $key, '' );
+				if ( '' === $current || in_array( $current, $spec['old'], true ) ) {
+					set_theme_mod( $key, $spec['new'] );
+				}
+			}
+			update_option( 'topnotch_brand_colors_v1', time() );
+		} catch ( \Throwable $e ) {
+			error_log( 'Topnotch Mall brand colour migration failed: ' . $e->getMessage() );
+		}
+	}
 
 	/**
 	 * Delete every item in a menu, reading the list straight from the term
