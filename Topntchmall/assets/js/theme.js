@@ -53,28 +53,7 @@
     on(slider, 'mouseleave', auto);
   });
 
-  /* Mobile hamburger -> product category panel */
-  const navToggle = $('.rk-nav-toggle');
-  const mobile = $('.rk-mobile');
-  const mobileOverlay = $('.rk-mobile__overlay');
-  const closeMobile = () => {
-    if (!mobile) return;
-    mobile.classList.remove('is-open');
-    if (mobileOverlay) mobileOverlay.classList.remove('is-open');
-    if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
-    document.body.classList.remove('rk-noscroll');
-  };
-  if (navToggle && mobile) {
-    on(navToggle, 'click', () => {
-      const open = mobile.classList.toggle('is-open');
-      if (mobileOverlay) mobileOverlay.classList.toggle('is-open', open);
-      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      document.body.classList.toggle('rk-noscroll', open);
-    });
-    $$('[data-rk-mob-close]').forEach((el) => on(el, 'click', closeMobile));
-    mobile.querySelectorAll('a').forEach((a) => on(a, 'click', closeMobile));
-    on(document, 'keydown', (e) => { if (e.key === 'Escape') closeMobile(); });
-  }
+  /* Mobile category drawer: see the unified implementation at the foot of this file. */
 
   /* Category horizontal scroller */
   $$('.rk-catscroll').forEach((wrap) => {
@@ -143,42 +122,10 @@
 })();
 
 /* ------------------------------------------------------------------
-   Topnotch Mall - bottom tab bar wiring.
-   Self-contained: opens the existing category drawer from any
-   [data-rk-mob-open] trigger and focuses search from [data-rk-search-focus].
+   Topnotch Mall - bottom tab bar: search focus.
+   Drawer opening is handled by the unified block below.
    ------------------------------------------------------------------ */
 (function () {
-  var drawer = document.querySelector('.rk-mobile');
-  var overlay = document.querySelector('.rk-mobile__overlay');
-  var openers = document.querySelectorAll('[data-rk-mob-open]');
-
-  function setOpen(open) {
-    if (drawer === null) return;
-    drawer.classList.toggle('is-open', open);
-    if (overlay) overlay.classList.toggle('is-open', open);
-    document.body.classList.toggle('rk-noscroll', open);
-    Array.prototype.forEach.call(openers, function (b) {
-      b.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-  }
-
-  Array.prototype.forEach.call(openers, function (btn) {
-    btn.addEventListener('click', function (e) {
-      e.preventDefault();
-      if (drawer === null) return;
-      setOpen(drawer.classList.contains('is-open') === false);
-    });
-  });
-
-  if (drawer) {
-    Array.prototype.forEach.call(drawer.querySelectorAll('a'), function (a) {
-      a.addEventListener('click', function () { setOpen(false); });
-    });
-  }
-  Array.prototype.forEach.call(document.querySelectorAll('[data-rk-mob-close]'), function (el) {
-    el.addEventListener('click', function () { setOpen(false); });
-  });
-
   Array.prototype.forEach.call(document.querySelectorAll('[data-rk-search-focus]'), function (btn) {
     btn.addEventListener('click', function (e) {
       e.preventDefault();
@@ -212,7 +159,7 @@
   btn.className = 'rk-vertcat__toggle';
   btn.setAttribute('aria-expanded', 'false');
   btn.setAttribute('aria-controls', list.id || 'rk-vertcat-list');
-  if (\!list.id) list.id = 'rk-vertcat-list';
+  if (!list.id) list.id = 'rk-vertcat-list';
 
   var label = function (open) {
     return open ? 'Show fewer categories' : 'Show all ' + total + ' categories';
@@ -250,4 +197,120 @@
     mq.addListener(apply);
   }
   apply();
+})();
+
+
+/* ------------------------------------------------------------------
+   Unified mobile category drawer.
+
+   Previously the hamburger was wired in one IIFE and the Categories tab
+   in another, and both bailed silently if anything was off. Two things
+   made them look dead:
+
+     1. The drawer's CSS lived in a max-width:992px query while the
+        hamburger and the tab bar are shown up to 1024px, so between
+        993px and 1024px the panel stayed display:none.
+     2. The drawer markup sits inside <header class="rk-header">, which
+        is position:relative; z-index:50 and therefore a stacking
+        context. The panel's z-index:320 is trapped inside that context,
+        so the fixed tab bar (z-index:120, painted later) covered it.
+
+   This block owns the drawer outright: it relocates the panel to <body>
+   so nothing can trap it, binds through delegation on document so the
+   triggers work no matter when they enter the DOM, and falls back to
+   building the list from the on-page category panel if the drawer
+   markup is missing (an older cached header, for instance).
+   ------------------------------------------------------------------ */
+(function () {
+  'use strict';
+
+  var body = document.body;
+
+  function buildFallback() {
+    // Only used when header.php's drawer is absent from the served HTML.
+    var source = document.querySelector('.rk-vertcat__list, .rk-vertcat ul');
+    if (source === null) return null;
+
+    var nav = document.createElement('nav');
+    nav.className = 'rk-mobile';
+    nav.id = 'rk-mobile';
+    nav.setAttribute('aria-label', 'Shop by category');
+    nav.innerHTML =
+      '<div class="rk-mobile__head"><span>Shop by Category</span>' +
+      '<button type="button" class="rk-mobile__close" data-rk-mob-close aria-label="Close menu">&times;</button></div>' +
+      '<ul class="rk-mobile__cats"></ul>';
+
+    var list = nav.querySelector('.rk-mobile__cats');
+    Array.prototype.forEach.call(source.querySelectorAll('a'), function (a) {
+      var li = document.createElement('li');
+      var link = document.createElement('a');
+      link.href = a.getAttribute('href');
+      var name = a.querySelector('.rk-vertcat__name');
+      var qty = a.querySelector('.rk-vertcat__qty');
+      link.innerHTML =
+        '<span>' + (name ? name.textContent : a.textContent).trim() + '</span>' +
+        '<span class="rk-mobile__count">' + (qty ? qty.textContent.trim() : '') + '</span>';
+      li.appendChild(link);
+      list.appendChild(li);
+    });
+    body.appendChild(nav);
+    return nav;
+  }
+
+  var drawer = document.querySelector('.rk-mobile') || buildFallback();
+  if (drawer === null) return;
+
+  var overlay = document.querySelector('.rk-mobile__overlay');
+  if (overlay === null) {
+    overlay = document.createElement('div');
+    overlay.className = 'rk-mobile__overlay';
+    overlay.setAttribute('data-rk-mob-close', '');
+  }
+
+  // Out of the header's stacking context, so nothing can paint over it.
+  if (drawer.parentNode !== body) body.appendChild(drawer);
+  if (overlay.parentNode !== body) body.appendChild(overlay);
+
+  var isOpen = function () { return drawer.classList.contains('is-open'); };
+
+  var setOpen = function (open) {
+    drawer.classList.toggle('is-open', open);
+    overlay.classList.toggle('is-open', open);
+    body.classList.toggle('rk-noscroll', open);
+    drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+    Array.prototype.forEach.call(
+      document.querySelectorAll('[data-rk-mob-open], .rk-nav-toggle'),
+      function (t) { t.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+    );
+    if (open) {
+      var first = drawer.querySelector('a, button');
+      if (first) first.focus({ preventScroll: true });
+    }
+  };
+
+  // Delegation: one listener, works for the hamburger, the Categories tab,
+  // the close button, the overlay, and any trigger added later.
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    if (!t || typeof t.closest !== 'function') return;
+
+    if (t.closest('[data-rk-mob-open], .rk-nav-toggle')) {
+      e.preventDefault();
+      setOpen(isOpen() === false);
+      return;
+    }
+    if (t.closest('[data-rk-mob-close]') || t === overlay) {
+      e.preventDefault();
+      setOpen(false);
+      return;
+    }
+    // A category link: let it navigate, but close behind it.
+    if (t.closest('.rk-mobile a')) setOpen(false);
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && isOpen()) setOpen(false);
+  });
+
+  setOpen(false);
 })();

@@ -44,7 +44,7 @@ $rk_cutoff   = get_theme_mod( 'topnotch_cutoff', '5:00pm' );
 
 	<div class="rk-header__mid">
 		<div class="container">
-			<button class="rk-nav-toggle" aria-expanded="false" aria-controls="rk-primary-menu" aria-label="<?php esc_attr_e( 'Menu', 'topnotch-mall' ); ?>"><span class="rk-burger"></span></button>
+			<button class="rk-nav-toggle" type="button" data-rk-mob-open aria-expanded="false" aria-controls="rk-mobile" aria-label="<?php esc_attr_e( 'Menu', 'topnotch-mall' ); ?>"><span class="rk-burger"></span></button>
 			<div class="rk-logo">
 				<?php
 				// The header bar is dark, so the bundled white wordmark is used by

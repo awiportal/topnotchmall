@@ -765,17 +765,17 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{
 @media (max-width:1024px){
   .rk-hero .container{align-items:start}
   .rk-vertcat{
-    height:auto\!important;max-height:none\!important;overflow:visible\!important;
+    height:auto!important;max-height:none!important;overflow:visible!important;
     margin-bottom:14px}
   .rk-vertcat ul,.rk-vertcat__list{
-    max-height:none\!important;overflow:visible\!important;
+    max-height:none!important;overflow:visible!important;
     overscroll-behavior:auto;-webkit-overflow-scrolling:auto;
     padding-bottom:0}
-  .rk-vertcat::after{display:none\!important}
+  .rk-vertcat::after{display:none!important}
   /* Bigger tap targets on a touch screen */
   .rk-vertcat li a{padding:13px 15px;font-size:.9rem}
 
-  .rk-vertcat__list.is-collapsed{overflow:hidden\!important}
+  .rk-vertcat__list.is-collapsed{overflow:hidden!important}
   .rk-vertcat__list.is-collapsed li:nth-child(n+10){display:none}
 
   .rk-vertcat__toggle{
@@ -789,7 +789,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{
   .rk-vertcat__toggle[aria-expanded="true"]::after{transform:rotate(180deg)}
 }
 .rk-vertcat__toggle{display:none}
-.rk-vertcat__toggle[hidden]{display:none\!important}
+.rk-vertcat__toggle[hidden]{display:none!important}
 
 /* ------------------------------------------------------------
    2. Card text was being cut mid-line
@@ -824,10 +824,10 @@ ul.products li.product .woocommerce-loop-product__title{
 /* Keep the short description on phones - it is useful - but only ever
    as two clean lines. The old rule hid it outright below 900px. */
 @media (max-width:900px){
-  .rk-card__excerpt{display:-webkit-box\!important;-webkit-line-clamp:2}
+  .rk-card__excerpt{display:-webkit-box!important;-webkit-line-clamp:2}
 }
 @media (max-width:420px){
-  .rk-card__excerpt{display:none\!important}
+  .rk-card__excerpt{display:none!important}
   .rk-card__title{-webkit-line-clamp:3;min-height:calc(1.35em * 3);max-height:calc(1.35em * 3)}
 }
 
@@ -942,7 +942,7 @@ ul.products li.product .woocommerce-loop-product__title{
 .single-product .woocommerce-tabs ul.tabs::-webkit-scrollbar{display:none}
 .single-product .woocommerce-tabs ul.tabs::before,
 .single-product .woocommerce-tabs ul.tabs li::before,
-.single-product .woocommerce-tabs ul.tabs li::after{display:none\!important}
+.single-product .woocommerce-tabs ul.tabs li::after{display:none!important}
 .single-product .woocommerce-tabs ul.tabs li{
   margin:0;padding:0;border:0;background:none;border-radius:0;flex:0 0 auto}
 .single-product .woocommerce-tabs ul.tabs li a{
@@ -1014,3 +1014,80 @@ ul.products li.product .woocommerce-loop-product__title{
   .rk-sticky-atc{bottom:calc(62px + env(safe-area-inset-bottom))}
   .rk-sticky-atc__price{display:none}
 }
+
+
+/* ============================================================
+   UI 4.3 - the category drawer actually opens
+   ============================================================ */
+
+/* The drawer's styles used to stop at max-width:992px, while the
+   hamburger and the bottom tab bar are shown all the way up to 1024px.
+   Between those two widths the panel was display:none, so both triggers
+   did nothing. The panel is also relocated to <body> by theme.js, out of
+   the header's stacking context, and it now sits above the fixed tab bar
+   (z-index:120) and the floating WhatsApp button (z-index:90). */
+@media (max-width:1024px){
+  .rk-mobile__overlay{
+    display:block;position:fixed;inset:0;
+    background:rgba(11,42,29,.55);
+    opacity:0;visibility:hidden;transition:opacity .25s ease;
+    z-index:1000}
+  .rk-mobile__overlay.is-open{opacity:1;visibility:visible}
+
+  .rk-mobile{
+    display:flex!important;flex-direction:column;
+    position:fixed;top:0;left:0;height:100%;height:100dvh;
+    width:320px;max-width:86vw;
+    background:#fff;
+    transform:translateX(-100%);transition:transform .28s ease;
+    z-index:1001;
+    box-shadow:8px 0 34px rgba(11,42,29,.26);
+    padding-bottom:0}
+  .rk-mobile.is-open{transform:none}
+
+  .rk-mobile__head{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    flex:0 0 auto;padding:16px 18px;
+    background:var(--tn-forest,#0B2A1D);color:#fff;
+    font-size:.82rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+  .rk-mobile__close{
+    background:none;border:0;color:#fff;font-size:1.8rem;line-height:1;
+    cursor:pointer;padding:0 4px;min-width:44px;min-height:44px}
+
+  .rk-mobile__cats{
+    flex:1 1 auto;min-height:0;
+    overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+    margin:0;padding:0;list-style:none}
+  .rk-mobile__cats li{border-bottom:1px solid var(--tn-line,#E3EAE6)}
+  .rk-mobile__cats a{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:14px 18px;min-height:48px;
+    color:var(--tn-ink,#0B2A1D);text-decoration:none;
+    font-size:.9rem;font-weight:600}
+  .rk-mobile__cats a:active{background:var(--tn-green-050,#F0FDF4)}
+  .rk-mobile__count{
+    flex:0 0 auto;background:#F1F5F3;color:var(--tn-muted,#5B6B63);
+    font-size:.72rem;font-weight:800;border-radius:99px;padding:2px 9px;
+    min-width:28px;text-align:center}
+
+  .rk-mobile__links{flex:0 0 auto;border-top:2px solid var(--tn-line,#E3EAE6);
+    background:var(--tn-wash,#F6F9F7);
+    padding-bottom:calc(62px + env(safe-area-inset-bottom))}
+  .rk-mobile__toplinks{list-style:none;margin:0;padding:6px 0}
+  .rk-mobile__toplinks a{
+    display:block;padding:13px 18px;min-height:46px;
+    color:var(--tn-forest,#0B2A1D);text-decoration:none;font-weight:700;font-size:.9rem}
+
+  /* Nothing may paint over an open drawer */
+  body.rk-noscroll .rk-tabbar,
+  body.rk-noscroll .rk-whatsapp,
+  body.rk-noscroll .rk-backtop{opacity:0;pointer-events:none;transition:opacity .2s ease}
+
+  /* A real 44px tap target for the hamburger */
+  .rk-nav-toggle{min-width:44px;min-height:44px;justify-content:center}
+}
+
+/* Burger turns into a cross while the drawer is open */
+.rk-nav-toggle[aria-expanded="true"] .rk-burger{background:transparent}
+.rk-nav-toggle[aria-expanded="true"] .rk-burger::before{top:0;transform:rotate(45deg)}
+.rk-nav-toggle[aria-expanded="true"] .rk-burger::after{top:0;transform:rotate(-45deg)}
