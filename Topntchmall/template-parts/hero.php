@@ -9,22 +9,38 @@ defined( 'ABSPATH' ) || exit;
 ?>
 <section class="rk-hero">
 	<div class="container">
+		<?php
+		// Every product category, ordered by size. The panel scrolls the full list
+		// rather than showing only what happens to fit beside the slider.
+		$rk_terms = function_exists( 'rk_cached_terms' ) ? rk_cached_terms( 'product_cat', 0 ) : array();
+		$rk_shop_link = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/' );
+		?>
 		<aside class="rk-vertcat" aria-label="<?php esc_attr_e( 'Shop by category', 'topnotch-mall' ); ?>">
-			<h2><?php esc_html_e( 'All Categories', 'topnotch-mall' ); ?></h2>
+			<h2>
+				<?php esc_html_e( 'All Categories', 'topnotch-mall' ); ?>
+				<?php if ( ! empty( $rk_terms ) && ! has_nav_menu( 'vertical_cats' ) ) : ?>
+					<span class="rk-vertcat__count"><?php echo esc_html( number_format_i18n( count( $rk_terms ) ) ); ?></span>
+				<?php endif; ?>
+			</h2>
 			<?php
 			if ( has_nav_menu( 'vertical_cats' ) ) {
 				wp_nav_menu( array( 'theme_location' => 'vertical_cats', 'container' => false, 'fallback_cb' => false, 'depth' => 1 ) );
-			} else {
-				$terms = function_exists( 'rk_cached_terms' ) ? rk_cached_terms( 'product_cat', 0 ) : array();
-				if ( $terms ) {
-					echo '<ul>';
-					foreach ( $terms as $t ) {
-						printf( '<li><a href="%s">%s <span>%d</span></a></li>', esc_url( get_term_link( $t ) ), esc_html( $t->name ), (int) $t->count );
-					}
-					echo '</ul>';
+			} elseif ( ! empty( $rk_terms ) ) {
+				echo '<ul>';
+				foreach ( $rk_terms as $t ) {
+					printf(
+						'<li><a href="%1$s"><span class="rk-vertcat__name">%2$s</span> <span>%3$s</span></a></li>',
+						esc_url( get_term_link( $t ) ),
+						esc_html( $t->name ),
+						esc_html( number_format_i18n( (int) $t->count ) )
+					);
 				}
+				echo '</ul>';
 			}
 			?>
+			<a class="rk-vertcat__all" href="<?php echo esc_url( $rk_shop_link ); ?>">
+				<?php esc_html_e( 'Browse the full shop', 'topnotch-mall' ); ?> <span aria-hidden="true">&rarr;</span>
+			</a>
 		</aside>
 
 		<div class="rk-slider" tabindex="0" aria-roledescription="carousel" aria-label="<?php esc_attr_e( 'Promotions', 'topnotch-mall' ); ?>">

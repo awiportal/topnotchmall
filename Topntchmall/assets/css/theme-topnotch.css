@@ -212,3 +212,87 @@ ul.products li.product .add_to_cart_button:hover,
   .rk-slide__promo{background:linear-gradient(0deg,rgba(8,33,22,.95) 30%,rgba(8,33,22,.35) 100%)}
   .rk-trustband__grid{padding:10px}
 }
+
+
+/* ============================================================
+   UI 3.1 - category rail, CTA separation, interaction polish
+   ============================================================ */
+
+/* ---------- All Categories: full list, scrolls to the slider height ---------- */
+.rk-hero .container{align-items:stretch}
+.rk-vertcat{display:flex;flex-direction:column;overflow:hidden;position:relative;max-height:none}
+.rk-vertcat h2{display:flex;align-items:center;justify-content:space-between;gap:8px;flex:0 0 auto;margin:0;padding:15px 18px 12px}
+.rk-vertcat h2 .rk-vertcat__count{font-size:.68rem;letter-spacing:.04em;font-weight:700;color:var(--tn-green-700);
+  background:rgba(34,197,94,.13);border-radius:99px;padding:3px 9px;text-transform:none}
+/* the list itself takes all remaining height and scrolls through every category */
+.rk-vertcat ul{flex:1 1 auto;min-height:0;max-height:none;overflow-y:auto;overscroll-behavior:contain;
+  padding:6px 8px 10px;scrollbar-width:thin;scrollbar-color:rgba(34,197,94,.45) transparent}
+.rk-vertcat ul::-webkit-scrollbar{width:8px}
+.rk-vertcat ul::-webkit-scrollbar-track{background:transparent}
+.rk-vertcat ul::-webkit-scrollbar-thumb{background:rgba(11,42,29,.18);border-radius:99px;border:2px solid #fff}
+.rk-vertcat ul:hover::-webkit-scrollbar-thumb{background:rgba(34,197,94,.55)}
+.rk-vertcat li{margin:0}
+.rk-vertcat a{gap:10px;align-items:center;transition:background .14s,color .14s,padding-left .14s}
+.rk-vertcat a:hover{padding-left:16px}
+/* fade hint so it is obvious the list keeps going */
+.rk-vertcat::after{content:"";position:absolute;left:1px;right:9px;bottom:1px;height:38px;pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,0),#fff 78%);border-radius:0 0 var(--tn-r-lg) var(--tn-r-lg)}
+.rk-vertcat__all{flex:0 0 auto;position:relative;z-index:1;margin:0;padding:11px 18px;border-top:1px solid var(--tn-line);
+  background:#fff;font-weight:700;font-size:.82rem;color:var(--tn-green-700);display:flex;align-items:center;justify-content:space-between}
+.rk-vertcat__all:hover{background:var(--tn-wash)}
+
+/* ---------- Product card: one clear buy action, WhatsApp on hover ---------- */
+.rk-card{position:relative}
+.rk-card__media{position:relative;overflow:hidden}
+.rk-card__media img{transition:transform .35s cubic-bezier(.2,.7,.3,1)}
+.rk-card:hover .rk-card__media img{transform:scale(1.045)}
+
+/* quick actions slide in instead of sitting there permanently */
+.rk-card__actions{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:8px;
+  opacity:0;transform:translateX(10px);transition:opacity .18s ease,transform .18s ease}
+.rk-card:hover .rk-card__actions,.rk-card:focus-within .rk-card__actions{opacity:1;transform:none}
+
+/* the buy button owns amber and is always available */
+.rk-card .rk-btn--block{margin-top:auto}
+
+/* WhatsApp: reserved space so nothing jumps, revealed on hover/focus,
+   and a completely different hue from the amber buy button */
+.rk-card .rk-wa-btn{
+  display:flex!important;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:8px;
+  background:#EAF9F0!important;color:#0B7A3C!important;border:1.5px solid rgba(37,211,102,.45)!important;
+  opacity:.45;transform:translateY(3px);
+  transition:opacity .18s ease,transform .18s ease,background .18s ease,color .18s ease,border-color .18s ease,box-shadow .18s ease}
+.rk-card:hover .rk-wa-btn,.rk-card:focus-within .rk-wa-btn,.rk-card .rk-wa-btn:focus-visible{
+  opacity:1;transform:none;background:#25D366!important;color:#07361C!important;
+  border-color:#25D366!important;box-shadow:0 8px 18px rgba(37,211,102,.30)!important}
+.rk-card .rk-wa-btn:hover{background:#1DB855!important;color:#052B15!important}
+/* touch devices have no hover: keep it visible and tappable */
+@media (hover:none){
+  .rk-card .rk-wa-btn{opacity:1;transform:none}
+  .rk-card__actions{opacity:1;transform:none}
+}
+
+/* AJAX feedback */
+.rk-btn.is-loading{opacity:.75;pointer-events:none}
+.rk-btn.is-added{background:var(--tn-green)!important;color:var(--tn-forest)!important}
+
+/* ---------- Badges sit over the image, out of the flow ---------- */
+.rk-card__badges{position:absolute;top:10px;left:10px;z-index:2;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+
+/* ---------- Category rail: snap scrolling ---------- */
+.rk-catgrid{scroll-snap-type:x mandatory;scroll-padding:16px}
+.rk-catcard{scroll-snap-align:start}
+.rk-catcard img{transition:transform .35s cubic-bezier(.2,.7,.3,1)}
+.rk-catcard:hover img{transform:scale(1.04)}
+
+/* ---------- Section rhythm + mobile ---------- */
+.rk-section--products{padding-top:14px}
+@media (max-width:900px){
+  .rk-products{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rk-card__excerpt{display:none}
+  .rk-card .rk-wa-btn{font-size:.72rem!important;padding:.5rem .6rem!important}
+}
+@media (max-width:1024px){
+  /* the category panel is hidden beside the slider, so give it a home on mobile */
+  .rk-vertcat{display:none}
+}
