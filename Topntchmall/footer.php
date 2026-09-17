@@ -74,6 +74,40 @@ $rk_cutoff   = get_theme_mod( 'topnotch_cutoff', '5:00pm' );
 </div>
 <?php endif; ?>
 
+<?php
+/**
+ * Static mobile tab bar: five thumb-reachable destinations, always on screen.
+ * Hidden on large viewports in CSS. The cart tab shares the header's live count.
+ */
+$rk_tab_cart  = function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/cart/' );
+$rk_tab_count = ( function_exists( 'WC' ) && WC() && WC()->cart ) ? WC()->cart->get_cart_contents_count() : 0;
+?>
+<nav class="rk-tabbar" aria-label="<?php esc_attr_e( 'Quick navigation', 'topnotch-mall' ); ?>">
+	<a class="rk-tabbar__item<?php echo is_front_page() ? ' is-active' : ''; ?>" href="<?php echo esc_url( home_url( '/' ) ); ?>">
+		<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1z"/></svg>
+		<span><?php esc_html_e( 'Home', 'topnotch-mall' ); ?></span>
+	</a>
+	<button type="button" class="rk-tabbar__item" data-rk-mob-open aria-expanded="false" aria-controls="rk-mobile">
+		<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h7v7H4zM13 5h7v7h-7zM4 14h7v5H4zM13 14h7v5h-7z"/></svg>
+		<span><?php esc_html_e( 'Categories', 'topnotch-mall' ); ?></span>
+	</button>
+	<button type="button" class="rk-tabbar__item" data-rk-search-focus>
+		<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 3a7.5 7.5 0 1 0 4.6 13.4l4.2 4.2 1.5-1.5-4.2-4.2A7.5 7.5 0 0 0 10.5 3Zm0 2a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Z"/></svg>
+		<span><?php esc_html_e( 'Search', 'topnotch-mall' ); ?></span>
+	</button>
+	<a class="rk-tabbar__item rk-tabbar__item--wa" href="https://wa.me/<?php echo esc_attr( $rk_whatsapp ); ?>" target="_blank" rel="noopener">
+		<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.1-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1-1.4-1-2.6s.6-1.8.9-2.1c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.5c-.2.2-.3.4-.1.6.2.4.9 1.4 1.9 2.3 1.3 1.1 2.3 1.4 2.5 1.5.2.1.4.1.6-.1l.7-.9c.2-.3.4-.2.6-.1l1.8.9c.2.1.4.2.5.3.1.3.1.7-.1 1.3Z"/></svg>
+		<span><?php esc_html_e( 'WhatsApp', 'topnotch-mall' ); ?></span>
+	</a>
+	<a class="rk-tabbar__item" href="<?php echo esc_url( $rk_tab_cart ); ?>" data-rk-drawer-open>
+		<span class="rk-tabbar__icon">
+			<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4H5L4 6H2v2h1.6l2.5 9h11l2.4-8H7.3l-.5-2H21V4H7Zm1 15a2 2 0 1 0 2 2 2 2 0 0 0-2-2Zm9 0a2 2 0 1 0 2 2 2 2 0 0 0-2-2Z"/></svg>
+			<span class="rk-cart-count rk-tabbar__count" data-count="<?php echo esc_attr( $rk_tab_count ); ?>"><?php echo esc_html( $rk_tab_count ); ?></span>
+		</span>
+		<span><?php esc_html_e( 'Cart', 'topnotch-mall' ); ?></span>
+	</a>
+</nav>
+
 <?php wp_footer(); ?>
 </body>
 </html>

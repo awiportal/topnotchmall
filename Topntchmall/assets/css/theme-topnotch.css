@@ -296,3 +296,122 @@ ul.products li.product .add_to_cart_button:hover,
   /* the category panel is hidden beside the slider, so give it a home on mobile */
   .rk-vertcat{display:none}
 }
+
+
+/* ============================================================
+   UI 3.2 - mobile experience + static bottom tab bar
+   ============================================================ */
+
+/* ---------- FIX: the card buy button is .rk-btn--primary[data-topnotch-add],
+   not a WooCommerce .add_to_cart_button, so the amber rule never reached it. ---------- */
+.rk-card [data-topnotch-add],
+.rk-card .rk-btn--primary,
+ul.products li.product [data-topnotch-add],
+[data-topnotch-add].rk-btn{
+  background:var(--tn-buy)!important;color:var(--tn-buy-ink)!important;border:0!important;
+  box-shadow:0 6px 16px rgba(245,158,11,.30)!important;text-transform:uppercase!important;
+  font-weight:800!important;letter-spacing:.02em!important}
+.rk-card [data-topnotch-add]:hover,
+.rk-card .rk-btn--primary:hover,
+[data-topnotch-add].rk-btn:hover{background:var(--tn-buy-600)!important;color:#2A1B03!important}
+/* "View Product" (unpurchasable) stays dark green so it never mimics the buy button */
+.rk-card .rk-btn--navy{background:var(--tn-forest)!important;color:#fff!important}
+
+/* ============================ MOBILE ============================ */
+@media (max-width:1024px){
+  html,body{overflow-x:hidden}
+
+  /* Top bar: one tidy line. Hours and email are in the footer already. */
+  .rk-header__top{font-size:.76rem}
+  .rk-header__top .container{justify-content:center;gap:14px;padding:7px 16px}
+  .rk-header__hours{display:none}
+  .rk-header__contact{gap:14px;justify-content:center;width:100%}
+  .rk-header__contact a{white-space:nowrap}
+  .rk-header__contact a:nth-child(3){display:none} /* email: keep the bar to one line */
+
+  /* Middle bar: burger + logo + icons on row one, full-width search on row two. */
+  .rk-header__mid{padding:10px 0 12px}
+  .rk-header__mid .container{
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    grid-template-areas:"toggle logo actions" "search search search";
+    gap:10px 12px;align-items:center}
+  .rk-nav-toggle{grid-area:toggle;display:inline-flex!important;padding:8px;margin:0}
+  .rk-logo{grid-area:logo;justify-self:start}
+  .rk-logo img{max-height:34px}
+  .rk-actions{grid-area:actions;gap:2px}
+  .rk-search{grid-area:search;width:100%;min-width:0}
+  .rk-search form{width:100%}
+  .rk-search input{font-size:16px} /* stops iOS zooming on focus */
+
+  /* Icon-only actions: the labels were pushing the row off-screen. */
+  .rk-actions__item span:not(.rk-cart-count){display:none}
+  .rk-actions__item{padding:7px 8px}
+  .rk-actions__item svg{width:22px;height:22px;margin:0}
+
+  .rk-nav{display:none} /* the tab bar and category drawer replace it */
+}
+
+@media (max-width:640px){
+  .rk-hero{padding:14px 0 4px}
+  .rk-slide__promo h2{font-size:1.32rem;max-width:18ch}
+  .rk-slide__promo p{font-size:.86rem;max-width:32ch;margin-bottom:.85rem}
+  .rk-slide__promo .rk-btn{padding:.7rem 1.35rem;font-size:.85rem}
+  .rk-trustband__grid{grid-template-columns:1fr;gap:2px}
+  .rk-section{padding:18px 0}
+  .rk-section__head h2{font-size:1.1rem}
+  .rk-card__title{font-size:.88rem}
+  .rk-card__price,ul.products li.product .price{font-size:1.02rem}
+  .rk-card [data-topnotch-add]{font-size:.74rem!important;padding:.68rem .5rem!important}
+  .rk-footer__cols{gap:22px}
+}
+
+/* ---------- Static bottom tab bar ---------- */
+.rk-tabbar{display:none}
+
+@media (max-width:1024px){
+  .rk-tabbar{
+    display:grid;grid-template-columns:repeat(5,1fr);align-items:stretch;
+    position:fixed;left:0;right:0;bottom:0;z-index:120;
+    background:rgba(255,255,255,.92);backdrop-filter:saturate(1.6) blur(14px);
+    border-top:1px solid var(--tn-line);
+    box-shadow:0 -6px 24px rgba(11,42,29,.10);
+    padding-bottom:env(safe-area-inset-bottom)}
+
+  .rk-tabbar__item{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+    padding:9px 4px 7px;border:0;background:transparent;cursor:pointer;
+    font-size:.66rem;font-weight:700;letter-spacing:.01em;color:var(--tn-muted);
+    text-decoration:none;min-height:56px;-webkit-tap-highlight-color:transparent;
+    transition:color .15s ease,transform .12s ease}
+  .rk-tabbar__item svg{width:22px;height:22px;fill:currentColor}
+  .rk-tabbar__item:active{transform:scale(.94)}
+  .rk-tabbar__item:hover,.rk-tabbar__item:focus-visible{color:var(--tn-forest)}
+  .rk-tabbar__item.is-active{color:var(--tn-green-700)}
+  .rk-tabbar__item.is-active::before{
+    content:"";position:absolute;top:0;width:28px;height:3px;border-radius:0 0 99px 99px;background:var(--tn-green)}
+  .rk-tabbar__item{position:relative}
+  .rk-tabbar__item--wa{color:#0F7A3C}
+  .rk-tabbar__item--wa svg{fill:#25D366}
+
+  .rk-tabbar__icon{position:relative;display:inline-flex}
+  .rk-tabbar__count{
+    position:absolute;top:-6px;right:-10px;min-width:18px;height:18px;padding:0 5px;
+    border-radius:99px;background:var(--tn-buy);color:var(--tn-buy-ink);
+    font-size:.64rem;font-weight:900;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 0 0 2px #fff}
+  .rk-tabbar__count[data-count="0"]{display:none}
+
+  /* Keep the tab bar clear of page content and floating buttons */
+  body{padding-bottom:calc(62px + env(safe-area-inset-bottom))}
+  .rk-whatsapp{bottom:calc(74px + env(safe-area-inset-bottom));width:50px;height:50px}
+  .rk-backtop{bottom:calc(74px + env(safe-area-inset-bottom));width:42px;height:42px}
+  .rk-drawer__panel{padding-bottom:calc(62px + env(safe-area-inset-bottom))}
+}
+
+/* The category drawer opened by the Categories tab */
+@media (max-width:1024px){
+  .rk-mobile{padding-bottom:calc(66px + env(safe-area-inset-bottom))}
+  .rk-mobile__cats a{padding:13px 14px;font-size:.92rem}
+  body.rk-noscroll{overflow:hidden}
+}

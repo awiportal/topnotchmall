@@ -141,3 +141,50 @@
     on(top, 'click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   }
 })();
+
+/* ------------------------------------------------------------------
+   Topnotch Mall - bottom tab bar wiring.
+   Self-contained: opens the existing category drawer from any
+   [data-rk-mob-open] trigger and focuses search from [data-rk-search-focus].
+   ------------------------------------------------------------------ */
+(function () {
+  var drawer = document.querySelector('.rk-mobile');
+  var overlay = document.querySelector('.rk-mobile__overlay');
+  var openers = document.querySelectorAll('[data-rk-mob-open]');
+
+  function setOpen(open) {
+    if (drawer === null) return;
+    drawer.classList.toggle('is-open', open);
+    if (overlay) overlay.classList.toggle('is-open', open);
+    document.body.classList.toggle('rk-noscroll', open);
+    Array.prototype.forEach.call(openers, function (b) {
+      b.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
+
+  Array.prototype.forEach.call(openers, function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (drawer === null) return;
+      setOpen(drawer.classList.contains('is-open') === false);
+    });
+  });
+
+  if (drawer) {
+    Array.prototype.forEach.call(drawer.querySelectorAll('a'), function (a) {
+      a.addEventListener('click', function () { setOpen(false); });
+    });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('[data-rk-mob-close]'), function (el) {
+    el.addEventListener('click', function () { setOpen(false); });
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-rk-search-focus]'), function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      var input = document.querySelector('.rk-search input');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (input) window.setTimeout(function () { input.focus(); }, 340);
+    });
+  });
+})();
