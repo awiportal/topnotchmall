@@ -18,24 +18,27 @@ defined( 'ABSPATH' ) || exit;
 		<aside class="rk-vertcat" aria-label="<?php esc_attr_e( 'Shop by category', 'topnotch-mall' ); ?>">
 			<h2>
 				<?php esc_html_e( 'All Categories', 'topnotch-mall' ); ?>
-				<?php if ( ! empty( $rk_terms ) && ! has_nav_menu( 'vertical_cats' ) ) : ?>
+				<?php if ( ! empty( $rk_terms ) ) : ?>
 					<span class="rk-vertcat__count"><?php echo esc_html( number_format_i18n( count( $rk_terms ) ) ); ?></span>
 				<?php endif; ?>
 			</h2>
 			<?php
-			if ( has_nav_menu( 'vertical_cats' ) ) {
-				wp_nav_menu( array( 'theme_location' => 'vertical_cats', 'container' => false, 'fallback_cb' => false, 'depth' => 1 ) );
-			} elseif ( ! empty( $rk_terms ) ) {
-				echo '<ul>';
+			// Always the full taxonomy, scrolled. A nav menu assigned to the
+			// vertical_cats location used to win here and it only carries a dozen
+			// items, which is why the panel never showed the whole shop.
+			if ( ! empty( $rk_terms ) ) {
+				echo '<ul class="rk-vertcat__list">';
 				foreach ( $rk_terms as $t ) {
 					printf(
-						'<li><a href="%1$s"><span class="rk-vertcat__name">%2$s</span> <span>%3$s</span></a></li>',
+						'<li><a href="%1$s"><span class="rk-vertcat__name">%2$s</span> <span class="rk-vertcat__qty">%3$s</span></a></li>',
 						esc_url( get_term_link( $t ) ),
 						esc_html( $t->name ),
 						esc_html( number_format_i18n( (int) $t->count ) )
 					);
 				}
 				echo '</ul>';
+			} elseif ( has_nav_menu( 'vertical_cats' ) ) {
+				wp_nav_menu( array( 'theme_location' => 'vertical_cats', 'container' => false, 'fallback_cb' => false, 'depth' => 1 ) );
 			}
 			?>
 			<a class="rk-vertcat__all" href="<?php echo esc_url( $rk_shop_link ); ?>">

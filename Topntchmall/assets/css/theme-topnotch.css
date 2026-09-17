@@ -415,3 +415,81 @@ ul.products li.product [data-topnotch-add],
   .rk-mobile__cats a{padding:13px 14px;font-size:.92rem}
   body.rk-noscroll{overflow:hidden}
 }
+
+
+/* ============================================================
+   UI 3.2.1 - full category scroll, amber buy, distinct WhatsApp hover
+   ============================================================ */
+
+/* ---------- The panel now carries the whole taxonomy, so it must scroll ---------- */
+.rk-hero .container{align-items:stretch}
+.rk-vertcat{display:flex;flex-direction:column;min-height:0;overflow:hidden;
+  border:1px solid var(--tn-line);border-radius:14px;background:#fff;
+  box-shadow:0 10px 30px rgba(11,42,29,.07)}
+.rk-vertcat h2{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;flex:0 0 auto;margin:0;
+  padding:13px 15px;background:linear-gradient(135deg,var(--tn-forest),#0F3B27);
+  color:#fff;font-size:.78rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase}
+.rk-vertcat__count{
+  flex:0 0 auto;min-width:24px;padding:2px 8px;border-radius:99px;
+  background:var(--tn-green);color:#04240F;font-size:.7rem;font-weight:900;letter-spacing:0;text-align:center}
+
+.rk-vertcat ul,.rk-vertcat__list{
+  flex:1 1 auto;min-height:0;max-height:none!important;
+  overflow-y:auto;overscroll-behavior:contain;
+  margin:0;padding:4px 0;list-style:none;
+  scrollbar-width:thin;scrollbar-color:var(--tn-green-300) transparent}
+.rk-vertcat ul::-webkit-scrollbar{width:8px}
+.rk-vertcat ul::-webkit-scrollbar-track{background:transparent}
+.rk-vertcat ul::-webkit-scrollbar-thumb{
+  background:var(--tn-green-300);border-radius:99px;border:2px solid #fff}
+.rk-vertcat ul::-webkit-scrollbar-thumb:hover{background:var(--tn-green)}
+
+.rk-vertcat li{margin:0}
+.rk-vertcat li a{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:10px 15px;font-size:.855rem;font-weight:600;color:var(--tn-ink);
+  text-decoration:none;border-left:3px solid transparent;
+  transition:background .14s ease,color .14s ease,border-color .14s ease,padding-left .14s ease}
+.rk-vertcat li a:hover,.rk-vertcat li a:focus-visible{
+  background:var(--tn-green-050,#F0FDF4);color:var(--tn-green-700);
+  border-left-color:var(--tn-green);padding-left:19px}
+.rk-vertcat__name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rk-vertcat__qty{
+  flex:0 0 auto;min-width:26px;padding:1px 7px;border-radius:99px;
+  background:#F1F5F3;color:var(--tn-muted);font-size:.7rem;font-weight:800;text-align:center;
+  transition:background .14s ease,color .14s ease}
+.rk-vertcat li a:hover .rk-vertcat__qty{background:var(--tn-green);color:#04240F}
+
+.rk-vertcat__all{
+  flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:11px 14px;border-top:1px solid var(--tn-line);background:#FAFCFB;
+  font-size:.78rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--tn-green-700);text-decoration:none;transition:background .14s ease,gap .14s ease}
+.rk-vertcat__all:hover{background:var(--tn-green-050,#F0FDF4);gap:11px}
+
+/* ---------- Buy button: amber, and unmistakably not the WhatsApp button ---------- */
+.rk-btn--primary[data-topnotch-add],
+button[data-topnotch-add],
+.rk-card .rk-btn--primary[data-topnotch-add]{
+  background:var(--tn-buy)!important;background-image:none!important;
+  color:var(--tn-buy-ink)!important;border-color:var(--tn-buy)!important}
+.rk-btn--primary[data-topnotch-add]:hover,
+button[data-topnotch-add]:hover,
+.rk-btn--primary[data-topnotch-add]:focus-visible{
+  background:var(--tn-buy-600)!important;color:#2A1B03!important;
+  box-shadow:0 8px 20px rgba(245,158,11,.38)!important}
+
+/* WhatsApp stays an outline button and deepens to WhatsApp green on hover,
+   which no longer collides with the buy action now that buying is amber. */
+.rk-card .rk-wa,.rk-wa-btn,a[href*="wa.me"].rk-btn{
+  background:#fff!important;color:#0B6B33!important;
+  border:1.5px solid #9FE7BC!important;font-weight:700!important}
+.rk-card .rk-wa:hover,.rk-wa-btn:hover,a[href*="wa.me"].rk-btn:hover{
+  background:#128C4A!important;color:#fff!important;border-color:#128C4A!important;
+  box-shadow:0 8px 18px rgba(18,140,74,.28)!important}
+
+@media (max-width:1024px){
+  .rk-vertcat{max-height:none}
+  .rk-vertcat ul,.rk-vertcat__list{max-height:58vh!important}
+}
