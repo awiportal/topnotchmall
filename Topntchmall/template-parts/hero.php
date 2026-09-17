@@ -33,8 +33,24 @@ defined( 'ABSPATH' ) || exit;
 			$rk_shop = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/' );
 			if ( empty( $slides ) || ! is_array( $slides ) ) {
 				$slides = array(
-					array( 'img' => TOPNOTCH_URI . 'assets/img/banner-tools.jpg', 'title' => __( 'Power Tools & Hardware', 'topnotch-mall' ), 'text' => __( 'Genuine brands. Fair prices. Fast countrywide delivery.', 'topnotch-mall' ), 'url' => $rk_shop ),
-					array( 'img' => TOPNOTCH_URI . 'assets/img/banner-solar.jpg', 'title' => __( 'Solar Solutions', 'topnotch-mall' ), 'text' => __( 'Panels, inverters, batteries & street lights in stock.', 'topnotch-mall' ), 'url' => $rk_shop ),
+					array(
+						'img'   => TOPNOTCH_URI . 'assets/img/banner-tools.jpg',
+						'title' => __( 'Power tools built for the job', 'topnotch-mall' ),
+						'text'  => __( 'Genuine brands, honest prices, and same-day dispatch on Nairobi orders placed before 5pm.', 'topnotch-mall' ),
+						'url'   => $rk_shop,
+					),
+					array(
+						'img'   => TOPNOTCH_URI . 'assets/img/banner-solar.jpg',
+						'title' => __( 'Solar that keeps you running', 'topnotch-mall' ),
+						'text'  => __( 'Panels, hybrid inverters, deep-cycle batteries and street lights, in stock in Nairobi.', 'topnotch-mall' ),
+						'url'   => $rk_shop,
+					),
+					array(
+						'img'   => TOPNOTCH_URI . 'assets/img/banner-machinery.jpg',
+						'title' => __( 'Generators, welding & pumps', 'topnotch-mall' ),
+						'text'  => __( 'Heavy-duty machinery delivered countrywide, backed by manufacturer warranty.', 'topnotch-mall' ),
+						'url'   => $rk_shop,
+					),
 				);
 			}
 			foreach ( $slides as $i => $s ) {

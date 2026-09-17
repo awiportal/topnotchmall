@@ -1,0 +1,214 @@
+
+/* ============================================================
+   TOPNOTCH MALL - UI 3.0 "Aurora"
+   Loads last. A ground-up restyle of every surface: header,
+   hero, category rail, product cards, sections and footer.
+   Deliberately unlike the donor template: soft depth, generous
+   radii, a luminous green accent and an amber buy button that
+   never competes with WhatsApp green.
+   ============================================================ */
+
+:root{
+  --tn-green:#22C55E;          /* luminous brand green */
+  --tn-green-600:#16B85A;
+  --tn-green-700:#0C7A3B;      /* green text on white */
+  --tn-forest:#0B2A1D;         /* dark surface */
+  --tn-forest-800:#082116;
+  --tn-buy:#F59E0B;            /* AMBER - add to cart */
+  --tn-buy-600:#D98806;
+  --tn-buy-ink:#3B2606;
+  --tn-wa:#25D366;             /* WhatsApp, outline only */
+  --tn-ink:#15211A;
+  --tn-muted:#5C6B61;
+  --tn-line:#E4EBE6;
+  --tn-surface:#FFFFFF;
+  --tn-wash:#F4F9F5;
+  --tn-r-lg:20px;
+  --tn-r:14px;
+  --tn-r-sm:10px;
+  --tn-shadow-sm:0 1px 2px rgba(11,42,29,.06),0 2px 8px rgba(11,42,29,.05);
+  --tn-shadow:0 4px 12px rgba(11,42,29,.07),0 14px 34px rgba(11,42,29,.08);
+  --tn-shadow-lg:0 10px 24px rgba(11,42,29,.10),0 30px 60px rgba(11,42,29,.14);
+  --tn-ring:0 0 0 4px rgba(34,197,94,.28);
+}
+
+body{background:var(--tn-wash);color:var(--tn-ink);letter-spacing:-.005em}
+.container{max-width:1320px}
+
+/* ---------- Typography rhythm ---------- */
+h1,h2,h3,h4{font-family:var(--rk-font);font-weight:800;letter-spacing:-.02em;color:var(--tn-forest)}
+.rk-section{padding:26px 0}
+.rk-section__head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:18px;border:0;padding:0}
+.rk-section__head h2{position:relative;margin:0;font-size:1.45rem;text-transform:none;letter-spacing:-.02em;padding:0;border:0}
+.rk-section__head h2::before{content:"";display:block;width:38px;height:4px;border-radius:99px;background:linear-gradient(90deg,var(--tn-green),var(--tn-green-700));margin-bottom:10px}
+.rk-section__head .rk-viewmore{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--tn-line);
+  border-radius:99px;padding:8px 16px;font-weight:700;font-size:.85rem;color:var(--tn-green-700);text-transform:none;letter-spacing:0;box-shadow:var(--tn-shadow-sm)}
+.rk-section__head .rk-viewmore:hover{border-color:var(--tn-green);color:var(--tn-forest);transform:translateY(-1px)}
+
+/* ---------- Header ---------- */
+.rk-header__top{background:var(--tn-forest);color:#CFE6D8;font-size:.82rem}
+.rk-header__top a{color:#CFE6D8}
+.rk-header__top a:hover{color:var(--tn-green)}
+.rk-header__cutoff{opacity:1;color:#9FE7BC}
+.rk-header__mid{background:var(--tn-forest);padding:16px 0 18px;border-bottom:1px solid rgba(255,255,255,.06)}
+.rk-header__mid .container{grid-template-columns:215px 1fr auto;gap:28px}
+.rk-logo img{max-height:46px}
+
+.rk-search form{border-radius:99px;box-shadow:none;border:2px solid transparent;background:#fff;overflow:hidden;transition:border-color .16s,box-shadow .16s}
+.rk-search form:focus-within{border-color:var(--tn-green);box-shadow:var(--tn-ring)}
+.rk-search input{padding:.8rem 1.15rem;font-size:.95rem}
+.rk-search button{background:var(--tn-green);color:var(--tn-forest);font-weight:800;letter-spacing:.02em;padding:0 1.5rem;text-transform:none}
+.rk-search button:hover{background:var(--tn-green-600)}
+.rk-search__panel{border-radius:var(--tn-r);box-shadow:var(--tn-shadow-lg);border:1px solid var(--tn-line)}
+
+.rk-actions__item{border-radius:12px;padding:8px 12px;font-size:.7rem;font-weight:600}
+.rk-actions__item:hover{background:rgba(255,255,255,.10)}
+.rk-cart-count{background:var(--tn-buy);color:var(--tn-buy-ink);font-weight:900;box-shadow:0 0 0 3px var(--tn-forest)}
+
+.rk-nav{background:var(--tn-forest);border-top:1px solid rgba(255,255,255,.07)}
+.rk-nav ul{gap:4px}
+.rk-nav a{padding:13px 15px;font-size:.88rem;font-weight:600;letter-spacing:.01em;text-transform:none;border-radius:10px;color:#DCEFE4}
+.rk-nav a:hover,.rk-nav .current-menu-item>a{background:rgba(34,197,94,.16);color:#fff}
+.rk-header.is-stuck .rk-header__mid{box-shadow:0 10px 30px rgba(11,42,29,.28)}
+
+/* ---------- Hero: split layout, no boxed slider ---------- */
+.rk-hero{padding:22px 0 8px;background:
+  radial-gradient(1100px 380px at 12% -8%,rgba(34,197,94,.16),transparent 62%),
+  radial-gradient(900px 340px at 92% 0%,rgba(245,158,11,.13),transparent 60%)}
+.rk-hero .container{grid-template-columns:272px 1fr;gap:22px}
+
+.rk-vertcat{border:1px solid var(--tn-line);border-radius:var(--tn-r-lg);box-shadow:var(--tn-shadow-sm);background:#fff}
+.rk-vertcat h2{background:transparent;color:var(--tn-forest);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;
+  padding:16px 18px 8px;border-bottom:1px solid var(--tn-line);margin:0 0 6px}
+.rk-vertcat ul{padding:8px;max-height:378px}
+.rk-vertcat a{border-radius:10px;padding:10px 12px;font-size:.9rem;font-weight:500;color:var(--tn-ink)}
+.rk-vertcat a span{color:var(--tn-muted);font-size:.78rem;background:var(--tn-wash);border-radius:99px;padding:1px 9px}
+.rk-vertcat a:hover{background:rgba(34,197,94,.10);color:var(--tn-green-700)}
+.rk-vertcat a:hover span{background:#fff}
+
+.rk-slider{border-radius:var(--tn-r-lg);box-shadow:var(--tn-shadow);background:var(--tn-forest)}
+.rk-slide img{filter:saturate(1.03)}
+.rk-slide__promo{background:linear-gradient(90deg,rgba(8,33,22,.94) 0%,rgba(8,33,22,.78) 42%,rgba(8,33,22,0) 78%);
+  padding:clamp(20px,4vw,48px);max-width:none;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.rk-slide__promo h2{color:#fff;font-size:clamp(1.5rem,3.2vw,2.7rem);line-height:1.08;max-width:15ch;margin:0 0 .5rem;text-transform:none}
+.rk-slide__promo p{color:#CFE6D8;font-size:clamp(.92rem,1.25vw,1.06rem);max-width:34ch;margin:0 0 1.15rem}
+.rk-slide__promo .rk-btn,.rk-slide__promo .rk-btn--primary{background:var(--tn-green);color:var(--tn-forest);border-radius:99px;
+  padding:.85rem 1.7rem;font-weight:800;box-shadow:0 10px 26px rgba(34,197,94,.34)}
+.rk-slide__promo .rk-btn:hover{background:#fff;color:var(--tn-forest);transform:translateY(-2px)}
+.rk-slider__arrow{background:rgba(255,255,255,.14);border:0;color:#fff;backdrop-filter:blur(6px);width:44px;height:44px;border-radius:50%}
+.rk-slider__arrow:hover{background:#fff;color:var(--tn-forest)}
+.rk-slider__dots button{width:8px;height:8px;border-radius:99px;background:rgba(255,255,255,.45);transition:width .2s}
+.rk-slider__dots button[aria-current="true"]{background:var(--tn-green);width:26px}
+
+/* ---------- Trust band: floating card, not a stripe ---------- */
+.rk-trustband{background:transparent;padding:18px 0 4px;border:0}
+.rk-trustband__grid{background:#fff;border:1px solid var(--tn-line);border-radius:var(--tn-r-lg);box-shadow:var(--tn-shadow-sm);
+  padding:18px;gap:10px}
+.rk-trustband__item{gap:12px;padding:8px 12px;border-radius:var(--tn-r);border:0}
+.rk-trustband__item:hover{background:var(--tn-wash)}
+.rk-trustband__icon{width:42px;height:42px;border-radius:13px;background:rgba(34,197,94,.13)}
+.rk-trustband__icon svg{color:var(--tn-green-700)}
+.rk-trustband__text strong{font-size:.9rem;color:var(--tn-forest)}
+.rk-trustband__text span{font-size:.8rem;color:var(--tn-muted)}
+
+/* ---------- Category tiles ---------- */
+.rk-catgrid{gap:14px}
+.rk-catcard{background:#fff;border:1px solid var(--tn-line);border-radius:var(--tn-r-lg);padding:14px 12px 16px;
+  box-shadow:var(--tn-shadow-sm);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;text-align:center}
+.rk-catcard:hover{transform:translateY(-4px);box-shadow:var(--tn-shadow);border-color:rgba(34,197,94,.45)}
+.rk-catcard img{border-radius:var(--tn-r);background:var(--tn-wash);aspect-ratio:4/3;object-fit:cover;margin-bottom:12px}
+.rk-catcard h3{font-size:.92rem;margin:0 0 3px;text-transform:none;letter-spacing:-.01em}
+.rk-catcard small{color:var(--tn-muted);font-weight:600;font-size:.76rem}
+.rk-catscroll__arrow{background:#fff;border:1px solid var(--tn-line);color:var(--tn-forest);box-shadow:var(--tn-shadow-sm);width:40px;height:40px;border-radius:50%}
+.rk-catscroll__arrow:hover{background:var(--tn-green);border-color:var(--tn-green);color:var(--tn-forest)}
+
+/* ---------- Product cards ---------- */
+.rk-products{gap:16px}
+.rk-card,ul.products li.product{background:#fff;border:1px solid var(--tn-line);border-radius:var(--tn-r-lg);overflow:hidden;
+  box-shadow:var(--tn-shadow-sm);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;display:flex;flex-direction:column}
+.rk-card:hover,ul.products li.product:hover{transform:translateY(-5px);box-shadow:var(--tn-shadow-lg);border-color:rgba(34,197,94,.4)}
+.rk-card__media,ul.products li.product a img{background:#fff}
+.rk-card__media{padding:10px;background:linear-gradient(180deg,var(--tn-wash),#fff)}
+.rk-card__media img{border-radius:var(--tn-r-sm);aspect-ratio:1/1;object-fit:contain;mix-blend-mode:multiply}
+.rk-card__body{padding:4px 14px 14px;display:flex;flex-direction:column;gap:7px;flex:1}
+.rk-card__title,ul.products li.product .woocommerce-loop-product__title{font-size:.94rem;font-weight:700;line-height:1.35;color:var(--tn-ink);letter-spacing:-.01em}
+.rk-card__title a:hover{color:var(--tn-green-700)}
+.rk-card__desc{font-size:.82rem;color:var(--tn-muted);line-height:1.5}
+.rk-card__price,ul.products li.product .price{font-family:var(--rk-font);font-weight:900;font-size:1.18rem;color:var(--tn-forest);letter-spacing:-.02em}
+.rk-card__price del,ul.products li.product .price del{color:var(--tn-muted);font-weight:600;font-size:.86rem;opacity:.85}
+.rk-card__price ins{text-decoration:none}
+
+.rk-badge{border-radius:99px;font-weight:800;font-size:.68rem;letter-spacing:.06em;padding:5px 11px;text-transform:uppercase}
+.rk-badge--sale{background:var(--tn-buy);color:var(--tn-buy-ink);box-shadow:0 6px 16px rgba(245,158,11,.32)}
+.rk-badge--out{background:#F4F4F5;color:#6B7280}
+.rk-stock--in{color:var(--tn-green-700);font-weight:700;font-size:.78rem;display:inline-flex;align-items:center;gap:6px}
+.rk-stock--in::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--tn-green);box-shadow:0 0 0 3px rgba(34,197,94,.22)}
+
+/* ---------- Buttons: amber buy vs outlined WhatsApp ---------- */
+.rk-btn{border-radius:99px;font-weight:800;letter-spacing:.01em}
+.rk-btn--primary{background:var(--tn-green-700);color:#fff}
+.rk-btn--primary:hover{background:var(--tn-forest);color:#fff}
+.rk-btn--ghost{border:1.5px solid var(--tn-line);background:#fff;color:var(--tn-forest)}
+.rk-btn--ghost:hover{border-color:var(--tn-green);color:var(--tn-green-700)}
+
+/* every add-to-cart surface, wherever WooCommerce renders one */
+.rk-card .add_to_cart_button,
+.rk-add-to-cart,
+ul.products li.product .add_to_cart_button,
+.woocommerce a.button.add_to_cart_button,
+.woocommerce a.button.ajax_add_to_cart,
+.single-product .single_add_to_cart_button,
+.woocommerce .button.alt,
+.woocommerce #respond input#submit.alt,
+.checkout-button,.wc-proceed-to-checkout .checkout-button{
+  background:var(--tn-buy)!important;color:var(--tn-buy-ink)!important;border:0!important;
+  border-radius:99px!important;font-weight:800!important;letter-spacing:.02em!important;
+  box-shadow:0 6px 16px rgba(245,158,11,.30)!important;text-transform:uppercase!important;font-size:.8rem!important;padding:.72rem 1.1rem!important}
+.rk-card .add_to_cart_button:hover,
+.rk-add-to-cart:hover,
+ul.products li.product .add_to_cart_button:hover,
+.woocommerce a.button.add_to_cart_button:hover,
+.woocommerce a.button.ajax_add_to_cart:hover,
+.single-product .single_add_to_cart_button:hover,
+.woocommerce .button.alt:hover,
+.checkout-button:hover{background:var(--tn-buy-600)!important;color:#2A1B03!important;transform:translateY(-1px)}
+
+/* WhatsApp steps back to a secondary outline so the two no longer fight */
+.rk-wa-btn{background:#fff!important;color:#0F7A3C!important;border:1.5px solid rgba(37,211,102,.55)!important;
+  border-radius:99px!important;font-weight:700!important;font-size:.78rem!important;padding:.58rem 1rem!important;box-shadow:none!important}
+.rk-wa-btn:hover{background:var(--tn-wa)!important;color:#08321A!important;border-color:var(--tn-wa)!important}
+.rk-wa-btn svg{width:16px;height:16px}
+
+.rk-icon-btn{background:rgba(255,255,255,.94);border:1px solid var(--tn-line);border-radius:50%;box-shadow:var(--tn-shadow-sm)}
+.rk-icon-btn:hover{background:var(--tn-green);border-color:var(--tn-green);color:var(--tn-forest)}
+
+/* floating WhatsApp bubble keeps brand green - it is the only one left */
+.rk-whatsapp{box-shadow:0 12px 30px rgba(37,211,102,.38)}
+.rk-backtop{background:var(--tn-forest);color:#fff;border-radius:50%;box-shadow:var(--tn-shadow)}
+.rk-backtop:hover{background:var(--tn-green);color:var(--tn-forest)}
+
+/* ---------- Footer ---------- */
+.rk-footer{background:var(--tn-forest);color:#C8DDD1;position:relative;margin-top:30px}
+.rk-footer::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--tn-green),var(--tn-buy),var(--tn-green))}
+.rk-footer h3{color:#fff;font-size:.82rem;letter-spacing:.13em;text-transform:uppercase;position:relative;padding-bottom:12px;margin-bottom:14px}
+.rk-footer h3::after{background:var(--tn-green);width:28px;height:3px;border-radius:99px}
+.rk-footer a{color:#C8DDD1}
+.rk-footer a:hover{color:var(--tn-green)}
+.rk-footer li{margin-bottom:7px}
+.rk-payments span{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:99px;padding:6px 13px;font-size:.76rem;color:#DCEFE4}
+.rk-footer__bar{background:rgba(0,0,0,.24);font-size:.82rem;color:#9FB8A9}
+
+/* ---------- Focus + motion ---------- */
+:focus-visible{outline:3px solid var(--tn-green);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1024px){
+  .rk-hero .container{grid-template-columns:1fr}
+  .rk-vertcat{display:none}
+}
+@media (max-width:640px){
+  .rk-section__head h2{font-size:1.18rem}
+  .rk-slide__promo{background:linear-gradient(0deg,rgba(8,33,22,.95) 30%,rgba(8,33,22,.35) 100%)}
+  .rk-trustband__grid{padding:10px}
+}

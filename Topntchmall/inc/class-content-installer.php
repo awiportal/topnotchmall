@@ -21,7 +21,7 @@ final class Content_Installer {
 
 	private const FLAG = 'topnotch_content_installed_v1';
 	private const MENU_FLAG = 'topnotch_menus_v3';
-	private const CAT_IMG_FLAG = 'topnotch_cat_images_v1';
+	private const CAT_IMG_FLAG = 'topnotch_cat_images_v2';
 
 	public function hooks(): void {
 		add_action( 'admin_init', array( $this, 'install' ) );
@@ -496,8 +496,19 @@ final class Content_Installer {
 			if ( is_wp_error( $terms ) || empty( $terms ) ) {
 				return; // No terms yet; retry later without setting the flag.
 			}
+			// Categories whose bundled artwork was redrawn for the Aurora UI. For
+			// these we replace the existing thumbnail; every other category keeps
+			// the fill-only-if-empty behaviour so nothing chosen by hand is lost.
+			$refreshed = array(
+				'hardware-tools', 'water-pumps', 'drills', 'batteries', 'solar-panels',
+				'welding-machines', 'generators', 'saws', 'grinders', 'solar-inverters',
+			);
+
 			foreach ( $terms as $term ) {
-				if ( (int) get_term_meta( $term->term_id, 'thumbnail_id', true ) > 0 ) {
+				$has_thumb = (int) get_term_meta( $term->term_id, 'thumbnail_id', true ) > 0;
+				$slug_keys = array_unique( array( $term->slug, sanitize_title( $term->name ) ) );
+				$replace   = count( array_intersect( $slug_keys, $refreshed ) ) > 0;
+				if ( $has_thumb && $replace === false ) {
 					continue;
 				}
 				$file = '';

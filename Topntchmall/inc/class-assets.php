@@ -32,6 +32,8 @@ final class Assets {
 		wp_style_add_data( 'topnotch-theme', 'rtl', 'replace' );
 		wp_enqueue_style( 'topnotch-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap', array(), null );
 		wp_enqueue_style( 'topnotch-industrial', TOPNOTCH_URI . 'assets/css/theme-industrial.css', array( 'topnotch-theme' ), TOPNOTCH_VERSION );
+		// UI 3.0 "Aurora" - the current Topnotch Mall look. Loads last so it wins.
+		wp_enqueue_style( 'topnotch-ui', TOPNOTCH_URI . 'assets/css/theme-topnotch.css', array( 'topnotch-industrial' ), TOPNOTCH_VERSION );
 
 		wp_enqueue_script( 'topnotch-theme', TOPNOTCH_URI . 'assets/js/theme.js', array(), TOPNOTCH_VERSION, true );
 
