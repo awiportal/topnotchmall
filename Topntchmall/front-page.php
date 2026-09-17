@@ -2,7 +2,7 @@
 /**
  * Homepage: hero + vertical categories, featured categories, per-category product rows.
  *
- * @package ToptechMachinery
+ * @package TopnotchMall
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,7 +23,7 @@ get_header();
 	 * Customizer or by editing this array. Defaults reflect the imported catalogue.
 	 */
 	$rk_sections = apply_filters(
-		'toptech_homepage_categories',
+		'topnotch_homepage_categories',
 		array( 'water-pumps', 'power-tools', 'solar-panels', 'welding-machines', 'generators', 'batteries' )
 	);
 	foreach ( $rk_sections as $rk_slug ) {

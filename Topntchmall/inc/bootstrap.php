@@ -2,37 +2,37 @@
 /**
  * Instantiate theme modules on load (each guarded).
  *
- * @package ToptechMachinery
+ * @package TopnotchMall
  */
 
 declare( strict_types = 1 );
 
 defined( 'ABSPATH' ) || exit;
 
-require TOPTECH_DIR . 'inc/helpers.php';
+require TOPNOTCH_DIR . 'inc/helpers.php';
 
-$toptech_modules = array(
-	'ToptechMachinery\\Setup',
-	'ToptechMachinery\\Assets',
-	'ToptechMachinery\\Security',
-	'ToptechMachinery\\WooCommerce_Support',
-	'ToptechMachinery\\Ajax',
-	'ToptechMachinery\\Customizer',
-	'ToptechMachinery\\Schema',
-	'ToptechMachinery\\Content_Installer',
-	'ToptechMachinery\\Demo_Import',
-	'ToptechMachinery\\Single_Product',
-		'ToptechMachinery\\Merchant_Inspector',
+$topnotch_modules = array(
+	'TopnotchMall\\Setup',
+	'TopnotchMall\\Assets',
+	'TopnotchMall\\Security',
+	'TopnotchMall\\WooCommerce_Support',
+	'TopnotchMall\\Ajax',
+	'TopnotchMall\\Customizer',
+	'TopnotchMall\\Schema',
+	'TopnotchMall\\Content_Installer',
+	'TopnotchMall\\Demo_Import',
+	'TopnotchMall\\Single_Product',
+		'TopnotchMall\\Merchant_Inspector',
 );
 
-foreach ( $toptech_modules as $toptech_class ) {
+foreach ( $topnotch_modules as $topnotch_class ) {
 	try {
-		if ( class_exists( $toptech_class ) ) {
-			( new $toptech_class() )->hooks();
+		if ( class_exists( $topnotch_class ) ) {
+			( new $topnotch_class() )->hooks();
 		}
 	} catch ( \Throwable $e ) {
-		error_log( 'TopTech Machinery module ' . $toptech_class . ' failed: ' . $e->getMessage() );
+		error_log( 'Topnotch Mall module ' . $topnotch_class . ' failed: ' . $e->getMessage() );
 	}
 }
 
-require TOPTECH_DIR . 'inc/required-plugins.php';
+require TOPNOTCH_DIR . 'inc/required-plugins.php';

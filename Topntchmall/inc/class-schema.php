@@ -4,12 +4,12 @@
  * plus meta description and Open Graph / Twitter cards. Output is suppressed when a
  * dedicated SEO plugin (Yoast, Rank Math, SEOPress, AIOSEO) is active, to avoid duplicates.
  *
- * @package ToptechMachinery
+ * @package TopnotchMall
  */
 
 declare( strict_types = 1 );
 
-namespace ToptechMachinery;
+namespace TopnotchMall;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -96,7 +96,7 @@ final class Schema {
 			}
 		} elseif ( is_search() ) {
 			/* translators: %s: search query. */
-			$d = sprintf( __( 'Search results for "%s"', 'toptech-machinery' ), get_search_query() );
+			$d = sprintf( __( 'Search results for "%s"', 'topnotch-mall' ), get_search_query() );
 		}
 		$d = trim( preg_replace( '/\s+/', ' ', wp_strip_all_tags( (string) $d ) ) );
 		if ( '' === $d ) {
@@ -169,16 +169,46 @@ final class Schema {
 			'@type'     => array( 'Organization', 'Store' ),
 			'name'      => get_bloginfo( 'name' ),
 			'url'       => home_url( '/' ),
-			'email'     => get_theme_mod( 'toptech_email', 'info@toptechmachinery.co.ke' ),
-			'telephone' => get_theme_mod( 'toptech_phone', '0797 720290' ),
+			'email'     => get_theme_mod( 'topnotch_email', 'info@topnotchmall.co.ke' ),
+			'telephone' => get_theme_mod( 'topnotch_phone', '+254 708 777192' ),
 			'address'   => array(
 				'@type'           => 'PostalAddress',
-				'streetAddress'   => 'This & That Exhibition, Opp. Ronald Ngala Post Office, Shop G15, Ronald Ngala Street',
+				'streetAddress'   => 'Magomano House, Tom Mboya Street',
 				'addressLocality' => 'Nairobi',
 				'addressRegion'   => 'Nairobi',
 				'addressCountry'  => 'KE',
 			),
+			'areaServed'               => array( '@type' => 'Country', 'name' => 'Kenya' ),
+			'currenciesAccepted'       => 'KES',
+			'paymentAccepted'          => 'M-PESA, Visa, Mastercard, Cash on Delivery',
+			'openingHours'             => 'Mo-Sa 09:00-17:00',
+			'openingHoursSpecification' => array(
+				array(
+					'@type'     => 'OpeningHoursSpecification',
+					'dayOfWeek' => array( 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ),
+					'opens'     => '09:00',
+					'closes'    => '17:00',
+				),
+				array(
+					'@type'     => 'OpeningHoursSpecification',
+					'dayOfWeek' => array( 'Sunday' ),
+					'opens'     => '00:00',
+					'closes'    => '00:00',
+				),
+			),
 		);
+		$wa = function_exists( 'rk_whatsapp_number' ) ? rk_whatsapp_number() : '';
+		if ( '' \!== $wa ) {
+			$data['sameAs'] = array( 'https://wa.me/' . $wa );
+			$data['contactPoint'] = array(
+				'@type'             => 'ContactPoint',
+				'contactType'       => 'customer service',
+				'telephone'         => get_theme_mod( 'topnotch_phone', '+254 708 777192' ),
+				'email'             => get_theme_mod( 'topnotch_email', 'info@topnotchmall.co.ke' ),
+				'areaServed'        => 'KE',
+				'availableLanguage' => array( 'English', 'Swahili' ),
+			);
+		}
 		$logo = get_theme_mod( 'custom_logo' );
 		if ( $logo ) {
 			$src = wp_get_attachment_image_src( (int) $logo, 'full' );
@@ -225,9 +255,9 @@ final class Schema {
 		$items  = array();
 		$has_wc = function_exists( 'wc_get_page_permalink' );
 		if ( function_exists( 'is_product' ) && is_product() ) {
-			$items[] = array( home_url( '/' ), __( 'Home', 'toptech-machinery' ) );
+			$items[] = array( home_url( '/' ), __( 'Home', 'topnotch-mall' ) );
 			if ( $has_wc ) {
-				$items[] = array( wc_get_page_permalink( 'shop' ), __( 'Shop', 'toptech-machinery' ) );
+				$items[] = array( wc_get_page_permalink( 'shop' ), __( 'Shop', 'topnotch-mall' ) );
 			}
 			$terms = get_the_terms( get_queried_object_id(), 'product_cat' );
 			if ( $terms && ! is_wp_error( $terms ) ) {
@@ -239,9 +269,9 @@ final class Schema {
 			}
 			$items[] = array( get_permalink(), get_the_title() );
 		} elseif ( function_exists( 'is_product_taxonomy' ) && is_product_taxonomy() ) {
-			$items[] = array( home_url( '/' ), __( 'Home', 'toptech-machinery' ) );
+			$items[] = array( home_url( '/' ), __( 'Home', 'topnotch-mall' ) );
 			if ( $has_wc ) {
-				$items[] = array( wc_get_page_permalink( 'shop' ), __( 'Shop', 'toptech-machinery' ) );
+				$items[] = array( wc_get_page_permalink( 'shop' ), __( 'Shop', 'topnotch-mall' ) );
 			}
 			$obj = get_queried_object();
 			if ( $obj instanceof \WP_Term ) {

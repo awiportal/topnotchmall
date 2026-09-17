@@ -6,16 +6,16 @@
  * times out on shared hosting. We prompt only the essentials; users can add
  * SEO / caching / invoicing plugins later from Plugins > Add New.
  *
- * @package ToptechMachinery
+ * @package TopnotchMall
  */
 
 declare( strict_types = 1 );
 
 defined( 'ABSPATH' ) || exit;
 
-$toptech_tgmpa = TOPTECH_DIR . 'inc/tgmpa/class-tgm-plugin-activation.php';
-if ( is_readable( $toptech_tgmpa ) ) {
-	require $toptech_tgmpa;
+$topnotch_tgmpa = TOPNOTCH_DIR . 'inc/tgmpa/class-tgm-plugin-activation.php';
+if ( is_readable( $topnotch_tgmpa ) ) {
+	require $topnotch_tgmpa;
 }
 
 add_action(
@@ -34,8 +34,8 @@ add_action(
 		);
 
 		$config = array(
-			'id'           => 'toptech-machinery',
-			'menu'         => 'toptech-install-plugins',
+			'id'           => 'topnotch-mall',
+			'menu'         => 'topnotch-install-plugins',
 			'parent_slug'  => 'themes.php',
 			'capability'   => 'edit_theme_options',
 			'has_notices'  => true,

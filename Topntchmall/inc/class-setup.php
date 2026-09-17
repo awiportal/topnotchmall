@@ -2,12 +2,12 @@
 /**
  * Theme setup: supports, menus, image sizes, i18n.
  *
- * @package ToptechMachinery
+ * @package TopnotchMall
  */
 
 declare( strict_types = 1 );
 
-namespace ToptechMachinery;
+namespace TopnotchMall;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -30,7 +30,7 @@ final class Setup {
 	 * Declare theme feature supports.
 	 */
 	public function theme_supports(): void {
-		load_theme_textdomain( 'toptech-machinery', TOPTECH_DIR . 'languages' );
+		load_theme_textdomain( 'topnotch-mall', TOPNOTCH_DIR . 'languages' );
 
 		add_theme_support( 'title-tag' );
 		add_theme_support( 'post-thumbnails' );
@@ -59,11 +59,11 @@ final class Setup {
 	public function register_menus(): void {
 		register_nav_menus(
 			array(
-				'primary'        => __( 'Primary Navigation', 'toptech-machinery' ),
-				'vertical_cats'  => __( 'Hero Vertical Categories', 'toptech-machinery' ),
-				'footer_company' => __( 'Footer: Company', 'toptech-machinery' ),
-				'footer_service' => __( 'Footer: Customer Service', 'toptech-machinery' ),
-				'footer_policies'=> __( 'Footer: Policies', 'toptech-machinery' ),
+				'primary'        => __( 'Primary Navigation', 'topnotch-mall' ),
+				'vertical_cats'  => __( 'Hero Vertical Categories', 'topnotch-mall' ),
+				'footer_company' => __( 'Footer: Company', 'topnotch-mall' ),
+				'footer_service' => __( 'Footer: Customer Service', 'topnotch-mall' ),
+				'footer_policies'=> __( 'Footer: Policies', 'topnotch-mall' ),
 			)
 		);
 	}
@@ -72,9 +72,9 @@ final class Setup {
 	 * Register 1:1 product image size for uniform cards + hero.
 	 */
 	public function image_sizes(): void {
-		add_image_size( 'toptech-card', 600, 600, true );
-		add_image_size( 'toptech-hero', 1200, 500, true );
-		add_image_size( 'toptech-cat', 480, 360, true );
+		add_image_size( 'topnotch-card', 600, 600, true );
+		add_image_size( 'topnotch-hero', 1200, 500, true );
+		add_image_size( 'topnotch-cat', 480, 360, true );
 	}
 
 	/**
@@ -87,10 +87,10 @@ final class Setup {
 			'before_title'  => '<h3 class="widget__title">',
 			'after_title'   => '</h3>',
 		);
-		register_sidebar( array_merge( $defaults, array( 'name' => __( 'Shop Sidebar', 'toptech-machinery' ), 'id' => 'shop-sidebar' ) ) );
+		register_sidebar( array_merge( $defaults, array( 'name' => __( 'Shop Sidebar', 'topnotch-mall' ), 'id' => 'shop-sidebar' ) ) );
 		foreach ( array( 1, 2, 3, 4 ) as $i ) {
 			register_sidebar( array_merge( $defaults, array(
-				'name' => sprintf( __( 'Footer Column %d', 'toptech-machinery' ), $i ),
+				'name' => sprintf( __( 'Footer Column %d', 'topnotch-mall' ), $i ),
 				'id'   => 'footer-' . $i,
 			) ) );
 		}

@@ -2,7 +2,7 @@
 /**
  * Small template helpers.
  *
- * @package ToptechMachinery
+ * @package TopnotchMall
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -71,7 +71,7 @@ add_action( 'delete_product_cat', 'rk_bump_terms_version' );
  * Sanitised WhatsApp number (digits only), editable in Customizer > Contact.
  */
 function rk_whatsapp_number(): string {
-	$raw = (string) get_theme_mod( 'toptech_whatsapp', '254797720290' );
+	$raw = (string) get_theme_mod( 'topnotch_whatsapp', '254708777192' );
 	$num = preg_replace( '/[^0-9]/', '', $raw );
 	return is_string( $num ) ? $num : '';
 }
@@ -90,7 +90,7 @@ function rk_whatsapp_url( $product ): string {
 	$url  = method_exists( $product, 'get_permalink' ) ? $product->get_permalink() : '';
 	$text = sprintf(
 		/* translators: 1: product name, 2: product URL */
-		__( 'Hello, I would like to inquire about or order this item: %1$s - %2$s', 'toptech-machinery' ),
+		__( 'Hello, I would like to inquire about or order this item: %1$s - %2$s', 'topnotch-mall' ),
 		$name,
 		$url
 	);
@@ -115,6 +115,6 @@ function rk_whatsapp_button( $product, string $extra_class = '' ): string {
 		esc_attr( $cls ),
 		esc_url( $link ),
 		$svg,
-		esc_html__( 'Order on WhatsApp', 'toptech-machinery' )
+		esc_html__( 'Order on WhatsApp', 'topnotch-mall' )
 	);
 }

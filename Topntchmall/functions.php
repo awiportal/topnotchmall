@@ -1,33 +1,33 @@
 <?php
 /**
- * TopTech Machinery theme bootstrap.
+ * Topnotch Mall theme bootstrap.
  *
- * @package ToptechMachinery
+ * @package TopnotchMall
  */
 
 declare( strict_types = 1 );
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'TOPTECH_VERSION', '1.20.10' );
-define( 'TOPTECH_DIR', trailingslashit( get_template_directory() ) );
-define( 'TOPTECH_URI', trailingslashit( get_template_directory_uri() ) );
+define( 'TOPNOTCH_VERSION', '1.20.10' );
+define( 'TOPNOTCH_DIR', trailingslashit( get_template_directory() ) );
+define( 'TOPNOTCH_URI', trailingslashit( get_template_directory_uri() ) );
 
 /**
- * PSR-4-style autoloader for the ToptechMachinery\ namespace (inc/ directory).
+ * PSR-4-style autoloader for the TopnotchMall\ namespace (inc/ directory).
  */
 spl_autoload_register(
 	static function ( $class ) {
 		if ( ! is_string( $class ) ) {
 			return;
 		}
-		$prefix = 'ToptechMachinery\\';
+		$prefix = 'TopnotchMall\\';
 		if ( 0 !== strpos( $class, $prefix ) ) {
 			return;
 		}
 		$relative = substr( $class, strlen( $prefix ) );
 		$relative = strtolower( str_replace( array( '\\', '_' ), array( '/', '-' ), $relative ) );
-		$file     = TOPTECH_DIR . 'inc/class-' . $relative . '.php';
+		$file     = TOPNOTCH_DIR . 'inc/class-' . $relative . '.php';
 		if ( is_readable( $file ) ) {
 			require $file;
 		}
@@ -39,15 +39,15 @@ spl_autoload_register(
  * the entire site, and (in the admin) surfaced as a dismissible notice.
  */
 try {
-	require TOPTECH_DIR . 'inc/bootstrap.php';
+	require TOPNOTCH_DIR . 'inc/bootstrap.php';
 } catch ( \Throwable $e ) {
-	error_log( 'TopTech Machinery bootstrap error: ' . $e->getMessage() . ' @ ' . $e->getFile() . ':' . $e->getLine() );
+	error_log( 'Topnotch Mall bootstrap error: ' . $e->getMessage() . ' @ ' . $e->getFile() . ':' . $e->getLine() );
 	if ( is_admin() ) {
 		add_action(
 			'admin_notices',
 			static function () use ( $e ) {
 				printf(
-					'<div class="notice notice-error"><p><strong>TopTech Machinery:</strong> %s</p></div>',
+					'<div class="notice notice-error"><p><strong>Topnotch Mall:</strong> %s</p></div>',
 					esc_html( $e->getMessage() )
 				);
 			}

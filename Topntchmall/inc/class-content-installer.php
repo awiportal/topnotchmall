@@ -2,15 +2,15 @@
 /**
  * Auto-creates the legal / informational pages (fully editable) and builds
  * navigation menus when the theme is activated. All content uses the real
- * TopTech Machinery business details and is written to satisfy Google Merchant
+ * Topnotch Mall business details and is written to satisfy Google Merchant
  * Center and standard e-commerce trust requirements.
  *
- * @package ToptechMachinery
+ * @package TopnotchMall
  */
 
 declare( strict_types = 1 );
 
-namespace ToptechMachinery;
+namespace TopnotchMall;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -19,9 +19,9 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Content_Installer {
 
-	private const FLAG = 'toptech_content_installed_v1';
-	private const MENU_FLAG = 'toptech_menus_v2';
-	private const CAT_IMG_FLAG = 'toptech_cat_images_v1';
+	private const FLAG = 'topnotch_content_installed_v1';
+	private const MENU_FLAG = 'topnotch_menus_v2';
+	private const CAT_IMG_FLAG = 'topnotch_cat_images_v1';
 
 	public function hooks(): void {
 		add_action( 'admin_init', array( $this, 'install' ) );
@@ -54,7 +54,7 @@ final class Content_Installer {
 			$this->build_menus( $ids );
 			update_option( self::FLAG, time() );
 		} catch ( \Throwable $e ) {
-			error_log( 'TopTech Machinery content install failed: ' . $e->getMessage() );
+			error_log( 'Topnotch Mall content install failed: ' . $e->getMessage() );
 		}
 	}
 
@@ -66,7 +66,7 @@ final class Content_Installer {
 	 * Runs once (own flag) so it applies even if pages were already installed.
 	 */
 	public function ensure_front_page(): void {
-		if ( get_option( 'toptech_front_page_v1' ) ) {
+		if ( get_option( 'topnotch_front_page_v1' ) ) {
 			return;
 		}
 		if ( ! function_exists( 'current_user_can' ) || ! current_user_can( 'edit_theme_options' ) ) {
@@ -91,9 +91,9 @@ final class Content_Installer {
 				update_option( 'show_on_front', 'page' );
 				update_option( 'page_on_front', (int) $home_id );
 			}
-			update_option( 'toptech_front_page_v1', time() );
+			update_option( 'topnotch_front_page_v1', time() );
 		} catch ( \Throwable $e ) {
-			error_log( 'TopTech Machinery front page setup failed: ' . $e->getMessage() );
+			error_log( 'Topnotch Mall front page setup failed: ' . $e->getMessage() );
 		}
 	}
 
@@ -141,7 +141,7 @@ final class Content_Installer {
 			$this->build_menus( $ids );
 			update_option( self::MENU_FLAG, time() );
 		} catch ( \Throwable $e ) {
-			error_log( 'TopTech Machinery menu sync failed: ' . $e->getMessage() );
+			error_log( 'Topnotch Mall menu sync failed: ' . $e->getMessage() );
 		}
 	}
 
@@ -192,7 +192,7 @@ final class Content_Installer {
 				}
 			}
 			if ( $menu_id < 1 ) {
-				$menu_name = 'TopTech ' . $location;
+				$menu_name = 'Topnotch ' . $location;
 				$menu      = wp_get_nav_menu_object( $menu_name );
 				$created   = $menu ? (int) $menu->term_id : wp_create_nav_menu( $menu_name );
 				if ( is_wp_error( $created ) ) {
@@ -253,19 +253,23 @@ final class Content_Installer {
 	 * @return array<string,array{title:string,content:string}>
 	 */
 	private function pages(): array {
-        $name  = 'TopTech Machinery';
-        $phone = '0797 720290';
-        $mail  = 'info@toptechmachinery.co.ke';
-        $addr  = 'This & That Exhibition, Opp. Ronald Ngala Post Office, Shop G15, Ronald Ngala Street, Nairobi, Kenya';
+        $name   = 'Topnotch Mall';
+        $phone  = (string) get_theme_mod( 'topnotch_phone', '+254 708 777192' );
+        $mail   = (string) get_theme_mod( 'topnotch_email', 'info@topnotchmall.co.ke' );
+        $addr   = (string) get_theme_mod( 'topnotch_address', 'Magomano House, Tom Mboya Street, Nairobi, Kenya' );
+        $wa     = function_exists( 'rk_whatsapp_number' ) ? rk_whatsapp_number() : '254708777192';
+        $tel    = '+' . ( '' === $wa ? '254708777192' : $wa );
+        $hours  = (string) get_theme_mod( 'topnotch_hours', 'Mon - Sat, 9AM - 5PM' );
+        $cutoff = (string) get_theme_mod( 'topnotch_cutoff', '5:00pm' );
 
         return array(
             'about-us' => array(
                 'title'   => 'About Us',
-                'content' => "<p>{$name} is a Nairobi-based supplier of power tools, solar equipment, generators, water pumps, welding machines and general hardware. We sell to contractors, fundis, farmers, businesses and homeowners, and we deliver across Kenya.</p><h2>What we sell</h2><p>We stock well-known brands such as Total, Ingco, Makita, DeWalt, Bosch, Honda and Solarmax, alongside dependable value options. Everything we carry comes from authorised distributors, so the item you buy is genuine and covered by the manufacturer's warranty.</p><h2>How we work</h2><p>Prices are shown clearly in Kenya Shillings, with nothing hidden. If you are not sure which tool or machine suits the job, call or WhatsApp us and we will help you decide. Orders placed before our afternoon cut-off in Nairobi are usually sent out the same day.</p><h2>Come and see us</h2><p>Visit the shop at {$addr}, open Monday to Saturday, 8:00am to 6:00pm. You can also reach us on {$phone} or at {$mail}.</p>",
+                'content' => "<p>{$name} is a Nairobi-based supplier of power tools, solar equipment, generators, water pumps, welding machines and general hardware. We sell to contractors, fundis, farmers, businesses and homeowners, and we deliver across Kenya.</p><h2>What we sell</h2><p>We stock well-known brands such as Total, Ingco, Makita, DeWalt, Bosch, Honda and Solarmax, alongside dependable value options. Everything we carry comes from authorised distributors, so the item you buy is genuine and covered by the manufacturer's warranty.</p><h2>How we work</h2><p>Prices are shown clearly in Kenya Shillings, with nothing hidden. If you are not sure which tool or machine suits the job, call or WhatsApp us and we will help you decide. Orders placed before our 5:00pm cut-off are usually sent out the same day.</p><h2>Come and see us</h2><p>Visit the shop at {$addr}, open Monday to Saturday, 9:00am to 5:00pm. You can also reach us on {$phone} or at {$mail}.</p>",
             ),
             'contact-us' => array(
                 'title'   => 'Contact Us',
-                'content' => "<p>You can reach {$name} by phone, WhatsApp, email or in person at our Nairobi shop. We answer most calls and messages the same day during opening hours.</p><h2>Phone and WhatsApp</h2><p>Call or message us on {$phone}. WhatsApp is usually the quickest way to send a photo of what you need or to place an order.</p><h2>Email</h2><p>Write to us at {$mail}. Please include your order number if your message is about an order you have already placed.</p><h2>Our shop</h2><p>{$addr}</p><p>Open Monday to Saturday, 8:00am to 6:00pm. Closed on Sundays and public holidays.</p><h2>Send us a message</h2><p>The quickest way to reach us is a call or WhatsApp on {$phone}. You can also email us and we will reply within one working day.</p><p class=\"rk-contact-actions\"><a class=\"rk-btn rk-btn--primary\" href=\"tel:+254797720290\">Call {$phone}</a> <a class=\"rk-btn rk-btn--primary\" href=\"https://wa.me/254797720290\">WhatsApp us</a> <a class=\"rk-btn rk-btn--ghost\" href=\"mailto:{$mail}\">Email us</a></p>",
+                'content' => "<p>You can reach {$name} by phone, WhatsApp, email or in person at our Nairobi shop. We answer most calls and messages the same day during opening hours.</p><h2>Phone and WhatsApp</h2><p>Call or message us on {$phone}. WhatsApp is usually the quickest way to send a photo of what you need or to place an order.</p><h2>Email</h2><p>Write to us at {$mail}. Please include your order number if your message is about an order you have already placed.</p><h2>Our shop</h2><p>{$addr}</p><p>Open Monday to Saturday, 9:00am to 5:00pm. Closed on Sundays and public holidays.</p><h2>Send us a message</h2><p>The quickest way to reach us is a call or WhatsApp on {$phone}. You can also email us and we will reply within one working day.</p><p class=\"rk-contact-actions\"><a class=\"rk-btn rk-btn--primary\" href=\"tel:{$tel}\">Call {$phone}</a> <a class=\"rk-btn rk-btn--primary\" href=\"https://wa.me/{$wa}\">WhatsApp us</a> <a class=\"rk-btn rk-btn--ghost\" href=\"mailto:{$mail}\">Email us</a></p>",
             ),
             'privacy-policy' => array(
                 'title'   => 'Privacy Policy',
@@ -277,7 +281,7 @@ final class Content_Installer {
             ),
             'shipping-delivery-policy' => array(
                 'title'   => 'Shipping &amp; Delivery Policy',
-                'content' => "<p><em>Last updated: 1 September 2026</em></p><p>We deliver across Kenya from our shop in Nairobi. This page explains how long delivery takes and what it costs.</p><h2>Where we deliver</h2><p>We deliver countrywide. Within Nairobi we use our own riders and trusted courier partners; upcountry we send orders through established parcel and courier services.</p><h2>How long it takes</h2><p>Nairobi and its environs: same day or next day for orders confirmed before 3:00pm on a working day. Major towns such as Mombasa, Kisumu, Nakuru and Eldoret: one to three working days. Other areas: two to five working days, usually to the nearest courier office where there is no door delivery.</p><h2>Delivery charges</h2><p>The fee depends on your location and the size and weight of the order. It is worked out and shown at checkout before you pay. For orders placed by phone or WhatsApp we quote the fee before you confirm. Some promotions include free delivery, which we state at the time.</p><h2>Large and heavy items</h2><p>Generators, welding machines, solar panels and similar heavy goods sometimes need special transport. Where that changes the cost or timing of your delivery, we let you know before dispatch.</p><h2>Collecting from the shop</h2><p>You are welcome to collect your order yourself from {$addr}. Please wait for our message confirming the order is ready before you travel.</p><h2>Delays</h2><p>Most orders arrive on time, but weather, poor roads or courier backlogs can occasionally cause a delay. If anything is going to be late, we will call you.</p><h2>Questions</h2><p>For anything to do with delivery, call or WhatsApp {$phone} or email {$mail} with your order number.</p>",
+                'content' => "<p><em>Last updated: 1 September 2026</em></p><p>We deliver across Kenya from our shop in Nairobi. This page explains how long delivery takes and what it costs.</p><h2>Where we deliver</h2><p>We deliver countrywide. Within Nairobi we use our own riders and trusted courier partners; upcountry we send orders through established parcel and courier services.</p><h2>How long it takes</h2><p>Nairobi and its environs: same day or next day for orders confirmed before our 5:00pm cut-off on a working day. Major towns such as Mombasa, Kisumu, Nakuru and Eldoret: one to three working days. Other areas: two to five working days, usually to the nearest courier office where there is no door delivery.</p><h2>Delivery charges</h2><p>The fee depends on your location and the size and weight of the order. It is worked out and shown at checkout before you pay. For orders placed by phone or WhatsApp we quote the fee before you confirm. Some promotions include free delivery, which we state at the time.</p><h2>Large and heavy items</h2><p>Generators, welding machines, solar panels and similar heavy goods sometimes need special transport. Where that changes the cost or timing of your delivery, we let you know before dispatch.</p><h2>Collecting from the shop</h2><p>You are welcome to collect your order yourself from {$addr}. Please wait for our message confirming the order is ready before you travel.</p><h2>Delays</h2><p>Most orders arrive on time, but weather, poor roads or courier backlogs can occasionally cause a delay. If anything is going to be late, we will call you.</p><h2>Questions</h2><p>For anything to do with delivery, call or WhatsApp {$phone} or email {$mail} with your order number.</p>",
             ),
             'return-refund-policy' => array(
                 'title'   => 'Return &amp; Refund Policy',
@@ -297,7 +301,7 @@ final class Content_Installer {
             ),
             'faq' => array(
                 'title'   => 'Frequently Asked Questions',
-                'content' => "<h2>Ordering</h2><p><strong>How do I place an order?</strong><br>Add what you want to the cart and check out, or simply call or WhatsApp us on {$phone} and we will place it for you.</p><p><strong>Are your products genuine?</strong><br>Yes. We buy only from authorised distributors, and our products come with the manufacturer's warranty.</p><h2>Payment</h2><p><strong>How can I pay?</strong><br>By M-PESA, Visa or Mastercard, or cash on delivery where it is available. See the Payment Methods page for more.</p><h2>Delivery</h2><p><strong>Do you deliver countrywide?</strong><br>Yes. Nairobi orders often arrive the same or next day, and upcountry orders take a few days depending on your location. See the Shipping &amp; Delivery Policy.</p><p><strong>Can I collect my order myself?</strong><br>Yes, from our shop at {$addr} once we confirm it is ready.</p><h2>Returns and warranty</h2><p><strong>What if my item is faulty or wrong?</strong><br>Get in touch within 7 days and we will arrange a return, or help you with a warranty claim. See the Return &amp; Refund Policy and Warranty Policy.</p><h2>Talk to us</h2><p><strong>How do I reach you?</strong><br>Call or WhatsApp {$phone}, email {$mail}, or visit the shop Monday to Saturday, 8:00am to 6:00pm.</p>",
+                'content' => "<h2>Ordering</h2><p><strong>How do I place an order?</strong><br>Add what you want to the cart and check out, or simply call or WhatsApp us on {$phone} and we will place it for you.</p><p><strong>Are your products genuine?</strong><br>Yes. We buy only from authorised distributors, and our products come with the manufacturer's warranty.</p><h2>Payment</h2><p><strong>How can I pay?</strong><br>By M-PESA, Visa or Mastercard, or cash on delivery where it is available. See the Payment Methods page for more.</p><h2>Delivery</h2><p><strong>Do you deliver countrywide?</strong><br>Yes. Nairobi orders often arrive the same or next day, and upcountry orders take a few days depending on your location. See the Shipping &amp; Delivery Policy.</p><p><strong>Can I collect my order myself?</strong><br>Yes, from our shop at {$addr} once we confirm it is ready.</p><h2>Returns and warranty</h2><p><strong>What if my item is faulty or wrong?</strong><br>Get in touch within 7 days and we will arrange a return, or help you with a warranty claim. See the Return &amp; Refund Policy and Warranty Policy.</p><h2>Talk to us</h2><p><strong>How do I reach you?</strong><br>Call or WhatsApp {$phone}, email {$mail}, or visit the shop Monday to Saturday, 9:00am to 5:00pm.</p>",
             ),
             'track-order' => array(
                 'title'   => 'Track Order',
@@ -312,7 +316,7 @@ final class Content_Installer {
      * pages or clobbering later manual edits. Idempotent (own flag).
      */
     public function refresh_pages_content(): void {
-        if ( get_option( 'toptech_pages_content_v3' ) ) {
+        if ( get_option( 'topnotch_pages_content_v3' ) ) {
             return;
         }
         if ( function_exists( 'current_user_can' ) === false || current_user_can( 'edit_theme_options' ) === false ) {
@@ -331,9 +335,9 @@ final class Content_Installer {
                     )
                 );
             }
-            update_option( 'toptech_pages_content_v3', time() );
+            update_option( 'topnotch_pages_content_v3', time() );
         } catch ( \Throwable $e ) {
-            error_log( 'TopTech Machinery pages content refresh failed: ' . $e->getMessage() );
+            error_log( 'Topnotch Mall pages content refresh failed: ' . $e->getMessage() );
         }
     }
 
@@ -396,7 +400,7 @@ final class Content_Installer {
 			}
 			update_option( self::CAT_IMG_FLAG, time() );
 		} catch ( \Throwable $e ) {
-			error_log( 'TopTech Machinery category image sync failed: ' . $e->getMessage() );
+			error_log( 'Topnotch Mall category image sync failed: ' . $e->getMessage() );
 		}
 	}
 
@@ -431,7 +435,7 @@ final class Content_Installer {
 	 * matching strings inside the auto-generated info / legal pages. Idempotent.
 	 */
 	public function refresh_contact_details(): void {
-		if ( get_option( 'toptech_contact_refresh_v1' ) ) {
+		if ( get_option( 'topnotch_contact_refresh_v1' ) ) {
 			return;
 		}
 		if ( function_exists( 'current_user_can' ) === false || current_user_can( 'edit_theme_options' ) === false ) {
@@ -439,9 +443,11 @@ final class Content_Installer {
 		}
 		try {
 			$mods = array(
-				'toptech_phone'    => array( '0719 261277', '0797 720290' ),
-				'toptech_whatsapp' => array( '254719261277', '254797720290' ),
-				'toptech_address'  => array( 'Royal Palms Mall, Shop No. BG 55, Nairobi, Kenya', 'This & That Exhibition, Opp. Ronald Ngala Post Office, Shop G15, Ronald Ngala Street, Nairobi, Kenya' ),
+				'topnotch_phone'    => array( '0797 720290', '+254 708 777192' ),
+				'topnotch_email'    => array( 'info@toptechmachinery.co.ke', 'info@topnotchmall.co.ke' ),
+				'topnotch_hours'    => array( 'Mon-Sat 8:00am - 6:00pm', 'Mon - Sat, 9AM - 5PM' ),
+				'topnotch_whatsapp' => array( '254797720290', '254708777192' ),
+				'topnotch_address'  => array( 'This & That Exhibition, Opp. Ronald Ngala Post Office, Shop G15, Ronald Ngala Street, Nairobi, Kenya', 'Magomano House, Tom Mboya Street, Nairobi, Kenya' ),
 			);
 			foreach ( $mods as $key => $pair ) {
 				if ( get_theme_mod( $key ) === $pair[0] ) {
@@ -449,10 +455,17 @@ final class Content_Installer {
 				}
 			}
 			$repl = array(
-				'Royal Palms Mall, Shop No. BG 55, Nairobi, Kenya' => 'This & That Exhibition, Opp. Ronald Ngala Post Office, Shop G15, Ronald Ngala Street, Nairobi, Kenya',
-				'Royal Palms Mall, Shop No. BG 55'                 => 'This & That Exhibition, Opp. Ronald Ngala Post Office, Shop G15, Ronald Ngala Street',
-				'0719 261277'                                      => '0797 720290',
-				'254719261277'                                     => '254797720290',
+				'This & That Exhibition, Opp. Ronald Ngala Post Office, Shop G15, Ronald Ngala Street, Nairobi, Kenya' => 'Magomano House, Tom Mboya Street, Nairobi, Kenya',
+				'This & That Exhibition, Opp. Ronald Ngala Post Office, Shop G15, Ronald Ngala Street' => 'Magomano House, Tom Mboya Street',
+				'Royal Palms Mall, Shop No. BG 55, Nairobi, Kenya'  => 'Magomano House, Tom Mboya Street, Nairobi, Kenya',
+				'TopTech Machinery'                                => 'Topnotch Mall',
+				'info@toptechmachinery.co.ke'                      => 'info@topnotchmall.co.ke',
+				'0797 720290'                                      => '+254 708 777192',
+				'0719 261277'                                      => '+254 708 777192',
+				'254797720290'                                     => '254708777192',
+				'254719261277'                                     => '254708777192',
+				'8:00am to 6:00pm'                                 => '9:00am to 5:00pm',
+				'8:00am - 6:00pm'                                  => '9:00am - 5:00pm',
 			);
 			$slugs = array(
 				'about-us', 'contact-us', 'payment-methods', 'return-refund-policy',
@@ -471,9 +484,9 @@ final class Content_Installer {
 				}
 				wp_update_post( array( 'ID' => (int) $page->ID, 'post_content' => $updated ) );
 			}
-			update_option( 'toptech_contact_refresh_v1', time() );
+			update_option( 'topnotch_contact_refresh_v1', time() );
 		} catch ( \Throwable $e ) {
-			error_log( 'TopTech Machinery contact refresh failed: ' . $e->getMessage() );
+			error_log( 'Topnotch Mall contact refresh failed: ' . $e->getMessage() );
 		}
 	}
 
@@ -483,7 +496,7 @@ final class Content_Installer {
 	 * email, even before anyone opens the Customizer. Only fills empty values.
 	 */
 	public function seed_contact_defaults(): void {
-		if ( get_option( 'toptech_contact_seed_v1' ) ) {
+		if ( get_option( 'topnotch_contact_seed_v1' ) ) {
 			return;
 		}
 		if ( function_exists( 'current_user_can' ) === false || current_user_can( 'edit_theme_options' ) === false ) {
@@ -491,26 +504,26 @@ final class Content_Installer {
 		}
 		try {
 			$defaults = array(
-				'toptech_phone'    => '0797 720290',
-				'toptech_email'    => 'info@toptechmachinery.co.ke',
-				'toptech_hours'    => 'Mon-Sat 8:00am - 6:00pm',
-				'toptech_address'  => 'This & That Exhibition, Opp. Ronald Ngala Post Office, Shop G15, Ronald Ngala Street, Nairobi, Kenya',
-				'toptech_whatsapp' => '254797720290',
+				'topnotch_phone'    => '+254 708 777192',
+				'topnotch_email'    => 'info@topnotchmall.co.ke',
+				'topnotch_hours'    => 'Mon - Sat, 9AM - 5PM',
+				'topnotch_address'  => 'Magomano House, Tom Mboya Street, Nairobi, Kenya',
+				'topnotch_whatsapp' => '254708777192',
 			);
 			foreach ( $defaults as $key => $val ) {
 				if ( trim( (string) get_theme_mod( $key, '' ) ) === '' ) {
 					set_theme_mod( $key, $val );
 				}
 			}
-			update_option( 'toptech_contact_seed_v1', time() );
+			update_option( 'topnotch_contact_seed_v1', time() );
 		} catch ( \Throwable $e ) {
-			error_log( 'TopTech Machinery contact seed failed: ' . $e->getMessage() );
+			error_log( 'Topnotch Mall contact seed failed: ' . $e->getMessage() );
 		}
 	}
 
 	/**
 	 * One-time cleanup: strip leftover competitor brand references from product
-	 * content. Earlier product copy contained "Ricky Power Tools" (and a
+	 * content. Earlier product copy contained "Topnotch Mall" (and a
 	 * truncated "from Ricky.") which was bulk-replaced in the database; this
 	 * migration self-heals any residual mentions on deploy so no stray copy
 	 * survives in titles, descriptions, short descriptions or stored SEO meta.
@@ -518,7 +531,7 @@ final class Content_Installer {
 	 * for the full phrase, and runs once (own flag). Idempotent.
 	 */
 	public function cleanup_competitor_brand(): void {
-		if ( get_option( 'toptech_brand_cleanup_v1' ) ) {
+		if ( get_option( 'topnotch_brand_cleanup_v1' ) ) {
 			return;
 		}
 		if ( function_exists( 'current_user_can' ) === false || current_user_can( 'edit_theme_options' ) === false ) {
@@ -530,8 +543,8 @@ final class Content_Installer {
 				return;
 			}
 			$clean = static function ( string $value ): string {
-				$value = str_ireplace( 'Ricky Power Tools', 'TopTech Machinery', $value );
-				$value = strtr( $value, array( 'from Ricky.' => 'from TopTech Machinery.' ) );
+				$value = str_ireplace( 'Topnotch Mall', 'Topnotch Mall', $value );
+				$value = strtr( $value, array( 'from Ricky.' => 'from Topnotch Mall.' ) );
 				return $value;
 			};
 			$like = '%' . $wpdb->esc_like( 'Ricky' ) . '%';
@@ -581,9 +594,9 @@ final class Content_Installer {
 					}
 				}
 			}
-			update_option( 'toptech_brand_cleanup_v1', time() );
+			update_option( 'topnotch_brand_cleanup_v1', time() );
 		} catch ( \Throwable $e ) {
-			error_log( 'TopTech Machinery brand cleanup failed: ' . $e->getMessage() );
+			error_log( 'Topnotch Mall brand cleanup failed: ' . $e->getMessage() );
 		}
 	}
 
@@ -598,7 +611,7 @@ final class Content_Installer {
 	 * Idempotent.
 	 */
 	public function reclassify_dewalt_welders(): void {
-		if ( get_option( 'toptech_brand_reclass_v1' ) ) {
+		if ( get_option( 'topnotch_brand_reclass_v1' ) ) {
 			return;
 		}
 		if ( function_exists( 'current_user_can' ) === false || current_user_can( 'edit_theme_options' ) === false ) {
@@ -664,9 +677,9 @@ final class Content_Installer {
 					wp_set_object_terms( (int) $target_id, array( $brand_term_id ), 'product_brand', false );
 				}
 			}
-			update_option( 'toptech_brand_reclass_v1', time() );
+			update_option( 'topnotch_brand_reclass_v1', time() );
 		} catch ( \Throwable $e ) {
-			error_log( 'TopTech Machinery brand reclassification failed: ' . $e->getMessage() );
+			error_log( 'Topnotch Mall brand reclassification failed: ' . $e->getMessage() );
 		}
 	}
 }

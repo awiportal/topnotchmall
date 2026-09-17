@@ -3,7 +3,7 @@
  * Uniform product card (homepage rows + archives).
  * Overrides woocommerce/templates/content-product.php.
  *
- * @package ToptechMachinery
+ * @package TopnotchMall
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,11 +18,11 @@ if ( empty( $product ) || ! $product->is_visible() ) {
 
 	<div class="rk-card__media">
 		<a href="<?php the_permalink(); ?>" aria-label="<?php echo esc_attr( $product->get_name() ); ?>">
-			<?php echo $product->get_image( 'toptech-card', array( 'loading' => 'lazy', 'decoding' => 'async' ) ); // phpcs:ignore ?>
+			<?php echo $product->get_image( 'topnotch-card', array( 'loading' => 'lazy', 'decoding' => 'async' ) ); // phpcs:ignore ?>
 		</a>
 		<div class="rk-card__actions">
-			<button type="button" class="rk-icon-btn rk-wishlist" data-id="<?php echo esc_attr( $product->get_id() ); ?>" aria-label="<?php esc_attr_e( 'Add to wishlist', 'toptech-machinery' ); ?>">&#9825;</button>
-			<a class="rk-icon-btn rk-quickview" href="<?php the_permalink(); ?>" aria-label="<?php esc_attr_e( 'Quick view', 'toptech-machinery' ); ?>">&#128065;</a>
+			<button type="button" class="rk-icon-btn rk-wishlist" data-id="<?php echo esc_attr( $product->get_id() ); ?>" aria-label="<?php esc_attr_e( 'Add to wishlist', 'topnotch-mall' ); ?>">&#9825;</button>
+			<a class="rk-icon-btn rk-quickview" href="<?php the_permalink(); ?>" aria-label="<?php esc_attr_e( 'Quick view', 'topnotch-mall' ); ?>">&#128065;</a>
 		</div>
 	</div>
 
@@ -37,17 +37,17 @@ if ( empty( $product ) || ! $product->is_visible() ) {
 	<?php endif; ?>
 
 	<span class="rk-stock <?php echo $product->is_in_stock() ? 'rk-stock--in' : 'rk-stock--out'; ?>">
-		<?php echo $product->is_in_stock() ? esc_html__( 'In stock', 'toptech-machinery' ) : esc_html__( 'Out of stock', 'toptech-machinery' ); ?>
+		<?php echo $product->is_in_stock() ? esc_html__( 'In stock', 'topnotch-mall' ) : esc_html__( 'Out of stock', 'topnotch-mall' ); ?>
 	</span>
 
 	<div class="rk-card__price"><?php echo $product->get_price_html(); // phpcs:ignore ?></div>
 
 	<?php if ( $product->is_type( 'simple' ) && $product->is_purchasable() && $product->is_in_stock() ) : ?>
-		<button type="button" class="rk-btn rk-btn--primary rk-btn--block" data-toptech-add="<?php echo esc_attr( $product->get_id() ); ?>">
-			<?php esc_html_e( 'Add to Cart', 'toptech-machinery' ); ?>
+		<button type="button" class="rk-btn rk-btn--primary rk-btn--block" data-topnotch-add="<?php echo esc_attr( $product->get_id() ); ?>">
+			<?php esc_html_e( 'Add to Cart', 'topnotch-mall' ); ?>
 		</button>
 	<?php else : ?>
-		<a href="<?php the_permalink(); ?>" class="rk-btn rk-btn--navy rk-btn--block"><?php esc_html_e( 'View Product', 'toptech-machinery' ); ?></a>
+		<a href="<?php the_permalink(); ?>" class="rk-btn rk-btn--navy rk-btn--block"><?php esc_html_e( 'View Product', 'topnotch-mall' ); ?></a>
 	<?php endif; ?>
 
 	<?php echo function_exists( 'rk_whatsapp_button' ) ? rk_whatsapp_button( $product ) : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in helper ?>
