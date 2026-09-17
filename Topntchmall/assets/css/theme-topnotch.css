@@ -744,3 +744,273 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{
   .rk-section{padding:22px 0}
   .rk-section__head h2{font-size:1.08rem}
 }
+
+
+/* ============================================================
+   UI 4.2 - mobile category scrolling, un-clipped card text,
+            and a reworked product page
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. The All Categories panel on mobile
+
+   It used to be a nested scroller (max-height:58vh, overflow:auto)
+   sitting inside a panel with overflow:hidden. On a phone that meant
+   the touch gesture was swallowed by the inner box, the foot of the
+   list sat underneath the fixed tab bar, and the last categories could
+   never be reached. On mobile the list now renders in normal page flow
+   and the page itself does the scrolling; it is collapsed to the first
+   nine rows with a toggle so the hero stays short.
+   ------------------------------------------------------------ */
+@media (max-width:1024px){
+  .rk-hero .container{align-items:start}
+  .rk-vertcat{
+    height:auto\!important;max-height:none\!important;overflow:visible\!important;
+    margin-bottom:14px}
+  .rk-vertcat ul,.rk-vertcat__list{
+    max-height:none\!important;overflow:visible\!important;
+    overscroll-behavior:auto;-webkit-overflow-scrolling:auto;
+    padding-bottom:0}
+  .rk-vertcat::after{display:none\!important}
+  /* Bigger tap targets on a touch screen */
+  .rk-vertcat li a{padding:13px 15px;font-size:.9rem}
+
+  .rk-vertcat__list.is-collapsed{overflow:hidden\!important}
+  .rk-vertcat__list.is-collapsed li:nth-child(n+10){display:none}
+
+  .rk-vertcat__toggle{
+    display:flex;align-items:center;justify-content:center;gap:7px;width:100%;
+    padding:12px 14px;border:0;border-top:1px solid var(--tn-line,#E3EAE6);
+    background:#FAFCFB;color:var(--tn-green-700,#0C7A3B);
+    font:inherit;font-size:.78rem;font-weight:800;letter-spacing:.04em;
+    text-transform:uppercase;cursor:pointer}
+  .rk-vertcat__toggle:hover{background:var(--tn-green-050,#F0FDF4)}
+  .rk-vertcat__toggle::after{content:"\25BE";font-size:.8rem;transition:transform .18s ease}
+  .rk-vertcat__toggle[aria-expanded="true"]::after{transform:rotate(180deg)}
+}
+.rk-vertcat__toggle{display:none}
+.rk-vertcat__toggle[hidden]{display:none\!important}
+
+/* ------------------------------------------------------------
+   2. Card text was being cut mid-line
+
+   The base layer clamps the excerpt to three lines and pins
+   min-height:3.6em, a later layer clamps it to two. Whenever
+   -webkit-box-orient is lost the box degrades to a plain block that
+   overflow:hidden slices through the middle of a line - the half-row
+   of text visible under the product titles. Each text block is now
+   declared once, in full, with a max-height that matches its clamp, so
+   a partial line cannot render on any browser.
+   ------------------------------------------------------------ */
+.rk-card__title,
+ul.products li.product .woocommerce-loop-product__title{
+  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;
+  overflow:hidden;
+  font-size:.92rem;font-weight:700;line-height:1.35;
+  min-height:calc(1.35em * 2);max-height:calc(1.35em * 2);
+  margin:0;padding:0;
+  overflow-wrap:anywhere;word-break:break-word;
+  color:var(--tn-ink,#0B2A1D);text-decoration:none}
+
+.rk-card__excerpt,.rk-card__desc{
+  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;
+  overflow:hidden;
+  font-size:.8rem;line-height:1.45;
+  min-height:0;max-height:calc(1.45em * 2);
+  margin:0 0 2px;
+  overflow-wrap:anywhere;word-break:break-word;
+  color:var(--tn-muted,#5B6B63)}
+
+/* Keep the short description on phones - it is useful - but only ever
+   as two clean lines. The old rule hid it outright below 900px. */
+@media (max-width:900px){
+  .rk-card__excerpt{display:-webkit-box\!important;-webkit-line-clamp:2}
+}
+@media (max-width:420px){
+  .rk-card__excerpt{display:none\!important}
+  .rk-card__title{-webkit-line-clamp:3;min-height:calc(1.35em * 3);max-height:calc(1.35em * 3)}
+}
+
+/* Price, stock and buttons line up because the text blocks above are
+   now a fixed, predictable height. */
+.rk-card,ul.products li.product{min-width:0}
+.rk-card__price,ul.products li.product .price{margin-top:auto}
+
+/* ------------------------------------------------------------
+   3. Product page (PDP)
+   ------------------------------------------------------------ */
+.single-product div.product{
+  display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
+  gap:38px;align-items:start;margin-top:18px}
+.single-product div.product > *{min-width:0}
+.single-product .woocommerce-product-gallery{
+  position:sticky;top:96px;margin:0;
+  border:1px solid var(--tn-line,#E3EAE6);border-radius:16px;
+  background:#fff;padding:14px;box-shadow:0 10px 30px rgba(11,42,29,.06)}
+.single-product .woocommerce-product-gallery img{border-radius:12px}
+.single-product .flex-control-thumbs{display:flex;gap:9px;flex-wrap:wrap;margin:12px 0 0;padding:0;list-style:none}
+.single-product .flex-control-thumbs li{width:72px;margin:0}
+.single-product .flex-control-thumbs img{
+  border:1px solid var(--tn-line,#E3EAE6);border-radius:9px;cursor:pointer;
+  transition:border-color .15s ease,transform .15s ease}
+.single-product .flex-control-thumbs img:hover,
+.single-product .flex-control-thumbs img.flex-active{
+  border-color:var(--tn-green,#22C55E);transform:translateY(-2px)}
+
+/* The summary column: clear hierarchy, nothing truncated */
+.single-product .summary.entry-summary{margin:0;display:flex;flex-direction:column;gap:14px}
+.single-product .product_title,
+.single-product .summary .product_title{
+  margin:0;font-size:clamp(1.35rem,2.4vw,1.95rem);line-height:1.25;
+  font-weight:800;letter-spacing:-.02em;color:var(--tn-ink,#0B2A1D);
+  overflow:visible;overflow-wrap:anywhere;word-break:break-word;
+  display:block;max-height:none;-webkit-line-clamp:none}
+.single-product .summary .price,
+.single-product .summary p.price{
+  margin:0;font-size:1.75rem;font-weight:900;letter-spacing:-.02em;
+  color:var(--tn-forest,#0B2A1D)}
+.single-product .summary .price del{font-size:1rem;font-weight:600;opacity:.55;margin-right:9px}
+.single-product .summary .price ins{text-decoration:none;color:#B9451D}
+.single-product .woocommerce-product-details__short-description{
+  margin:0;padding:15px 16px;border-radius:12px;
+  background:var(--tn-wash,#F6F9F7);border:1px solid var(--tn-line,#E3EAE6);
+  font-size:.92rem;line-height:1.65;color:var(--tn-ink,#0B2A1D);
+  /* never clamped - the full description belongs on the product page */
+  display:block;max-height:none;overflow:visible;-webkit-line-clamp:none;
+  overflow-wrap:anywhere}
+.single-product .woocommerce-product-details__short-description p:last-child{margin-bottom:0}
+.single-product .woocommerce-product-details__short-description ul{margin:8px 0 0;padding-left:20px}
+
+/* Buy row */
+.single-product form.cart{display:flex;flex-wrap:wrap;align-items:stretch;gap:10px;margin:0}
+.single-product form.cart .quantity{display:flex}
+.single-product form.cart .quantity input.qty{
+  width:78px;height:50px;padding:0 10px;text-align:center;
+  border:1.5px solid var(--tn-line,#E3EAE6);border-radius:10px;
+  font-size:1rem;font-weight:700;background:#fff}
+.single-product .single_add_to_cart_button{
+  flex:1 1 220px;min-height:50px;border-radius:10px;
+  font-size:.95rem;font-weight:800;letter-spacing:.02em;cursor:pointer}
+.single-product .rk-wa-btn--pdp{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;min-height:48px;border-radius:10px;font-size:.92rem}
+.single-product .product_meta{
+  font-size:.82rem;color:var(--tn-muted,#5B6B63);
+  padding-top:13px;border-top:1px solid var(--tn-line,#E3EAE6)}
+.single-product .product_meta > span{display:block;margin-bottom:5px}
+.single-product .stock.in-stock{
+  display:inline-flex;align-items:center;gap:6px;align-self:flex-start;
+  padding:4px 11px;border-radius:99px;margin:0;
+  background:var(--tn-green-050,#F0FDF4);color:var(--tn-green-700,#0C7A3B);
+  font-size:.78rem;font-weight:800}
+.single-product .stock.out-of-stock{
+  display:inline-flex;padding:4px 11px;border-radius:99px;margin:0;
+  background:#FEF2F2;color:#B42318;font-size:.78rem;font-weight:800}
+
+/* Delivery / trust / payment block */
+.rk-pdp-extra{display:flex;flex-direction:column;gap:14px;margin-top:4px}
+.rk-pdp-delivery{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:14px 15px;border-radius:12px;
+  background:var(--tn-green-050,#F0FDF4);border:1px solid var(--tn-green-300,#4ADE80);
+  font-size:.86rem;line-height:1.55;color:var(--tn-ink,#0B2A1D)}
+.rk-pdp-delivery svg{flex:0 0 auto;color:var(--tn-green-700,#0C7A3B)}
+.rk-trust{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;
+  margin:0;padding:0;list-style:none}
+.rk-trust li{
+  display:flex;align-items:center;gap:9px;min-width:0;
+  padding:11px 12px;border:1px solid var(--tn-line,#E3EAE6);border-radius:11px;
+  background:#fff;font-size:.8rem;font-weight:600;line-height:1.35;
+  color:var(--tn-ink,#0B2A1D)}
+.rk-trust li svg{flex:0 0 auto;width:19px;height:19px;color:var(--tn-green-700,#0C7A3B)}
+.rk-trust li span{min-width:0;overflow-wrap:anywhere}
+.rk-pdp-pay{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.rk-pdp-pay__label{font-size:.78rem;font-weight:800;color:var(--tn-muted,#5B6B63);
+  letter-spacing:.05em;text-transform:uppercase}
+.rk-pay-chip{
+  padding:5px 11px;border-radius:99px;background:#F1F5F3;
+  border:1px solid var(--tn-line,#E3EAE6);
+  font-size:.75rem;font-weight:700;color:var(--tn-ink,#0B2A1D)}
+
+/* Tabs: readable, scrollable on a phone, never clipped */
+.single-product .woocommerce-tabs{grid-column:1/-1;margin-top:34px}
+.single-product .woocommerce-tabs ul.tabs{
+  display:flex;gap:6px;margin:0 0 -1px;padding:0;list-style:none;
+  overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;
+  border-bottom:1px solid var(--tn-line,#E3EAE6);scrollbar-width:none}
+.single-product .woocommerce-tabs ul.tabs::-webkit-scrollbar{display:none}
+.single-product .woocommerce-tabs ul.tabs::before,
+.single-product .woocommerce-tabs ul.tabs li::before,
+.single-product .woocommerce-tabs ul.tabs li::after{display:none\!important}
+.single-product .woocommerce-tabs ul.tabs li{
+  margin:0;padding:0;border:0;background:none;border-radius:0;flex:0 0 auto}
+.single-product .woocommerce-tabs ul.tabs li a{
+  display:block;padding:12px 17px;border-bottom:3px solid transparent;
+  font-size:.87rem;font-weight:800;color:var(--tn-muted,#5B6B63);
+  text-decoration:none;white-space:nowrap}
+.single-product .woocommerce-tabs ul.tabs li.active a,
+.single-product .woocommerce-tabs ul.tabs li a:hover{
+  color:var(--tn-green-700,#0C7A3B);border-bottom-color:var(--tn-green,#22C55E)}
+.single-product .woocommerce-Tabs-panel{
+  padding:22px 0 4px;font-size:.93rem;line-height:1.7;
+  color:var(--tn-ink,#0B2A1D);overflow-wrap:anywhere}
+.single-product .woocommerce-Tabs-panel h2{font-size:1.1rem;margin:0 0 12px}
+.single-product .woocommerce-Tabs-panel table.shop_attributes{width:100%;border-collapse:collapse}
+.single-product .woocommerce-Tabs-panel table.shop_attributes th,
+.single-product .woocommerce-Tabs-panel table.shop_attributes td{
+  padding:11px 13px;border-bottom:1px solid var(--tn-line,#E3EAE6);
+  font-size:.87rem;text-align:left;vertical-align:top}
+.single-product .woocommerce-Tabs-panel table.shop_attributes th{
+  width:36%;font-weight:800;background:var(--tn-wash,#F6F9F7)}
+.single-product .woocommerce-Tabs-panel table.shop_attributes td p{margin:0}
+
+/* FAQ accordion */
+.rk-faq{display:flex;flex-direction:column;gap:9px}
+.rk-faq__item{
+  border:1px solid var(--tn-line,#E3EAE6);border-radius:11px;background:#fff;
+  padding:0 15px;overflow:hidden}
+.rk-faq__item summary{
+  cursor:pointer;padding:14px 0;font-size:.9rem;font-weight:700;
+  color:var(--tn-ink,#0B2A1D);list-style:none}
+.rk-faq__item summary::-webkit-details-marker{display:none}
+.rk-faq__item summary::after{content:"+";float:right;font-weight:800;color:var(--tn-green-700,#0C7A3B)}
+.rk-faq__item[open] summary::after{content:"\2013"}
+.rk-faq__item p{margin:0 0 15px;font-size:.88rem;line-height:1.65;color:var(--tn-muted,#5B6B63)}
+
+/* Related / recently viewed rows sit full width under the two columns */
+.single-product .related,.single-product .upsells,.single-product .rk-recent{
+  grid-column:1/-1;margin-top:34px}
+
+/* Sticky add-to-cart bar */
+.rk-sticky-atc__inner{display:flex;align-items:center;gap:13px;min-width:0}
+.rk-sticky-atc__media img{width:44px;height:44px;object-fit:contain;border-radius:8px}
+.rk-sticky-atc__title{
+  flex:1 1 auto;min-width:0;font-size:.9rem;font-weight:700;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rk-sticky-atc__price{flex:0 0 auto;font-weight:900;white-space:nowrap}
+
+/* ---------- PDP on tablets and phones ---------- */
+@media (max-width:1024px){
+  .single-product div.product{grid-template-columns:1fr;gap:20px}
+  .single-product .woocommerce-product-gallery{position:static;padding:10px}
+  .single-product .flex-control-thumbs li{width:58px}
+  .single-product .summary.entry-summary{gap:12px}
+  .single-product .woocommerce-tabs,
+  .single-product .related,.single-product .upsells,.single-product .rk-recent{margin-top:26px}
+}
+@media (max-width:640px){
+  .single-product .product_title{font-size:1.22rem;line-height:1.3}
+  .single-product .summary .price,.single-product .summary p.price{font-size:1.45rem}
+  .single-product .woocommerce-product-details__short-description{
+    padding:13px 14px;font-size:.88rem}
+  .single-product form.cart{gap:8px}
+  .single-product form.cart .quantity input.qty{width:68px;height:48px}
+  .single-product .single_add_to_cart_button{flex:1 1 100%}
+  .rk-trust{grid-template-columns:1fr}
+  .single-product .woocommerce-Tabs-panel table.shop_attributes th{width:44%}
+  /* clear the fixed tab bar so the foot of the page is reachable */
+  .single-product .rk-recent,.single-product .related{margin-bottom:14px}
+  .rk-sticky-atc{bottom:calc(62px + env(safe-area-inset-bottom))}
+  .rk-sticky-atc__price{display:none}
+}

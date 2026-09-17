@@ -9,7 +9,7 @@ declare( strict_types = 1 );
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'TOPNOTCH_VERSION', '1.22.0' );
+define( 'TOPNOTCH_VERSION', '1.23.0' );
 define( 'TOPNOTCH_DIR', trailingslashit( get_template_directory() ) );
 define( 'TOPNOTCH_URI', trailingslashit( get_template_directory_uri() ) );
 
