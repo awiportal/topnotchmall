@@ -20,13 +20,14 @@ defined( 'ABSPATH' ) || exit;
 final class Content_Installer {
 
 	private const FLAG = 'topnotch_content_installed_v1';
-	private const MENU_FLAG = 'topnotch_menus_v2';
+	private const MENU_FLAG = 'topnotch_menus_v3';
 	private const CAT_IMG_FLAG = 'topnotch_cat_images_v1';
 
 	public function hooks(): void {
 		add_action( 'admin_init', array( $this, 'install' ) );
 		add_action( 'admin_init', array( $this, 'ensure_front_page' ) );
 		add_action( 'admin_init', array( $this, 'sync_menus' ) );
+		add_action( 'admin_init', array( $this, 'dedupe_menus' ), 11 );
 		add_action( 'admin_init', array( $this, 'sync_category_images' ) );
 		add_action( 'admin_init', array( $this, 'refresh_contact_details' ) );
 		add_action( 'admin_init', array( $this, 'refresh_pages_content' ) );
@@ -153,6 +154,15 @@ final class Content_Installer {
 	 * @param array<string,int> $ids Slug => page ID.
 	 */
 	private function build_menus( array $ids ): void {
+		// install() and sync_menus() can both fire on the same admin_init.
+		// Building twice in one request duplicated items, because the second
+		// pass read the menu from a stale object cache. Build once per request.
+		static $already_built = false;
+		if ( $already_built === true ) {
+			return;
+		}
+		$already_built = true;
+
 		$shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' );
 
 		$defs = array(
@@ -204,29 +214,28 @@ final class Content_Installer {
 				continue;
 			}
 
-			$existing = wp_get_nav_menu_items( $menu_id, array( 'post_status' => 'any' ) );
-			if ( is_array( $existing ) ) {
-				foreach ( $existing as $item ) {
-					wp_delete_post( (int) $item->ID, true );
-				}
-			}
+			$this->clear_menu_items( $menu_id );
 
+			$position = 0;
 			foreach ( $items as $item ) {
+				++$position;
 				if ( 'custom' === $item[0] ) {
 					wp_update_nav_menu_item(
 						$menu_id,
 						0,
 						array(
-							'menu-item-title'  => $item[1],
-							'menu-item-url'    => $item[2],
-							'menu-item-type'   => 'custom',
-							'menu-item-status' => 'publish',
+							'menu-item-title'    => $item[1],
+							'menu-item-url'      => $item[2],
+							'menu-item-type'     => 'custom',
+							'menu-item-status'   => 'publish',
+							'menu-item-position' => $position,
 						)
 					);
 					continue;
 				}
 				$slug = $item[1];
 				if ( empty( $ids[ $slug ] ) ) {
+					--$position;
 					continue;
 				}
 				wp_update_nav_menu_item(
@@ -237,6 +246,7 @@ final class Content_Installer {
 						'menu-item-object-id' => $ids[ $slug ],
 						'menu-item-type'      => 'post_type',
 						'menu-item-status'    => 'publish',
+						'menu-item-position'  => $position,
 					)
 				);
 			}
@@ -340,6 +350,73 @@ final class Content_Installer {
             error_log( 'Topnotch Mall pages content refresh failed: ' . $e->getMessage() );
         }
     }
+
+	/**
+	 * Delete every item in a menu, reading the list straight from the term
+	 * relationships instead of wp_get_nav_menu_items(), whose cached result
+	 * can be stale within a request and leave duplicates behind on rebuild.
+	 *
+	 * @param int $menu_id Menu term ID.
+	 */
+	private function clear_menu_items( int $menu_id ): void {
+		$item_ids = get_objects_in_term( $menu_id, 'nav_menu' );
+		if ( is_wp_error( $item_ids ) || is_array( $item_ids ) === false ) {
+			return;
+		}
+		foreach ( $item_ids as $item_id ) {
+			$item = get_post( (int) $item_id );
+			if ( $item instanceof \WP_Post && 'nav_menu_item' === $item->post_type ) {
+				wp_delete_post( (int) $item_id, true );
+			}
+		}
+		wp_cache_delete( $menu_id, 'nav_menu_items' );
+	}
+
+	/**
+	 * One-time repair for menus that already contain duplicates (the repeated
+	 * "Payment Methods / Contact Us" in the top menu and the repeated policy
+	 * links in the footer). Keeps the first occurrence of each linked page or
+	 * URL in every menu this theme manages and deletes the rest. Idempotent.
+	 */
+	public function dedupe_menus(): void {
+		if ( get_option( 'topnotch_menu_dedupe_v1' ) ) {
+			return;
+		}
+		if ( function_exists( 'current_user_can' ) === false || current_user_can( 'edit_theme_options' ) === false ) {
+			return;
+		}
+		try {
+			$locations = function_exists( 'get_nav_menu_locations' ) ? get_nav_menu_locations() : array();
+			$menu_ids  = array();
+			foreach ( array( 'primary', 'vertical_cats', 'footer_company', 'footer_service', 'footer_policies' ) as $location ) {
+				if ( empty( $locations[ $location ] ) ) {
+					continue;
+				}
+				$menu_ids[ (int) $locations[ $location ] ] = true;
+			}
+			foreach ( array_keys( $menu_ids ) as $menu_id ) {
+				$items = wp_get_nav_menu_items( (int) $menu_id, array( 'post_status' => 'any' ) );
+				if ( is_array( $items ) === false ) {
+					continue;
+				}
+				$seen = array();
+				foreach ( $items as $item ) {
+					$key = ( 'post_type' === $item->type )
+						? 'page:' . (int) $item->object_id
+						: 'url:' . untrailingslashit( strtolower( (string) $item->url ) );
+					if ( isset( $seen[ $key ] ) ) {
+						wp_delete_post( (int) $item->ID, true );
+						continue;
+					}
+					$seen[ $key ] = true;
+				}
+				wp_cache_delete( (int) $menu_id, 'nav_menu_items' );
+			}
+			update_option( 'topnotch_menu_dedupe_v1', time() );
+		} catch ( \Throwable $e ) {
+			error_log( 'Topnotch Mall menu dedupe failed: ' . $e->getMessage() );
+		}
+	}
 
 	/**
 	 * Populate product category thumbnails from images bundled with the theme.
