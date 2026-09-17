@@ -24,6 +24,7 @@ final class Schema {
 		add_action( 'wp_head', array( $this, 'website' ), 6 );
 		add_action( 'wp_head', array( $this, 'breadcrumb' ), 7 );
 		add_action( 'wp_footer', array( $this, 'product' ), 20 );
+		add_filter( 'woocommerce_structured_data_product', array( $this, 'suppress_woo_product_schema' ) );
 	}
 
 	/**
@@ -340,6 +341,43 @@ final class Schema {
 					'@type' => 'Organization',
 					'name'  => get_bloginfo( 'name' ),
 				),
+				'shippingDetails' => array(
+					'@type'               => 'OfferShippingDetails',
+					'shippingRate'        => array(
+						'@type'    => 'MonetaryAmount',
+						'value'    => 500,
+						'currency' => get_woocommerce_currency(),
+					),
+					'shippingDestination' => array(
+						'@type'          => 'DefinedRegion',
+						'addressCountry' => 'KE',
+					),
+					'deliveryTime'        => array(
+						'@type'        => 'ShippingDeliveryTime',
+						'handlingTime' => array(
+							'@type'    => 'QuantitativeValue',
+							'minValue' => 0,
+							'maxValue' => 1,
+							'unitCode' => 'DAY',
+						),
+						'transitTime'  => array(
+							'@type'    => 'QuantitativeValue',
+							'minValue' => 1,
+							'maxValue' => 7,
+							'unitCode' => 'DAY',
+						),
+					),
+				),
+				'hasMerchantReturnPolicy' => array(
+					'@type'                => 'MerchantReturnPolicy',
+					'applicableCountry'    => 'KE',
+					'returnPolicyCategory' => 'https://schema.org/MerchantReturnFiniteReturnWindow',
+					'merchantReturnDays'   => 7,
+					'returnMethod'         => array(
+						'https://schema.org/ReturnByMail',
+						'https://schema.org/ReturnInStore',
+					),
+				),
 			),
 		);
 		$gtin = get_post_meta( $product->get_id(), '_gtin', true );
@@ -358,6 +396,23 @@ final class Schema {
 			$data['image'] = esc_url( $img );
 		}
 		$this->print_ld( $data );
+	}
+
+	/**
+	 * WooCommerce emits its own Product JSON-LD, which duplicated ours on every
+	 * product page (two Product blocks, differing price formatting). Ours carries
+	 * brand, GTIN/MPN, shipping and return policy, so we keep ours and drop the
+	 * core block. If an SEO plugin is handling schema we stand down entirely and
+	 * leave WooCommerce alone.
+	 *
+	 * @param array $markup Structured data from WooCommerce.
+	 * @return array
+	 */
+	public function suppress_woo_product_schema( $markup ) {
+		if ( $this->has_seo_plugin() ) {
+			return $markup;
+		}
+		return array();
 	}
 
 	private function brand_name( \WC_Product $product ): string {
