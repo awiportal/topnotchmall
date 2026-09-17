@@ -543,3 +543,204 @@ button[data-topnotch-add]:hover,
   .rk-vertcat ul,.rk-vertcat__list{max-height:58vh!important}
   .rk-vertcat::after{display:none}
 }
+
+
+/* ============================================================
+   UI 4.0 - professional polish pass
+   Logo, header structure, section rhythm, card consistency,
+   category discovery, focus states.
+   ============================================================ */
+
+/* ---------- White logo on the dark bar ---------- */
+.rk-logo{display:flex;align-items:center;min-width:0}
+.rk-logo__link{display:inline-flex;align-items:center;text-decoration:none}
+.rk-logo__img,.rk-logo img{
+  display:block;height:auto;max-height:46px;width:auto;max-width:100%;
+  image-rendering:-webkit-optimize-contrast}
+.rk-logo__text{color:#fff;font-weight:800;font-size:1.4rem;text-decoration:none;letter-spacing:-.01em}
+.rk-logo__link:focus-visible{outline:2px solid var(--tn-green);outline-offset:4px;border-radius:6px}
+
+/* ---------- Header: calmer, better separated, sticky-safe ---------- */
+.rk-header__top{
+  background:var(--tn-navy,#071F15);color:rgba(255,255,255,.78);
+  font-size:.79rem;border-bottom:1px solid rgba(255,255,255,.07)}
+.rk-header__top a{color:rgba(255,255,255,.9);text-decoration:none;font-weight:600}
+.rk-header__top a:hover{color:var(--tn-green,#22C55E)}
+.rk-header__mid{background:linear-gradient(180deg,var(--tn-forest,#0B2A1D),#0A2418)}
+.rk-header__mid .container{gap:22px}
+
+/* Search reads as the primary tool it is */
+.rk-search input[type="search"],.rk-search input[type="text"]{
+  height:46px;border:2px solid transparent;border-radius:10px;
+  background:#fff;font-size:.93rem;padding:0 14px;
+  box-shadow:0 2px 10px rgba(0,0,0,.14);transition:border-color .16s ease,box-shadow .16s ease}
+.rk-search input:focus{
+  border-color:var(--tn-green,#22C55E);outline:none;
+  box-shadow:0 0 0 4px rgba(34,197,94,.22)}
+.rk-search button[type="submit"]{
+  height:46px;border-radius:10px;font-weight:800;letter-spacing:.02em;
+  background:var(--tn-green,#22C55E);color:#04240F;border:0;padding:0 20px;cursor:pointer;
+  transition:background .16s ease,transform .12s ease}
+.rk-search button[type="submit"]:hover{background:#1EBE5D}
+.rk-search button[type="submit"]:active{transform:translateY(1px)}
+
+/* Header icons: consistent, labelled, obvious hit areas */
+.rk-actions{display:flex;align-items:center;gap:6px}
+.rk-actions__item{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:7px 11px;border-radius:9px;color:rgba(255,255,255,.92);
+  text-decoration:none;font-size:.7rem;font-weight:700;line-height:1;
+  transition:background .15s ease,color .15s ease}
+.rk-actions__item:hover{background:rgba(255,255,255,.10);color:#fff}
+.rk-actions__item:focus-visible{outline:2px solid var(--tn-green);outline-offset:2px}
+.rk-cart-count{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:19px;height:19px;padding:0 5px;border-radius:99px;
+  background:var(--tn-buy,#F59E0B);color:var(--tn-buy-ink,#3A2606);
+  font-size:.66rem;font-weight:900}
+
+/* Primary nav: clearer active state and hover affordance */
+.rk-nav{background:#0A2418;border-top:1px solid rgba(255,255,255,.07)}
+.rk-nav a{
+  position:relative;padding:13px 15px;font-size:.86rem;font-weight:700;
+  color:rgba(255,255,255,.88);text-decoration:none;transition:color .15s ease}
+.rk-nav a:hover,.rk-nav a:focus-visible{color:#fff}
+.rk-nav a::after{
+  content:"";position:absolute;left:15px;right:15px;bottom:7px;height:2px;
+  background:var(--tn-green,#22C55E);border-radius:2px;
+  transform:scaleX(0);transform-origin:left;transition:transform .18s ease}
+.rk-nav a:hover::after,.rk-nav .current-menu-item>a::after{transform:scaleX(1)}
+
+/* ---------- Section rhythm: consistent vertical scale ---------- */
+.rk-section{padding:38px 0}
+.rk-section+.rk-section{padding-top:8px}
+.rk-section__head{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  margin-bottom:16px;padding-bottom:11px;border-bottom:1px solid var(--tn-line,#E3EAE6)}
+.rk-section__head h2{
+  margin:0;font-size:1.28rem;font-weight:800;letter-spacing:-.015em;color:var(--tn-ink,#0B2A1D)}
+.rk-section__head h2::before{
+  content:"";display:inline-block;width:4px;height:19px;margin-right:11px;
+  border-radius:3px;background:var(--tn-green,#22C55E);vertical-align:-3px}
+.rk-section__head a{
+  flex:0 0 auto;font-size:.8rem;font-weight:800;letter-spacing:.03em;text-transform:uppercase;
+  color:var(--tn-green-700,#0C7A3B);text-decoration:none;
+  padding:7px 13px;border:1.5px solid var(--tn-green-300,#4ADE80);border-radius:99px;
+  transition:background .15s ease,gap .15s ease}
+.rk-section__head a:hover{background:var(--tn-green-050,#F0FDF4)}
+
+/* ---------- Product cards: equal height, aligned prices and actions ---------- */
+ul.products li.product,.rk-card{
+  display:flex;flex-direction:column;height:100%;
+  background:#fff;border:1px solid var(--tn-line,#E3EAE6);border-radius:13px;
+  overflow:hidden;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+ul.products li.product:hover,.rk-card:hover{
+  transform:translateY(-3px);border-color:var(--tn-green-300,#4ADE80);
+  box-shadow:0 14px 34px rgba(11,42,29,.13)}
+.rk-card__media,ul.products li.product a img{background:#fff}
+.rk-card__body{display:flex;flex-direction:column;flex:1 1 auto;gap:7px;padding:13px}
+
+/* Two-line titles keep every card the same height */
+.rk-card__title,ul.products li.product .woocommerce-loop-product__title{
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  margin:0;font-size:.92rem;font-weight:700;line-height:1.35;min-height:2.7em;
+  color:var(--tn-ink,#0B2A1D)}
+.rk-card__excerpt{
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  margin:0;font-size:.8rem;line-height:1.45;color:var(--tn-muted,#5B6B63)}
+.rk-card__price,ul.products li.product .price{
+  margin-top:auto;font-size:1.1rem;font-weight:900;color:var(--tn-ink,#0B2A1D);letter-spacing:-.01em}
+.rk-card__price del,ul.products li.product .price del{
+  font-size:.82rem;font-weight:600;opacity:.55;margin-right:6px}
+.rk-card__price ins,ul.products li.product .price ins{text-decoration:none;color:#B9451D}
+
+/* Stock line as a quiet pill rather than loose text */
+.rk-card__stock{
+  display:inline-flex;align-items:center;gap:5px;align-self:flex-start;
+  padding:2px 9px;border-radius:99px;background:var(--tn-green-050,#F0FDF4);
+  font-size:.71rem;font-weight:800;color:var(--tn-green-700,#0C7A3B)}
+.rk-card__stock::before{
+  content:"";width:6px;height:6px;border-radius:50%;background:var(--tn-green,#22C55E)}
+.rk-card__stock--out{background:#FEF2F2;color:#B42318}
+.rk-card__stock--out::before{background:#EF4444}
+
+/* Actions pinned to the card foot, uniform height */
+.rk-card__actions{margin-top:11px;padding:0 13px 13px}
+.rk-card__actions .rk-btn{
+  width:100%;min-height:42px;display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  border-radius:9px;font-size:.81rem;cursor:pointer}
+
+/* SALE badge */
+.rk-badge,span.onsale{
+  position:absolute;top:10px;left:10px;z-index:2;
+  padding:4px 10px;border-radius:99px;
+  background:var(--tn-buy,#F59E0B);color:var(--tn-buy-ink,#3A2606);
+  font-size:.67rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase;
+  box-shadow:0 3px 10px rgba(245,158,11,.34)}
+
+/* ---------- Category tiles: the main browse path ---------- */
+.rk-cats__grid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.rk-cat-tile{
+  position:relative;display:flex;flex-direction:column;overflow:hidden;
+  border:1px solid var(--tn-line,#E3EAE6);border-radius:13px;background:#fff;
+  text-decoration:none;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.rk-cat-tile:hover{
+  transform:translateY(-3px);border-color:var(--tn-green-300,#4ADE80);
+  box-shadow:0 14px 32px rgba(11,42,29,.14)}
+.rk-cat-tile__media{aspect-ratio:4/3;overflow:hidden;background:#F4F7F5}
+.rk-cat-tile__media img{
+  width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s ease}
+.rk-cat-tile:hover .rk-cat-tile__media img{transform:scale(1.07)}
+.rk-cat-tile__body{padding:11px 12px 13px;text-align:center}
+.rk-cat-tile__name{
+  display:block;font-size:.87rem;font-weight:800;color:var(--tn-ink,#0B2A1D);line-height:1.3}
+.rk-cat-tile__count{display:block;margin-top:3px;font-size:.73rem;font-weight:600;color:var(--tn-muted,#5B6B63)}
+
+@media (max-width:1100px){.rk-cats__grid{grid-template-columns:repeat(4,1fr)}}
+@media (max-width:760px){.rk-cats__grid{grid-template-columns:repeat(3,1fr);gap:10px}}
+@media (max-width:520px){.rk-cats__grid{grid-template-columns:repeat(2,1fr)}}
+
+/* ---------- Trust band ---------- */
+.rk-trustband{background:#F6F9F7;border-block:1px solid var(--tn-line,#E3EAE6)}
+.rk-trustband__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--tn-line,#E3EAE6)}
+.rk-trustband__item{
+  display:flex;align-items:flex-start;gap:11px;padding:18px 16px;background:#F6F9F7}
+.rk-trustband__item svg{flex:0 0 auto;width:26px;height:26px;fill:var(--tn-green-700,#0C7A3B)}
+.rk-trustband__item strong{display:block;font-size:.87rem;font-weight:800;color:var(--tn-ink,#0B2A1D)}
+.rk-trustband__item span{display:block;font-size:.78rem;line-height:1.45;color:var(--tn-muted,#5B6B63)}
+
+/* ---------- Footer ---------- */
+.rk-footer{background:var(--tn-forest,#0B2A1D);color:rgba(255,255,255,.76)}
+.rk-footer h3,.rk-footer h2{
+  color:#fff;font-size:.82rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;margin:0 0 13px}
+.rk-footer a{color:rgba(255,255,255,.76);text-decoration:none;transition:color .15s ease}
+.rk-footer a:hover{color:var(--tn-green,#22C55E)}
+.rk-footer__cols{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.2fr;gap:34px;padding:38px 0}
+.rk-footer__bottom{
+  border-top:1px solid rgba(255,255,255,.10);padding:15px 0;
+  font-size:.79rem;color:rgba(255,255,255,.6)}
+.rk-footer img{max-height:26px;width:auto}
+
+/* ---------- Accessibility: visible focus everywhere ---------- */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{
+  outline:2px solid var(--tn-green,#22C55E);outline-offset:2px;border-radius:4px}
+.rk-skip{
+  position:absolute;left:-9999px;top:0;z-index:999;
+  padding:11px 17px;background:#fff;color:var(--tn-ink,#0B2A1D);font-weight:800;border-radius:0 0 8px 0}
+.rk-skip:focus{left:0}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  .rk-card:hover,.rk-cat-tile:hover,ul.products li.product:hover{transform:none}
+}
+
+@media (max-width:1024px){
+  .rk-logo__img,.rk-logo img{max-height:34px}
+  .rk-footer__cols{grid-template-columns:1fr 1fr;gap:26px;padding:28px 0}
+  .rk-trustband__grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:560px){
+  .rk-footer__cols{grid-template-columns:1fr}
+  .rk-section{padding:22px 0}
+  .rk-section__head h2{font-size:1.08rem}
+}

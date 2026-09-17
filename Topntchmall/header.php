@@ -47,10 +47,25 @@ $rk_cutoff   = get_theme_mod( 'topnotch_cutoff', '5:00pm' );
 			<button class="rk-nav-toggle" aria-expanded="false" aria-controls="rk-primary-menu" aria-label="<?php esc_attr_e( 'Menu', 'topnotch-mall' ); ?>"><span class="rk-burger"></span></button>
 			<div class="rk-logo">
 				<?php
-				if ( function_exists( 'the_custom_logo' ) && has_custom_logo() ) {
+				// The header bar is dark, so the bundled white wordmark is used by
+				// default. A coloured Customizer logo reads badly against it. Sites
+				// that want their uploaded logo back can return true from the filter.
+				$rk_use_custom = (bool) apply_filters( 'topnotch_header_use_custom_logo', false );
+				$rk_white      = TOPNOTCH_DIR . 'assets/img/logo-white.png';
+
+				if ( $rk_use_custom && function_exists( 'the_custom_logo' ) && has_custom_logo() ) {
 					the_custom_logo();
+				} elseif ( file_exists( $rk_white ) ) {
+					$rk_2x = TOPNOTCH_DIR . 'assets/img/logo-white-2x.png';
+					printf(
+						'<a class="rk-logo__link" href="%1$s" rel="home"><img class="rk-logo__img" src="%2$s"%3$s width="300" height="81" alt="%4$s" fetchpriority="high" decoding="async"></a>',
+						esc_url( home_url( '/' ) ),
+						esc_url( TOPNOTCH_URI . 'assets/img/logo-white.png' ),
+						file_exists( $rk_2x ) ? ' srcset="' . esc_url( TOPNOTCH_URI . 'assets/img/logo-white.png' ) . ' 1x, ' . esc_url( TOPNOTCH_URI . 'assets/img/logo-white-2x.png' ) . ' 2x"' : '',
+						esc_attr( get_bloginfo( 'name' ) )
+					);
 				} else {
-					printf( '<a href="%s" style="color:#fff;font-weight:800;font-size:1.4rem">%s</a>', esc_url( home_url( '/' ) ), esc_html( get_bloginfo( 'name' ) ) );
+					printf( '<a class="rk-logo__text" href="%s">%s</a>', esc_url( home_url( '/' ) ), esc_html( get_bloginfo( 'name' ) ) );
 				}
 				?>
 			</div>
