@@ -86,10 +86,6 @@ $rk_cutoff   = get_theme_mod( 'topnotch_cutoff', '5:00pm' );
 					<?php echo rk_icon( 'user' ); // phpcs:ignore ?>
 					<span><?php esc_html_e( 'Account', 'topnotch-mall' ); ?></span>
 				</a>
-				<a class="rk-actions__item" href="<?php echo esc_url( home_url( '/wishlist/' ) ); ?>">
-					<?php echo rk_icon( 'heart' ); // phpcs:ignore ?>
-					<span><?php esc_html_e( 'Wishlist', 'topnotch-mall' ); ?></span>
-				</a>
 				<?php if ( $rk_has_wc ) : ?>
 				<a class="rk-actions__item" href="<?php echo esc_url( $rk_cart_url ); ?>" data-rk-drawer-open>
 					<?php echo rk_icon( 'cart' ); // phpcs:ignore ?>

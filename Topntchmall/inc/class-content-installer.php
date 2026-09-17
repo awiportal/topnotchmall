@@ -389,7 +389,7 @@ final class Content_Installer {
             ),
             'track-order' => array(
                 'title'   => 'Track Order',
-                'content' => "<p>We will keep you posted at each step, but you can check on your order any time.</p><h2>Check your order</h2><p>Have your order number ready and call or WhatsApp {$phone}, or email {$mail}. We will tell you whether your order has been dispatched and when to expect it.</p><p>If our order-tracking tool is switched on, you can also enter your details below.</p>[woocommerce_order_tracking]",
+                'content' => "<div class='rk-policy'><p class='rk-policy-lead'>We confirm every order by message when it is placed, and again the moment it is dispatched. You can also check on it yourself at any time using either method below.</p><h2>Track with your order number</h2><p>Enter your order number and the email address you used at checkout. Your order number is in the confirmation message we sent you.</p>[woocommerce_order_tracking]<h2>Or just ask us</h2><p>Call or WhatsApp <strong>{$phone}</strong>, or email <strong>{$mail}</strong>, with your order number. We will tell you exactly where your order is and when to expect it. We answer most calls and messages the same day during opening hours, {$hours}.</p><h2>What each update means</h2><table class='rk-policy-table'><thead><tr><th>Status</th><th>What is happening</th></tr></thead><tbody><tr><td>Processing</td><td>Payment received, order being picked and packed</td></tr><tr><td>Dispatched</td><td>Handed to our rider or courier, delivery time starts here</td></tr><tr><td>Out for delivery</td><td>With the rider today, expect a call</td></tr><tr><td>Delivered</td><td>Received and signed for</td></tr></tbody></table><p>Delivery times by destination are set out in full on our Shipping &amp; Delivery Policy page. Times are counted in working days from dispatch, not from when the order was placed.</p><div class='rk-policy-contact'><p><strong>Cannot find your order number?</strong> Call or WhatsApp {$phone} with the name and phone number used at checkout and we will look it up.</p><p>{$name}, {$addr}. Open {$hours}.</p></div></div>",
             ),
         );
     }
@@ -400,7 +400,7 @@ final class Content_Installer {
      * pages or clobbering later manual edits. Idempotent (own flag).
      */
     public function refresh_pages_content(): void {
-        if ( get_option( 'topnotch_pages_content_v5' ) ) {
+        if ( get_option( 'topnotch_pages_content_v6' ) ) {
             return;
         }
         if ( function_exists( 'current_user_can' ) === false || current_user_can( 'edit_theme_options' ) === false ) {
@@ -419,7 +419,7 @@ final class Content_Installer {
                     )
                 );
             }
-            update_option( 'topnotch_pages_content_v5', time() );
+            update_option( 'topnotch_pages_content_v6', time() );
         } catch ( \Throwable $e ) {
             error_log( 'Topnotch Mall pages content refresh failed: ' . $e->getMessage() );
         }

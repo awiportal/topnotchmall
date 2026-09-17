@@ -66,7 +66,7 @@ $rk_cutoff   = get_theme_mod( 'topnotch_cutoff', '5:00pm' );
 			<div class="widget_shopping_cart_content"><?php woocommerce_mini_cart(); ?></div>
 		</div>
 		<div class="rk-drawer__foot">
-			<a class="rk-btn rk-btn--ghost rk-btn--block" href="#" data-rk-drawer-close><?php esc_html_e( 'Continue shopping', 'topnotch-mall' ); ?></a>
+			<button type="button" class="rk-btn rk-btn--ghost rk-btn--block" data-rk-drawer-close><?php esc_html_e( 'Continue shopping', 'topnotch-mall' ); ?></button>
 			<a class="rk-btn rk-btn--primary rk-btn--block rk-drawer__checkout" href="<?php echo esc_url( function_exists( 'wc_get_checkout_url' ) ? wc_get_checkout_url() : '' ); ?>"><?php esc_html_e( 'Proceed to checkout', 'topnotch-mall' ); ?></a>
 		</div>
 		<div class="rk-drawer__spin" aria-hidden="true"><span class="rk-spinner"></span></div>
