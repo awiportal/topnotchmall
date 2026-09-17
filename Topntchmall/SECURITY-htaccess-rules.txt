@@ -1,71 +1,107 @@
 # ==============================================================
-# TOPNOTCH MALL - security rules
+# TOPNOTCH MALL - security rules  (v2)
+#
 # Copy EVERYTHING below into the .htaccess file in your WordPress
 # ROOT folder (public_html), ABOVE the line "# BEGIN WordPress",
 # alongside the performance rules. Back the file up first.
 #
-# These close gaps that cannot be closed from theme code, because
-# Apache serves these files before WordPress ever loads.
+# v2 FIX: the previous version contained a <Directory> block.
+# <Directory> is NOT permitted inside .htaccess - Apache rejects it
+# and returns 500 Internal Server Error for the whole site. If you
+# pasted v1 and the site broke (or you removed it again), that was
+# the cause, not your server. It is replaced below with a rewrite
+# rule that does the same job and is legal in .htaccess.
 # ==============================================================
 
-# ---- Directory listing ----
-# MEASURED ON THE LIVE SITE: https://topnotchmall.co.ke/wp-content/uploads/
-# returned 200 with a full directory index. That hands an attacker a
-# complete inventory of every file ever uploaded, including anything
-# meant to be unlisted (invoices, drafts, customer documents).
+
+# ---- 1. Directory listing ----
+# MEASURED: /wp-includes/ returns 200 with a browsable index.
+# That hands an attacker a complete file inventory.
+#
+# NOTE: if your host does not allow Options in .htaccess you will get
+# a 500 error. If that happens, delete ONLY this one line and keep
+# the rest - everything below works without it.
 Options -Indexes
 
-# ---- Version disclosure ----
-# MEASURED: /readme.html returned 200. It states the exact WordPress
-# version, which is the first thing an automated scanner reads before
-# selecting an exploit for that version.
+
+# ---- 2. Version disclosure ----
+# MEASURED: /readme.html and /license.txt both return 200. readme.html
+# states the exact WordPress version, which is the first thing an
+# automated scanner reads before picking an exploit.
+# Both Apache 2.4 and 2.2 syntax are included so this works either way.
 <FilesMatch "^(readme\.html|license\.txt|wp-config-sample\.php)$">
-  Require all denied
-</FilesMatch>
-
-# ---- Never serve config, logs, backups or version control ----
-<FilesMatch "^(wp-config\.php|\.htaccess|\.htpasswd|debug\.log|error_log|\.env|\.git.*|.*\.sql|.*\.bak|.*\.old|.*\.swp|.*~)$">
-  Require all denied
-</FilesMatch>
-
-# ---- Block PHP execution inside uploads ----
-# This is the single most valuable rule here. If any plugin ever allows a
-# malicious file through, this stops it being executed as code, which is
-# how most WordPress shells are installed.
-<Directory "wp-content/uploads">
-  <FilesMatch "\.(php|php\d|phtml|phar)$">
+  <IfModule mod_authz_core.c>
     Require all denied
-  </FilesMatch>
-</Directory>
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
 
-# ---- XML-RPC ----
-# The theme already disables it in PHP. Blocking it at the server means
-# the request never reaches PHP at all, which also stops it being used to
-# burn CPU on a site that has no page cache.
+
+# ---- 3. Never serve config, logs, backups or version control ----
+<FilesMatch "^(wp-config\.php|\.htaccess|\.htpasswd|debug\.log|error_log|\.env|.*\.sql|.*\.bak|.*\.old|.*\.swp|.*~)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+
+# ---- 4. Block PHP execution inside uploads ----
+# The single most valuable rule here. If a plugin ever lets a malicious
+# file through, this stops it executing as code - how most WordPress
+# shells get installed.
+#
+# This replaces the invalid <Directory> block from v1.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^wp-content/uploads/.*\.(php|php[0-9]|phtml|phar)$ - [F,L]
+</IfModule>
+
+
+# ---- 5. XML-RPC ----
+# The theme disables it in PHP. Blocking at the server means the request
+# never reaches PHP, which also stops it burning CPU.
 <Files "xmlrpc.php">
-  Require all denied
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
 </Files>
 
-# ---- HSTS: tell browsers to use HTTPS only ----
-# Add this only once you are certain HTTPS works on every URL, including
-# any subdomain. Start with the shorter max-age, raise it after a week.
+
+# ---- 6. HSTS ----
+# Only once HTTPS works on every URL including subdomains.
 <IfModule mod_headers.c>
   Header always set Strict-Transport-Security "max-age=604800; includeSubDomains"
-  # After a week with no issues, replace the line above with:
+  # After a week with no issues, replace with:
   # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 </IfModule>
 
-# ---- Block author enumeration at the server ----
-# The theme blocks ?author=N in PHP. This stops the request earlier.
+
+# ---- 7. Block author enumeration ----
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteCond %{QUERY_STRING} (^|&)author=\d+ [NC]
   RewriteRule ^/?$ /? [R=301,L]
 </IfModule>
 
-# ---- Limit login brute force surface ----
-# Optional and only if you have a static office IP. Uncomment and replace
-# 1.2.3.4 with your IP to restrict wp-login.php to your connection.
-# <Files "wp-login.php">
-#   Require ip 1.2.3.4
-# </Files>
+
+# ==============================================================
+# HOW TO CHECK IT WORKED
+# After saving, open these in a browser. All should be denied
+# (403) or not found - NOT a readable page:
+#   https://topnotchmall.co.ke/readme.html
+#   https://topnotchmall.co.ke/license.txt
+#   https://topnotchmall.co.ke/wp-includes/
+# If the site shows 500 on every page, remove the single line
+# "Options -Indexes" and save again.
+# ==============================================================
