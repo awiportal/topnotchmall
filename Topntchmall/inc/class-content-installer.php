@@ -31,6 +31,7 @@ final class Content_Installer {
 		add_action( 'admin_init', array( $this, 'sync_category_images' ) );
 		add_action( 'admin_init', array( $this, 'refresh_contact_details' ) );
 		add_action( 'admin_init', array( $this, 'refresh_pages_content' ) );
+		add_action( 'admin_init', array( $this, 'ensure_privacy_page' ), 12 );
 		add_action( 'admin_init', array( $this, 'seed_contact_defaults' ) );
 		add_action( 'admin_init', array( $this, 'refresh_brand_colors' ) );
 		add_action( 'admin_init', array( $this, 'cleanup_competitor_brand' ) );
@@ -102,6 +103,23 @@ final class Content_Installer {
 	private function upsert_page( string $slug, string $title, string $content ): int {
 		$existing = get_page_by_path( $slug );
 		if ( $existing instanceof \WP_Post ) {
+			// WordPress ships its own "Privacy Policy" page as a draft, and that
+			// draft squats the privacy-policy slug. get_page_by_path() returns it
+			// whatever its status, so the page was found, left as a draft, and
+			// linked from the footer - where it 404s for every visitor. A missing
+			// or broken privacy policy is a hard Merchant Center failure, so any
+			// page of ours that is not published gets published here.
+			if ( 'publish' !== $existing->post_status ) {
+				$update = array(
+					'ID'          => (int) $existing->ID,
+					'post_status' => 'publish',
+				);
+				// WordPress's draft carries its own suggested-text boilerplate.
+				// Replace it with the real policy rather than shipping a template.
+				$update['post_content'] = $content;
+				$update['post_title']   = $title;
+				wp_update_post( $update );
+			}
 			return (int) $existing->ID;
 		}
 		$id = wp_insert_post(
@@ -114,6 +132,61 @@ final class Content_Installer {
 			)
 		);
 		return is_wp_error( $id ) ? 0 : (int) $id;
+	}
+
+	/**
+	 * Guarantee a published, reachable Privacy Policy page.
+	 *
+	 * Measured on the live site: /privacy-policy/ returned 404 while the footer
+	 * linked to ?page_id=3, the unpublished page WordPress creates on install.
+	 * Google Merchant Center and Google Ads both require a working privacy
+	 * policy, so this publishes the page, gives it the real policy text, fixes
+	 * the slug, and points WordPress's privacy-page setting at it.
+	 * Idempotent (own flag).
+	 */
+	public function ensure_privacy_page(): void {
+		if ( get_option( 'topnotch_privacy_page_v1' ) ) {
+			return;
+		}
+		if ( function_exists( 'current_user_can' ) === false || current_user_can( 'edit_theme_options' ) === false ) {
+			return;
+		}
+		try {
+			$pages = $this->pages();
+			if ( empty( $pages['privacy-policy'] ) ) {
+				return;
+			}
+			$title   = (string) $pages['privacy-policy']['title'];
+			$content = (string) $pages['privacy-policy']['content'];
+
+			// WordPress's own setting points at the draft it created on install.
+			$id = (int) get_option( 'wp_page_for_privacy_policy' );
+			if ( $id <= 0 ) {
+				$found = get_page_by_path( 'privacy-policy' );
+				$id    = $found instanceof \WP_Post ? (int) $found->ID : 0;
+			}
+
+			if ( $id > 0 && get_post_status( $id ) !== false ) {
+				wp_update_post(
+					array(
+						'ID'           => $id,
+						'post_title'   => $title,
+						'post_name'    => 'privacy-policy',
+						'post_content' => $content,
+						'post_status'  => 'publish',
+					)
+				);
+			} else {
+				$id = $this->upsert_page( 'privacy-policy', $title, $content );
+			}
+
+			if ( $id > 0 ) {
+				update_option( 'wp_page_for_privacy_policy', $id );
+			}
+			update_option( 'topnotch_privacy_page_v1', time() );
+		} catch ( \Throwable $e ) {
+			error_log( 'Topnotch Mall privacy page repair failed: ' . $e->getMessage() );
+		}
 	}
 
 	/**
