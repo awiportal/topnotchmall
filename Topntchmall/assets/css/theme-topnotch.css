@@ -1091,3 +1091,52 @@ ul.products li.product .woocommerce-loop-product__title{
 .rk-nav-toggle[aria-expanded="true"] .rk-burger{background:transparent}
 .rk-nav-toggle[aria-expanded="true"] .rk-burger::before{top:0;transform:rotate(45deg)}
 .rk-nav-toggle[aria-expanded="true"] .rk-burger::after{top:0;transform:rotate(-45deg)}
+
+/* ============================================================
+   Policy & legal pages  (shipping, returns, warranty, terms)
+   Scoped to .rk-policy so nothing here leaks into shop pages.
+   ============================================================ */
+.rk-policy{max-width:860px;margin:0 auto;color:#1f2933;line-height:1.75}
+.rk-policy p{margin:0 0 1.05rem}
+.rk-policy strong{color:#0f2b46;font-weight:600}
+.rk-policy-updated{font-size:.85rem;color:#6b7785;margin:0 0 1.25rem;padding-bottom:1rem;border-bottom:1px solid #e6eaee}
+.rk-policy-lead{font-size:1.1rem;line-height:1.7;color:#33414f}
+.rk-policy h2{margin:2.5rem 0 .85rem;font-size:1.3rem;line-height:1.35;color:#0f2b46;padding-left:.85rem;border-left:4px solid #f5a623}
+
+/* At-a-glance summary: the answers most customers came for */
+.rk-policy-summary{background:#f7f9fb;border:1px solid #e1e8ee;border-radius:12px;padding:1.4rem 1.6rem;margin:1.75rem 0 2.25rem}
+.rk-policy-summary h2{margin:0 0 1.1rem;padding:0;border:0;font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;color:#6b7785}
+.rk-policy-summary ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem 1.75rem}
+.rk-policy-summary li{margin:0;padding:0;display:flex;flex-direction:column;gap:.2rem}
+.rk-policy-summary li strong{font-size:.76rem;letter-spacing:.05em;text-transform:uppercase;color:#6b7785;font-weight:600}
+.rk-policy-summary li span{font-size:1.02rem;font-weight:600;color:#0f2b46;line-height:1.4}
+
+/* Delivery timeline table */
+.rk-policy-table{width:100%;border-collapse:collapse;margin:1.75rem 0;font-size:.95rem;border:1px solid #e1e8ee;border-radius:12px;overflow:hidden}
+.rk-policy-table thead th{background:#0f2b46;color:#fff;text-align:left;padding:.9rem 1.1rem;font-size:.82rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.rk-policy-table td{padding:.9rem 1.1rem;border-top:1px solid #e8edf2;vertical-align:top;line-height:1.55}
+.rk-policy-table tbody tr:nth-child(even){background:#f8fafc}
+.rk-policy-table td:last-child{font-weight:600;color:#0f2b46;white-space:nowrap}
+
+/* Closing contact block */
+.rk-policy-contact{background:#0f2b46;color:#e8eef4;border-radius:12px;padding:1.3rem 1.6rem;margin:2.25rem 0 0;font-size:.97rem;line-height:1.7}
+.rk-policy-contact strong{color:#fff}
+.rk-policy-contact a{color:#f5a623;text-decoration:none}
+.rk-policy-contact a:hover{text-decoration:underline}
+
+@media(max-width:600px){
+.rk-policy{font-size:.97rem}
+.rk-policy h2{font-size:1.14rem;margin-top:2rem;padding-left:.7rem;border-left-width:3px}
+.rk-policy-lead{font-size:1.03rem}
+.rk-policy-summary{padding:1.15rem 1.2rem;border-radius:10px}
+.rk-policy-summary ul{grid-template-columns:1fr;gap:.85rem}
+.rk-policy-table{font-size:.9rem;border-radius:10px}
+.rk-policy-table thead{display:none}
+.rk-policy-table tbody tr{display:block;border-top:1px solid #e8edf2}
+.rk-policy-table tbody tr:first-child{border-top:0}
+.rk-policy-table td{display:block;border:0;padding:.2rem 1rem}
+.rk-policy-table td:first-child{padding-top:.85rem}
+.rk-policy-table td:last-child{white-space:normal;padding-bottom:.85rem;color:#0a6b39}
+.rk-policy-contact{padding:1.1rem 1.2rem}
+}
+
