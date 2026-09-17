@@ -400,7 +400,7 @@ final class Content_Installer {
      * pages or clobbering later manual edits. Idempotent (own flag).
      */
     public function refresh_pages_content(): void {
-        if ( get_option( 'topnotch_pages_content_v6' ) ) {
+        if ( get_option( 'topnotch_pages_content_v7' ) ) {
             return;
         }
         if ( function_exists( 'current_user_can' ) === false || current_user_can( 'edit_theme_options' ) === false ) {
@@ -419,7 +419,7 @@ final class Content_Installer {
                     )
                 );
             }
-            update_option( 'topnotch_pages_content_v6', time() );
+            update_option( 'topnotch_pages_content_v7', time() );
         } catch ( \Throwable $e ) {
             error_log( 'Topnotch Mall pages content refresh failed: ' . $e->getMessage() );
         }
