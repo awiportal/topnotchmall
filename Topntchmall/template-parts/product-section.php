@@ -16,17 +16,33 @@ if ( ! $term ) {
 	return;
 }
 
-$q = new WP_Query(
-	array(
-		'post_type'      => 'product',
-		'posts_per_page' => 6,
-		'no_found_rows'  => true,
-		'post_status'    => 'publish',
-		'tax_query'      => array( // phpcs:ignore WordPress.DB.SlowDBQuery
-			array( 'taxonomy' => 'product_cat', 'field' => 'slug', 'terms' => $slug ),
-		),
-	)
+/**
+ * Rotate the six products shown for this category on every page load, so a
+ * refresh surfaces different stock instead of the same six items forever.
+ * Filter to 'date' (or any WP_Query orderby) to pin the row to newest first.
+ */
+$rk_orderby = apply_filters( 'topnotch_product_section_orderby', 'rand', $slug );
+
+$rk_args = array(
+	'post_type'           => 'product',
+	'posts_per_page'      => (int) apply_filters( 'topnotch_product_section_count', 6, $slug ),
+	'no_found_rows'       => true,
+	'ignore_sticky_posts' => true,
+	'post_status'         => 'publish',
+	'orderby'             => $rk_orderby,
+	'tax_query'           => array( // phpcs:ignore WordPress.DB.SlowDBQuery
+		array( 'taxonomy' => 'product_cat', 'field' => 'slug', 'terms' => $slug ),
+	),
 );
+
+// Keep out-of-stock items out of the rotation when WooCommerce is set to hide them.
+if ( 'yes' === get_option( 'woocommerce_hide_out_of_stock_items' ) ) {
+	$rk_args['meta_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery
+		array( 'key' => '_stock_status', 'value' => 'instock' ),
+	);
+}
+
+$q = new WP_Query( $rk_args );
 if ( ! $q->have_posts() ) {
 	wp_reset_postdata();
 	return;
