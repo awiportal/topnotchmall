@@ -15,6 +15,7 @@ $topnotch_modules = array(
 	'TopnotchMall\\Setup',
 	'TopnotchMall\\Assets',
 	'TopnotchMall\\Security',
+	'TopnotchMall\\Brand_Guard',
 	'TopnotchMall\\WooCommerce_Support',
 	'TopnotchMall\\Ajax',
 	'TopnotchMall\\Customizer',
@@ -22,7 +23,7 @@ $topnotch_modules = array(
 	'TopnotchMall\\Content_Installer',
 	'TopnotchMall\\Demo_Import',
 	'TopnotchMall\\Single_Product',
-		'TopnotchMall\\Merchant_Inspector',
+	'TopnotchMall\\Merchant_Inspector',
 );
 
 foreach ( $topnotch_modules as $topnotch_class ) {
