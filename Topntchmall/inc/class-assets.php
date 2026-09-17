@@ -95,14 +95,14 @@ final class Assets {
 				esc_url( TOPNOTCH_URI . 'assets/img/favicon.ico' )
 			);
 		}
-		printf( '<meta name="theme-color" content="%s">' . "\n", esc_attr( sanitize_hex_color( (string) get_theme_mod( 'topnotch_primary', '#0F8A44' ) ) ) );
+		printf( '<meta name="theme-color" content="%s">' . "\n", esc_attr( sanitize_hex_color( (string) get_theme_mod( 'topnotch_primary', '#0C7A3B' ) ) ) );
 	}
 
 	/**
 	 * Inline minimal critical CSS for fast FCP. Uses system fonts (no webfont download).
 	 */
 	public function preload_and_critical(): void {
-		echo '<style id="topnotch-critical">:root{--rk-primary:#0F8A44;--rk-navy:#0B2A1D}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#17211B;background:#fff}.rk-header{background:var(--rk-navy)}img{max-width:100%;height:auto}</style>' . "\n";
+		echo '<style id="topnotch-critical">:root{--rk-primary:#0C7A3B;--rk-navy:#0B2A1D}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#17211B;background:#fff}.rk-header{background:var(--rk-navy)}img{max-width:100%;height:auto}</style>' . "\n";
 	}
 
 	/**

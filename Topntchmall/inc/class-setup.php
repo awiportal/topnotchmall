@@ -24,6 +24,7 @@ final class Setup {
 		add_action( 'after_setup_theme', array( $this, 'register_menus' ) );
 		add_action( 'after_setup_theme', array( $this, 'image_sizes' ) );
 		add_action( 'widgets_init', array( $this, 'register_sidebars' ) );
+		add_filter( 'wp_nav_menu_objects', array( $this, 'dedupe_menu_objects' ), 10, 2 );
 	}
 
 	/**
@@ -94,5 +95,54 @@ final class Setup {
 				'id'   => 'footer-' . $i,
 			) ) );
 		}
+	}
+
+	/**
+	 * Drop repeated entries from a menu as it renders.
+	 *
+	 * A menu can end up holding two copies of the same link (an interrupted
+	 * rebuild, an import, or a hand edit in Appearance > Menus). This is the
+	 * last line of defence: whatever the database holds, a visitor never sees
+	 * the same page listed twice in one menu. Items with children are always
+	 * kept, so a duplicate parent can never orphan a submenu.
+	 *
+	 * @param array $items Menu item objects.
+	 * @param mixed $args  Menu arguments.
+	 * @return array
+	 */
+	public function dedupe_menu_objects( $items, $args = null ) {
+		if ( is_array( $items ) === false || count( $items ) < 2 ) {
+			return $items;
+		}
+
+		$has_children = array();
+		foreach ( $items as $item ) {
+			$parent = isset( $item->menu_item_parent ) ? (int) $item->menu_item_parent : 0;
+			if ( $parent > 0 ) {
+				$has_children[ $parent ] = true;
+			}
+		}
+
+		$seen = array();
+		$kept = array();
+		foreach ( $items as $item ) {
+			$id     = isset( $item->ID ) ? (int) $item->ID : 0;
+			$parent = isset( $item->menu_item_parent ) ? (int) $item->menu_item_parent : 0;
+			$type   = isset( $item->type ) ? (string) $item->type : '';
+			$object = isset( $item->object_id ) ? (int) $item->object_id : 0;
+			$url    = isset( $item->url ) ? untrailingslashit( strtolower( (string) $item->url ) ) : '';
+
+			$key = 'post_type' === $type || 'taxonomy' === $type
+				? $parent . '|' . $type . '|' . $object
+				: $parent . '|url|' . $url;
+
+			if ( isset( $seen[ $key ] ) && empty( $has_children[ $id ] ) ) {
+				continue;
+			}
+			$seen[ $key ] = true;
+			$kept[]       = $item;
+		}
+
+		return $kept;
 	}
 }

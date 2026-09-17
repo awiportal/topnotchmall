@@ -1,5 +1,5 @@
 :root{
-  --rk-primary:#0F8A44; --rk-primary-600:#0B6E35; --rk-primary-300:#6FD394; --rk-navy:#0B2A1D; --rk-navy-700:#071F15;
+  --rk-primary:#0C7A3B; --rk-primary-600:#095E2D; --rk-primary-300:#4ADE80; --rk-navy:#0B2A1D; --rk-navy-700:#071F15;
   --rk-ink:#17211B; --rk-muted:#5C6B61; --rk-line:#E3EAE4; --rk-bg:#F4F8F5; --rk-white:#fff;
   --rk-radius:12px; --rk-radius-sm:8px; --rk-shadow:0 6px 24px rgba(11,42,29,.08);
   --rk-shadow-lg:0 12px 40px rgba(11,42,29,.14); --rk-container:1280px;
@@ -135,7 +135,7 @@ ul.products{list-style:none;margin:0;padding:0;display:grid;grid-template-column
 .rk-card .star-rating,ul.products .star-rating{margin:6px 0}
 .rk-card .rk-btn,ul.products li.product .button{margin-top:10px;width:100%}
 .rk-stock{font-size:.78rem;font-weight:700}
-.rk-stock--in{color:#0F8A44}.rk-stock--out{color:#b42318}
+.rk-stock--in{color:#0C7A3B}.rk-stock--out{color:#b42318}
 
 /* ============ FOOTER ============ */
 .rk-footer{background:var(--rk-navy);color:#C8D6CB;margin-top:48px}
@@ -219,7 +219,7 @@ ul.products{list-style:none;margin:0;padding:0;display:grid;grid-template-column
 .single-product .price{color:var(--rk-navy);font-weight:800;font-size:1.6rem}
 .single-product .price del{color:var(--rk-muted);font-weight:500;font-size:1rem;margin-right:8px}
 .single-product .price ins{text-decoration:none}
-.single-product .stock.in-stock{color:#0F8A44;font-weight:700}
+.single-product .stock.in-stock{color:#0C7A3B;font-weight:700}
 .single-product .stock.out-of-stock{color:#b42318;font-weight:700}
 .single-product form.cart{margin:18px 0}
 .single-product .quantity input{height:46px;border:1px solid var(--rk-line);border-radius:8px;width:70px;text-align:center}
@@ -341,7 +341,7 @@ body.rk-noscroll{overflow:hidden}
 
 /* Notices */
 .woocommerce-message,.woocommerce-info,.woocommerce-error,.woocommerce-noreviews{border-radius:10px;padding:14px 16px 14px 18px;border-left:4px solid;list-style:none;margin:0 0 20px;background:var(--rk-bg);display:flex;align-items:center;flex-wrap:wrap;gap:10px}
-.woocommerce-message{background:#E8F6EC;border-color:#0F8A44}
+.woocommerce-message{background:#E8F6EC;border-color:#0C7A3B}
 .woocommerce-info{background:#EDF5EF;border-color:var(--rk-navy)}
 .woocommerce-error{background:#fdecec;border-color:#b42318}
 .woocommerce-message .button,.woocommerce-info .button{margin-left:auto}
@@ -559,7 +559,7 @@ body.rk-noscroll{overflow:hidden}
 /* Trust line under buttons */
 .rk-cart-trust,.rk-checkout-trust{margin-top:12px}
 .rk-secure-note{display:flex;align-items:center;gap:8px;color:var(--rk-muted);font-size:.85rem;margin:0 0 10px;line-height:1.4}
-.rk-secure-note svg{color:#0F8A44;flex:0 0 auto}
+.rk-secure-note svg{color:#0C7A3B;flex:0 0 auto}
 
 /* Cart table refinements */
 .woocommerce .quantity input.qty{width:66px;text-align:center;border:1px solid var(--rk-line);border-radius:8px;padding:.55rem .3rem;font-weight:700;background:#fff}
@@ -627,7 +627,7 @@ body.rk-noscroll{overflow:hidden}
 .rk-trustband__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
 .rk-trustband__item{display:flex;align-items:center;gap:14px;padding:22px 18px;border-left:1px solid rgba(255,255,255,.08)}
 .rk-trustband__item:first-child{border-left:0}
-.rk-trustband__icon{flex:0 0 auto;width:44px;height:44px;border-radius:10px;background:rgba(232,163,23,.14);display:flex;align-items:center;justify-content:center}
+.rk-trustband__icon{flex:0 0 auto;width:44px;height:44px;border-radius:10px;background:rgba(34,197,94,.14);display:flex;align-items:center;justify-content:center}
 .rk-trustband__icon svg{width:24px;height:24px;color:var(--rk-primary)}
 .rk-trustband__text{display:flex;flex-direction:column;line-height:1.3}
 .rk-trustband__text strong{font-size:.98rem;font-weight:800}
@@ -662,7 +662,7 @@ body.rk-noscroll{overflow:hidden}
 .woocommerce-MyAccount-content .button{margin:2px 8px 2px 0}
 .woocommerce mark.order-status,.woocommerce .order-status{background:var(--rk-bg);color:var(--rk-navy);border-radius:20px;padding:3px 12px;font-weight:700;font-size:.8rem}
 .woocommerce mark.order-status.status-processing,.order-status.status-processing{background:#fff4d6;color:#8a6100}
-.woocommerce mark.order-status.status-completed,.order-status.status-completed{background:#E8F6EC;color:#0F8A44}
+.woocommerce mark.order-status.status-completed,.order-status.status-completed{background:#E8F6EC;color:#0C7A3B}
 .woocommerce mark.order-status.status-on-hold{background:#EDF5EF;color:var(--rk-navy)}
 .woocommerce mark.order-status.status-cancelled,.woocommerce mark.order-status.status-failed{background:#fdecec;color:#b42318}
 .woocommerce-account .woocommerce-Addresses{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:8px}

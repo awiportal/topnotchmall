@@ -22,10 +22,13 @@ The WordPress/WooCommerce codebase for **Topnotch Mall**, Nairobi.
 
 ## Branding
 
-- Primary green `#0F8A44`, deep green `#0B2A1D`, gold accent `#E8A317`. Greys carry a
-  subtle green tint; sale red and the official WhatsApp green are left as they are.
-- Logo assets live in `Topntchmall/assets/img/`: `logo.png` / `logo.webp` (brand green, for
-  light backgrounds), `logo-white.png` / `logo-white.webp` (white knockout, for the dark
+- Luminous green `#22C55E` is the accent that drives CTAs, badges and highlights; deeper
+  green `#0C7A3B` carries green text and white-text buttons; `#0B2A1D` is the dark surface
+  for header, nav and footer. Greys carry a subtle green tint; sale red and the official
+  WhatsApp green are left as they are. All three are editable under
+  Customize -> Topnotch Mall -> Brand Colours.
+- Logo assets live in `Topntchmall/assets/img/`: `logo.png` / `logo.webp` (two-tone luminous
+  green, for light backgrounds), `logo-white.png` / `logo-white.webp` (white knockout, for the dark
   green header) and `logo-original-blue.png` (the original blue artwork, kept for reference).
 - Icons: `favicon.ico` plus `favicon-16x16.png` ... `favicon-96x96.png`,
   `apple-touch-icon.png` (180px), `icon-192.png` and `site-icon-512.png`. The theme prints

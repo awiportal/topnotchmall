@@ -73,28 +73,42 @@ folder separately and install it the same way, then activate the child.
 
 ## Brand palette
 
+Luminous green identity. Token names are unchanged, so every token-driven component follows
+the values below automatically.
+
 | Token | Value | Used for |
 |---|---|---|
-| `--rk-primary` | `#0F8A44` | buttons, prices, links, cart badge, search button |
-| `--rk-primary-600` | `#0B6E35` | hover/pressed states |
-| `--rk-primary-300` | `#6FD394` | link hover on dark surfaces |
-| `--rk-navy` | `#0B2A1D` | header, nav, footer, headings (deep green) |
+| `--rk-accent` | `#22C55E` | luminous green: CTAs, sale badges, search button, cart count, slider dots, back-to-top, footer rules, focus ring |
+| `--rk-accent-600` | `#16B85A` | hover on those luminous surfaces |
+| `--rk-accent-700` | `#0C7A3B` | green text on white (prices, "view more", trust icons) |
+| `--rk-primary` | `#0C7A3B` | primary buttons and links that carry white text |
+| `--rk-primary-600` | `#095E2D` | hover/pressed |
+| `--rk-primary-300` | `#4ADE80` | link hover on dark surfaces |
+| `--rk-navy` | `#0B2A1D` | header, nav, footer, headings, and text sitting on luminous green |
 | `--rk-navy-700` | `#071F15` | logo bar, deeper surfaces |
-| `--rk-accent` | `#E8A317` | gold accent: tags, ratings, highlights |
 
-Greys carry a subtle green tint so nothing reads as blue. Sale/clearance red and the
-official WhatsApp green are unchanged, since both need to stay recognisable. The two main
-colours remain editable at **Customize → Topnotch Mall → Brand Colours**.
+Contrast was checked rather than eyeballed: the luminous green carries deep-green text at
+7.3:1, and the deeper green carries white text at 5.0:1, so both clear WCAG AA for body
+text. That is why luminous green is used for fills with dark text on top, while green text
+on a white background uses the deeper shade.
+
+Greys carry a subtle green tint. Sale red and the official WhatsApp green are unchanged, so
+both stay recognisable. All three brand colours are editable at
+**Customize → Topnotch Mall → Brand Colours** (Primary, Accent, Secondary); the accent's
+hover, text and tint shades are derived from your pick automatically.
 
 ## Logo and icons
 
 Bundled in `assets/img/`:
 
-- `logo.png` / `logo.webp` — the wordmark in brand green, for light backgrounds
+- `logo.png` / `logo.webp` — two-tone: luminous green mark with a slightly deeper green
+  wordmark so the text stays crisp on white
 - `logo-white.png` / `logo-white.webp` — white knockout, for the dark green header
+- `logo-luminous.png` — the whole mark in a single luminous green, if you prefer one tone
 - `logo-original-blue.png` — the original blue artwork, kept for reference
 - `favicon.ico`, `favicon-16x16.png` … `favicon-96x96.png` — browser tab icons
-- `apple-touch-icon.png` (180px), `icon-192.png` — iOS / Android home-screen icons
+- `apple-touch-icon.png` (180px), `icon-192.png` — iOS / Android home-screen icons: the
+  deep-green mark on a luminous green tile
 - `site-icon-512.png` — upload at Settings → General → Site Icon if you prefer WordPress
   to manage the icon
 

@@ -360,7 +360,7 @@ final class Content_Installer {
 	 * owner picked themselves is left alone. Idempotent (own flag).
 	 */
 	public function refresh_brand_colors(): void {
-		if ( get_option( 'topnotch_brand_colors_v1' ) ) {
+		if ( get_option( 'topnotch_brand_colors_v2' ) ) {
 			return;
 		}
 		if ( function_exists( 'current_user_can' ) === false || current_user_can( 'edit_theme_options' ) === false ) {
@@ -369,8 +369,12 @@ final class Content_Installer {
 		try {
 			$map = array(
 				'topnotch_primary' => array(
-					'new' => '#0F8A44',
-					'old' => array( '#005EB8', '#005eb8', '#FDB913', '#fdb913' ),
+					'new' => '#0C7A3B',
+					'old' => array( '#005EB8', '#005eb8', '#FDB913', '#fdb913', '#0F8A44', '#0f8a44' ),
+				),
+				'topnotch_accent'  => array(
+					'new' => '#22C55E',
+					'old' => array( '#E8A317', '#e8a317', '#10B5A8', '#10b5a8' ),
 				),
 				'topnotch_navy'    => array(
 					'new' => '#0B2A1D',
@@ -383,7 +387,7 @@ final class Content_Installer {
 					set_theme_mod( $key, $spec['new'] );
 				}
 			}
-			update_option( 'topnotch_brand_colors_v1', time() );
+			update_option( 'topnotch_brand_colors_v2', time() );
 		} catch ( \Throwable $e ) {
 			error_log( 'Topnotch Mall brand colour migration failed: ' . $e->getMessage() );
 		}
