@@ -493,3 +493,53 @@ button[data-topnotch-add]:hover,
   .rk-vertcat{max-height:none}
   .rk-vertcat ul,.rk-vertcat__list{max-height:58vh!important}
 }
+
+
+/* ============================================================
+   UI 3.2.2 - bound the category panel so it actually scrolls,
+              and fill the WhatsApp button now that buying is amber
+   ============================================================ */
+
+/* The previous layer set max-height:none, which removed the only bound the
+   list had. An unbounded flex column cannot scroll, so all 31 rows rendered
+   at full height and pushed the hero down the page. The panel now gets a
+   definite height close to the slider's (banners are 1600x667), and the list
+   scrolls inside it. */
+.rk-hero .container{align-items:start}
+.rk-vertcat{
+  height:clamp(380px,31.5vw,520px);
+  max-height:clamp(380px,31.5vw,520px);
+  display:flex;flex-direction:column;overflow:hidden}
+.rk-vertcat ul,.rk-vertcat__list{
+  flex:1 1 auto;min-height:0;
+  max-height:100%!important;   /* beats the earlier max-height:none */
+  overflow-y:auto;overscroll-behavior:contain}
+
+/* A soft fade at the foot of the list, so it reads as scrollable */
+.rk-vertcat{position:relative}
+.rk-vertcat__list::after{content:""}
+.rk-vertcat::after{
+  content:"";position:absolute;left:0;right:8px;bottom:42px;height:26px;
+  background:linear-gradient(to bottom,rgba(255,255,255,0),#fff);
+  pointer-events:none;opacity:.95}
+
+/* ---------- WhatsApp: full brand colour, as the buy button is amber ---------- */
+.rk-card .rk-wa,.rk-wa-btn,a[href*="wa.me"].rk-btn,.rk-btn--wa{
+  background:#25D366!important;background-image:none!important;
+  color:#04240F!important;border:0!important;
+  font-weight:800!important;letter-spacing:.01em;
+  box-shadow:0 6px 16px rgba(37,211,102,.30)!important}
+.rk-card .rk-wa:hover,.rk-wa-btn:hover,a[href*="wa.me"].rk-btn:hover,
+.rk-btn--wa:hover,.rk-card .rk-wa:focus-visible{
+  background:#1EBE5D!important;color:#04240F!important;
+  box-shadow:0 8px 20px rgba(37,211,102,.42)!important}
+.rk-card .rk-wa svg,.rk-wa-btn svg{fill:#04240F!important}
+
+/* Buy sits above WhatsApp: amber first, green second, both solid */
+.rk-card__actions{display:flex;flex-direction:column;gap:7px}
+
+@media (max-width:1024px){
+  .rk-vertcat{height:auto;max-height:none}
+  .rk-vertcat ul,.rk-vertcat__list{max-height:58vh!important}
+  .rk-vertcat::after{display:none}
+}
