@@ -23,6 +23,8 @@ final class Assets {
 		add_filter( 'script_loader_tag', array( $this, 'defer_scripts' ), 10, 3 );
 		// Trim WooCommerce bloat on non-woo pages (perf).
 		add_action( 'wp_enqueue_scripts', array( $this, 'dequeue_woo_bloat' ), 99 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'trim_front_end_assets' ), 100 );
+		add_action( 'wp_default_scripts', array( $this, 'drop_jquery_migrate' ) );
 			add_action( 'init', array( $this, 'trim_head' ) );
 	}
 
@@ -45,13 +47,24 @@ final class Assets {
 	}
 
 	public function enqueue(): void {
-		$css_rel = file_exists( TOPNOTCH_DIR . 'assets/css/theme.min.css' ) ? 'assets/css/theme.min.css' : 'assets/css/theme.css';
-		wp_enqueue_style( 'topnotch-theme', TOPNOTCH_URI . $css_rel, array(), $this->asset_version( $css_rel ) );
-		wp_style_add_data( 'topnotch-theme', 'rtl', 'replace' );
+		// One bundled stylesheet instead of four separate requests. The bundle is
+		// theme.css + theme-industrial.css + theme-topnotch.css concatenated in
+		// that exact cascade order, so the later layers still win. Each of those
+		// requests was costing 500-800ms on mobile, and the old theme.min.css had
+		// drifted out of sync with theme.css, meaning fixes made in the source
+		// silently never shipped.
+		$bundle = 'assets/css/theme-bundle.min.css';
+		if ( file_exists( TOPNOTCH_DIR . $bundle ) ) {
+			wp_enqueue_style( 'topnotch-theme', TOPNOTCH_URI . $bundle, array(), $this->asset_version( $bundle ) );
+			wp_style_add_data( 'topnotch-theme', 'rtl', 'replace' );
+		} else {
+			// Fallback: the individual layers, in order.
+			wp_enqueue_style( 'topnotch-theme', TOPNOTCH_URI . 'assets/css/theme.css', array(), $this->asset_version( 'assets/css/theme.css' ) );
+			wp_style_add_data( 'topnotch-theme', 'rtl', 'replace' );
+			wp_enqueue_style( 'topnotch-industrial', TOPNOTCH_URI . 'assets/css/theme-industrial.css', array( 'topnotch-theme' ), $this->asset_version( 'assets/css/theme-industrial.css' ) );
+			wp_enqueue_style( 'topnotch-ui', TOPNOTCH_URI . 'assets/css/theme-topnotch.css', array( 'topnotch-industrial' ), $this->asset_version( 'assets/css/theme-topnotch.css' ) );
+		}
 		wp_enqueue_style( 'topnotch-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap', array(), null );
-		wp_enqueue_style( 'topnotch-industrial', TOPNOTCH_URI . 'assets/css/theme-industrial.css', array( 'topnotch-theme' ), $this->asset_version( 'assets/css/theme-industrial.css' ) );
-		// UI 3.0 "Aurora" - the current Topnotch Mall look. Loads last so it wins.
-		wp_enqueue_style( 'topnotch-ui', TOPNOTCH_URI . 'assets/css/theme-topnotch.css', array( 'topnotch-industrial' ), $this->asset_version( 'assets/css/theme-topnotch.css' ) );
 
 		wp_enqueue_script( 'topnotch-theme', TOPNOTCH_URI . 'assets/js/theme.js', array(), $this->asset_version( 'assets/js/theme.js' ), true );
 
@@ -122,6 +135,22 @@ final class Assets {
 	 * Inline minimal critical CSS for fast FCP. Uses system fonts (no webfont download).
 	 */
 	public function preload_and_critical(): void {
+		// The first hero banner is the Largest Contentful Paint element on the
+		// home page, so it is fetched alongside the stylesheet rather than after it.
+		$hero = TOPNOTCH_DIR . 'assets/img/banner-tools.webp';
+		if ( is_front_page() && file_exists( $hero ) ) {
+			printf(
+				'<link rel="preload" as="image" href="%s" fetchpriority="high">' . "\n",
+				esc_url( TOPNOTCH_URI . 'assets/img/banner-tools.webp' )
+			);
+		}
+		$bundle = TOPNOTCH_DIR . 'assets/css/theme-bundle.min.css';
+		if ( file_exists( $bundle ) ) {
+			printf(
+				'<link rel="preload" as="style" href="%s">' . "\n",
+				esc_url( TOPNOTCH_URI . 'assets/css/theme-bundle.min.css' )
+			);
+		}
 		echo '<style id="topnotch-critical">:root{--rk-primary:#0C7A3B;--rk-navy:#0B2A1D}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#17211B;background:#fff}.rk-header{background:var(--rk-navy)}img{max-width:100%;height:auto}</style>' . "\n";
 	}
 
@@ -146,6 +175,63 @@ final class Assets {
 		if ( ! is_woocommerce() && ! is_cart() && ! is_checkout() && ! is_account_page() ) {
 			wp_dequeue_style( 'wc-blocks-style' );
 		}
+	}
+
+	/**
+	 * Drop front-end CSS/JS that this storefront never uses.
+	 *
+	 * Measured on the live homepage: the Gutenberg block library stylesheet is
+	 * 137KB, the single largest file on the page, and a WooCommerce storefront
+	 * built from PHP templates barely touches it. Contact Form 7 adds a further
+	 * 25KB of CSS and JS to every page including those with no form on them.
+	 */
+	public function trim_front_end_assets(): void {
+		if ( is_admin() ) {
+			return;
+		}
+
+		// Gutenberg block styles: only needed where a page actually has blocks.
+		$needs_blocks = false;
+		if ( is_singular() ) {
+			$post = get_post();
+			$needs_blocks = $post instanceof \WP_Post && function_exists( 'has_blocks' ) && has_blocks( $post );
+		}
+		if ( ! $needs_blocks ) {
+			wp_dequeue_style( 'wp-block-library' );
+			wp_dequeue_style( 'wp-block-library-theme' );
+			wp_dequeue_style( 'global-styles' );
+			wp_dequeue_style( 'classic-theme-styles' );
+		}
+
+		// Contact Form 7: load only where a form is present.
+		if ( defined( 'WPCF7_VERSION' ) ) {
+			$has_form = false;
+			if ( is_singular() ) {
+				$post = get_post();
+				$has_form = $post instanceof \WP_Post
+					&& ( has_shortcode( (string) $post->post_content, 'contact-form-7' )
+						|| false !== strpos( (string) $post->post_content, 'wpcf7' ) );
+			}
+			if ( ! $has_form ) {
+				wp_dequeue_style( 'contact-form-7' );
+				wp_dequeue_script( 'contact-form-7' );
+				wp_dequeue_script( 'swv' );
+			}
+		}
+	}
+
+	/**
+	 * Remove jQuery Migrate (13KB). It exists to shim jQuery 1.x-era code; a
+	 * current WooCommerce stack does not need it on the front end.
+	 *
+	 * @param \WP_Scripts $scripts Script registry.
+	 */
+	public function drop_jquery_migrate( $scripts ): void {
+		if ( is_admin() || empty( $scripts->registered['jquery'] ) ) {
+			return;
+		}
+		$deps = $scripts->registered['jquery']->deps;
+		$scripts->registered['jquery']->deps = array_diff( $deps, array( 'jquery-migrate' ) );
 	}
 
 	/**

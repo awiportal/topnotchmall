@@ -53,19 +53,19 @@ defined( 'ABSPATH' ) || exit;
 			if ( empty( $slides ) || ! is_array( $slides ) ) {
 				$slides = array(
 					array(
-						'img'   => TOPNOTCH_URI . 'assets/img/banner-tools.jpg',
+						'img'   => TOPNOTCH_URI . 'assets/img/banner-tools.webp',
 						'title' => __( 'Power tools built for the job', 'topnotch-mall' ),
 						'text'  => __( 'Genuine brands, honest prices, and same-day dispatch on Nairobi orders placed before 5pm.', 'topnotch-mall' ),
 						'url'   => $rk_shop,
 					),
 					array(
-						'img'   => TOPNOTCH_URI . 'assets/img/banner-solar.jpg',
+						'img'   => TOPNOTCH_URI . 'assets/img/banner-solar.webp',
 						'title' => __( 'Solar that keeps you running', 'topnotch-mall' ),
 						'text'  => __( 'Panels, hybrid inverters, deep-cycle batteries and street lights, in stock in Nairobi.', 'topnotch-mall' ),
 						'url'   => $rk_shop,
 					),
 					array(
-						'img'   => TOPNOTCH_URI . 'assets/img/banner-machinery.jpg',
+						'img'   => TOPNOTCH_URI . 'assets/img/banner-machinery.webp',
 						'title' => __( 'Generators, welding & pumps', 'topnotch-mall' ),
 						'text'  => __( 'Heavy-duty machinery delivered countrywide, backed by manufacturer warranty.', 'topnotch-mall' ),
 						'url'   => $rk_shop,
