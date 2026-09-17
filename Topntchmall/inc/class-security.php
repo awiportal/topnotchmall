@@ -39,7 +39,7 @@ final class Security {
 	}
 
 	/**
-	 * Send hardening headers. HSTS should be added at the server/HTTPS layer.
+	 * Send hardening headers.
 	 */
 	public function security_headers(): void {
 		if ( headers_sent() ) {
@@ -49,6 +49,17 @@ final class Security {
 		header( 'X-Frame-Options: SAMEORIGIN' );
 		header( 'Referrer-Policy: strict-origin-when-cross-origin' );
 		header( 'Permissions-Policy: geolocation=(), microphone=(), camera=()' );
+
+		// HSTS. Measured on the live site: this header was missing, so a first
+		// visit over http:// can be intercepted before the redirect to https
+		// happens. Sent from PHP as well as from the server rules, because the
+		// server rules are a separate deployment step while this ships with the
+		// theme. Deliberately conservative at one week: HSTS cannot be undone
+		// inside its own max-age, so it is raised only once HTTPS is proven on
+		// every subdomain.
+		if ( is_ssl() ) {
+			header( 'Strict-Transport-Security: max-age=604800; includeSubDomains' );
+		}
 	}
 
 	/**

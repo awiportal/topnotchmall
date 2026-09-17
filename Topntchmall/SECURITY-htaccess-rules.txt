@@ -1,0 +1,71 @@
+# ==============================================================
+# TOPNOTCH MALL - security rules
+# Copy EVERYTHING below into the .htaccess file in your WordPress
+# ROOT folder (public_html), ABOVE the line "# BEGIN WordPress",
+# alongside the performance rules. Back the file up first.
+#
+# These close gaps that cannot be closed from theme code, because
+# Apache serves these files before WordPress ever loads.
+# ==============================================================
+
+# ---- Directory listing ----
+# MEASURED ON THE LIVE SITE: https://topnotchmall.co.ke/wp-content/uploads/
+# returned 200 with a full directory index. That hands an attacker a
+# complete inventory of every file ever uploaded, including anything
+# meant to be unlisted (invoices, drafts, customer documents).
+Options -Indexes
+
+# ---- Version disclosure ----
+# MEASURED: /readme.html returned 200. It states the exact WordPress
+# version, which is the first thing an automated scanner reads before
+# selecting an exploit for that version.
+<FilesMatch "^(readme\.html|license\.txt|wp-config-sample\.php)$">
+  Require all denied
+</FilesMatch>
+
+# ---- Never serve config, logs, backups or version control ----
+<FilesMatch "^(wp-config\.php|\.htaccess|\.htpasswd|debug\.log|error_log|\.env|\.git.*|.*\.sql|.*\.bak|.*\.old|.*\.swp|.*~)$">
+  Require all denied
+</FilesMatch>
+
+# ---- Block PHP execution inside uploads ----
+# This is the single most valuable rule here. If any plugin ever allows a
+# malicious file through, this stops it being executed as code, which is
+# how most WordPress shells are installed.
+<Directory "wp-content/uploads">
+  <FilesMatch "\.(php|php\d|phtml|phar)$">
+    Require all denied
+  </FilesMatch>
+</Directory>
+
+# ---- XML-RPC ----
+# The theme already disables it in PHP. Blocking it at the server means
+# the request never reaches PHP at all, which also stops it being used to
+# burn CPU on a site that has no page cache.
+<Files "xmlrpc.php">
+  Require all denied
+</Files>
+
+# ---- HSTS: tell browsers to use HTTPS only ----
+# Add this only once you are certain HTTPS works on every URL, including
+# any subdomain. Start with the shorter max-age, raise it after a week.
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=604800; includeSubDomains"
+  # After a week with no issues, replace the line above with:
+  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+</IfModule>
+
+# ---- Block author enumeration at the server ----
+# The theme blocks ?author=N in PHP. This stops the request earlier.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{QUERY_STRING} (^|&)author=\d+ [NC]
+  RewriteRule ^/?$ /? [R=301,L]
+</IfModule>
+
+# ---- Limit login brute force surface ----
+# Optional and only if you have a static office IP. Uncomment and replace
+# 1.2.3.4 with your IP to restrict wp-login.php to your connection.
+# <Files "wp-login.php">
+#   Require ip 1.2.3.4
+# </Files>
