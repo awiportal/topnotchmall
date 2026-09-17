@@ -95,6 +95,21 @@ Options -Indexes
 </IfModule>
 
 
+# ---- 8. Security headers at SERVER level ----
+# MEASURED: x-content-type-options was present earlier today and is now
+# MISSING, while cache-control on HTML reads "public, max-age=3600".
+# That is the page cache serving a stored copy of the page WITHOUT ever
+# running PHP - so the headers the theme sets in PHP never fire on a
+# cache hit. Setting them here means they apply to cached responses too,
+# which is most of your traffic now that caching is on.
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>
+
+
 # ==============================================================
 # HOW TO CHECK IT WORKED
 # After saving, open these in a browser. All should be denied
