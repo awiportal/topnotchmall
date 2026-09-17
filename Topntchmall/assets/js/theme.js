@@ -188,3 +188,66 @@
     });
   });
 })();
+
+
+/* ------------------------------------------------------------------
+   Mobile: the All Categories panel renders in normal page flow rather
+   than as a nested scroller, collapsed to the first nine rows with a
+   Show all / Show fewer toggle. Without JS the full list simply shows
+   and the page scrolls, which is still correct.
+   ------------------------------------------------------------------ */
+(function () {
+  'use strict';
+  var panel = document.querySelector('.rk-vertcat');
+  if (panel === null) return;
+  var list = panel.querySelector('.rk-vertcat__list') || panel.querySelector('ul');
+  if (list === null) return;
+
+  var total = list.children.length;
+  var LIMIT = 9;
+  if (total <= LIMIT) return;
+
+  var btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'rk-vertcat__toggle';
+  btn.setAttribute('aria-expanded', 'false');
+  btn.setAttribute('aria-controls', list.id || 'rk-vertcat-list');
+  if (\!list.id) list.id = 'rk-vertcat-list';
+
+  var label = function (open) {
+    return open ? 'Show fewer categories' : 'Show all ' + total + ' categories';
+  };
+  btn.textContent = label(false);
+  list.insertAdjacentElement('afterend', btn);
+
+  var mq = window.matchMedia('(max-width:1024px)');
+
+  var apply = function () {
+    var open = btn.getAttribute('aria-expanded') === 'true';
+    if (mq.matches) {
+      btn.hidden = false;
+      list.classList.toggle('is-collapsed', open === false);
+    } else {
+      btn.hidden = true;
+      list.classList.remove('is-collapsed');
+    }
+  };
+
+  btn.addEventListener('click', function () {
+    var open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+    btn.textContent = label(open === false);
+    apply();
+    if (open) {
+      var top = panel.getBoundingClientRect().top + window.pageYOffset - 80;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    }
+  });
+
+  if (typeof mq.addEventListener === 'function') {
+    mq.addEventListener('change', apply);
+  } else if (typeof mq.addListener === 'function') {
+    mq.addListener(apply);
+  }
+  apply();
+})();
