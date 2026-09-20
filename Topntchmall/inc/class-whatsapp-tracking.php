@@ -38,7 +38,7 @@ final class Whatsapp_Tracking {
 	 */
 	public function send_to(): string {
 		$ads   = trim( (string) get_theme_mod( 'topnotch_ads_id', '' ) );
-		$label = trim( (string) get_theme_mod( 'topnotch_ads_whatsapp_label', '' ) );
+		$label = trim( (string) get_theme_mod( 'topnotch_ads_whatsapp_label', '' ) );  // Blank until the Ads conversion action exists.
 		$value = '';
 		if ( '' === $ads ) {
 			$value = '';

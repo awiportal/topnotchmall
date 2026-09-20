@@ -41,6 +41,17 @@ final class Customizer {
 		$this->text( $wp_customize, 'topnotch_address', 'Magomano House, Tom Mboya Street, Nairobi, Kenya', __( 'Business Address', 'topnotch-mall' ) );
 		$this->text( $wp_customize, 'topnotch_whatsapp', '254708777192', __( 'WhatsApp number (intl, no +)', 'topnotch-mall' ) );
 		$this->text( $wp_customize, 'topnotch_cutoff', '5:00pm', __( 'Same-day order cut-off time', 'topnotch-mall' ) );
+
+		// Tracking & consent. Leaving any field BLANK disables that feature.
+		// Placement is handled by the theme modules, which keep Consent Mode v2
+		// denied defaults ahead of GA4 and GTM. Do not paste Google's raw
+		// snippets into header.php as well, or every hit is counted twice.
+		$wp_customize->add_section( 'topnotch_tracking', array( 'title' => __( 'Tracking & Consent', 'topnotch-mall' ), 'panel' => 'topnotch_panel' ) );
+		$this->text( $wp_customize, 'topnotch_ga4_id', 'G-WD7ZVQZ0SD', __( 'GA4 Measurement ID (G-...)', 'topnotch-mall' ), 'topnotch_tracking' );
+		$this->text( $wp_customize, 'topnotch_gtm_id', 'GTM-THGMLKN2', __( 'Tag Manager Container ID (GTM-...)', 'topnotch-mall' ), 'topnotch_tracking' );
+		$this->text( $wp_customize, 'topnotch_ads_id', '', __( 'Google Ads Tag ID (AW-...)', 'topnotch-mall' ), 'topnotch_tracking' );
+		$this->text( $wp_customize, 'topnotch_ads_whatsapp_label', '', __( 'WhatsApp conversion label', 'topnotch-mall' ), 'topnotch_tracking' );
+		$this->text( $wp_customize, 'topnotch_merchant_id', '', __( 'Merchant Center ID (Customer Reviews)', 'topnotch-mall' ), 'topnotch_tracking' );
 	}
 
 	private function color( $wp, string $id, string $default, string $label ): void {
@@ -48,9 +59,9 @@ final class Customizer {
 		$wp->add_control( new \WP_Customize_Color_Control( $wp, $id, array( 'label' => $label, 'section' => 'topnotch_colors' ) ) );
 	}
 
-	private function text( $wp, string $id, string $default, string $label ): void {
+	private function text( $wp, string $id, string $default, string $label, string $section = 'topnotch_contact' ): void {
 		$wp->add_setting( $id, array( 'default' => $default, 'sanitize_callback' => 'sanitize_text_field' ) );
-		$wp->add_control( $id, array( 'label' => $label, 'section' => 'topnotch_contact', 'type' => 'text' ) );
+		$wp->add_control( $id, array( 'label' => $label, 'section' => $section, 'type' => 'text' ) );
 	}
 
 	/**

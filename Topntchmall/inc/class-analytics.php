@@ -33,7 +33,7 @@ final class Analytics {
 	 * GA4 measurement ID. Returning an empty string disables the feature.
 	 */
 	public function measurement_id(): string {
-		$id = (string) get_theme_mod( 'topnotch_ga4_id', '' );
+		$id = (string) get_theme_mod( 'topnotch_ga4_id', 'G-WD7ZVQZ0SD' );
 		return trim( (string) apply_filters( 'topnotch_ga4_id', $id ) );
 	}
 

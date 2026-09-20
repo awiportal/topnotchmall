@@ -37,7 +37,7 @@ final class Tag_Manager {
 	 * GTM container ID. Returning an empty string disables the feature.
 	 */
 	public function container_id(): string {
-		$id = (string) get_theme_mod( 'topnotch_gtm_id', '' );
+		$id = (string) get_theme_mod( 'topnotch_gtm_id', 'GTM-THGMLKN2' );
 		return trim( (string) apply_filters( 'topnotch_gtm_id', $id ) );
 	}
 
