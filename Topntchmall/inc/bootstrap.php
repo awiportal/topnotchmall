@@ -26,6 +26,15 @@ $topnotch_modules = array(
 	'TopnotchMall\\Demo_Import',
 	'TopnotchMall\\Single_Product',
 	'TopnotchMall\\Merchant_Inspector',
+	// Tracking stack. wp_head priority ordering is a compliance control:
+	// Cookie_Consent writes Consent Mode v2 denied defaults at priority 1,
+	// Analytics at 2 and Tag_Manager at 3 both inherit that consent state.
+	// See class-cookie-consent.php before changing any of this.
+	'TopnotchMall\\Cookie_Consent',
+	'TopnotchMall\\Analytics',
+	'TopnotchMall\\Tag_Manager',
+	'TopnotchMall\\Whatsapp_Tracking',
+	'TopnotchMall\\Google_Customer_Reviews',
 );
 
 foreach ( $topnotch_modules as $topnotch_class ) {

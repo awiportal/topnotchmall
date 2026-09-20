@@ -25,6 +25,7 @@ final class Schema {
 		add_action( 'wp_head', array( $this, 'breadcrumb' ), 7 );
 		add_action( 'wp_footer', array( $this, 'product' ), 20 );
 		add_filter( 'woocommerce_structured_data_product', array( $this, 'suppress_woo_product_schema' ) );
+		add_filter( 'woocommerce_structured_data_breadcrumblist', array( $this, 'suppress_woo_breadcrumb_schema' ) );
 	}
 
 	/**
@@ -429,5 +430,27 @@ final class Schema {
 
 	private function print_ld( array $data ): void {
 		echo '<script type="application/ld+json">' . wp_json_encode( $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '</script>' . "\n";
+	}
+
+	/**
+	 * Suppress WooCommerce's BreadcrumbList JSON-LD.
+	 *
+	 * Exactly one owner per structured-data type. This theme emits its own
+	 * BreadcrumbList from breadcrumb() on wp_head, and WooCommerce emits a
+	 * second one, so a product page carried two. Verified before this change:
+	 * 4 JSON-LD blocks with 2 BreadcrumbList on a live product URL.
+	 *
+	 * Note this site runs no dedicated SEO plugin, so the duplicate is
+	 * theme-plus-WooCommerce rather than plugin-plus-WooCommerce. If an SEO
+	 * plugin is later activated, has_seo_plugin() already stands the theme's
+	 * own output down and this filter becomes the only guard needed.
+	 *
+	 * @param array $data WooCommerce breadcrumb structured data.
+	 */
+	public function suppress_woo_breadcrumb_schema( $data ) {
+		if ( true === $this->has_seo_plugin() ) {
+			return $data;
+		}
+		return array();
 	}
 }
