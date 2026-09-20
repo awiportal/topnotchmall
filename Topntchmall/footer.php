@@ -35,7 +35,7 @@ $rk_cutoff   = get_theme_mod( 'topnotch_cutoff', '5:00pm' );
 			<div>
 				<h3><?php esc_html_e( 'We Accept', 'topnotch-mall' ); ?></h3>
 				<div class="rk-payments">
-					<span>M-PESA</span><span>Visa</span><span>Mastercard</span><span>Cash on Delivery</span>
+					<span>M-PESA</span><span>Visa</span><span>Mastercard</span><span>Cash on Delivery (confirmed areas)</span>
 				</div>
 				<h3 style="margin-top:18px"><?php esc_html_e( 'Secure Shopping', 'topnotch-mall' ); ?></h3>
 				<div class="rk-payments"><span>SSL Secured</span><span>Verified Business</span></div>

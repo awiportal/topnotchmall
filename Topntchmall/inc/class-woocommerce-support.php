@@ -702,7 +702,7 @@ final class WooCommerce_Support {
 	 */
 	public function cart_trust(): void {
 		echo '<div class="rk-cart-trust">';
-		echo '<p class="rk-secure-note">' . $this->lock_icon() . '<span>' . esc_html__( 'Secure checkout. M-PESA, cards and cash on delivery accepted.', 'topnotch-mall' ) . '</span></p>';
+		echo '<p class="rk-secure-note">' . $this->lock_icon() . '<span>' . esc_html__( 'Secure checkout. M-PESA and cards accepted, plus cash on delivery in confirmed areas.', 'topnotch-mall' ) . '</span></p>';
 		echo '</div>';
 	}
 

@@ -61,10 +61,10 @@ final class Single_Product {
 		// Trust badges.
 		echo '<ul class="rk-trust">';
 		$badges = array(
-			array( '<path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"></path><path d="M9 12l2 2 4-4"></path>', __( '100% Genuine Products', 'topnotch-mall' ) ),
-			array( '<path d="M20 6L9 17l-5-5"></path>', __( 'Warranty Included', 'topnotch-mall' ) ),
+			array( '<path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"></path><path d="M9 12l2 2 4-4"></path>', __( 'Manufacturer Warranty', 'topnotch-mall' ) ),
+			array( '<path d="M20 6L9 17l-5-5"></path>', __( '7-Day Returns', 'topnotch-mall' ) ),
 			array( '<rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path>', __( 'Secure Checkout', 'topnotch-mall' ) ),
-			array( '<path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"></path><path d="M12 7v5l3 2"></path>', __( 'Responsive Support', 'topnotch-mall' ) ),
+			array( '<path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"></path><path d="M12 7v5l3 2"></path>', __( 'Phone & WhatsApp Support', 'topnotch-mall' ) ),
 		);
 		foreach ( $badges as $b ) {
 			echo '<li>' . $this->icon( $b[0] ) . '<span>' . esc_html( $b[1] ) . '</span></li>'; // phpcs:ignore
@@ -73,7 +73,7 @@ final class Single_Product {
 
 		// Payment methods.
 		echo '<div class="rk-pdp-pay"><span class="rk-pdp-pay__label">' . esc_html__( 'We accept:', 'topnotch-mall' ) . '</span>';
-		foreach ( array( 'M-PESA', 'Visa', 'Mastercard', 'Cash on Delivery' ) as $pay ) {
+		foreach ( array( 'M-PESA', 'Visa', 'Mastercard', 'Cash on Delivery (confirmed areas)' ) as $pay ) {
 			echo '<span class="rk-pay-chip">' . esc_html( $pay ) . '</span>';
 		}
 		echo '</div>';
@@ -113,8 +113,8 @@ final class Single_Product {
 		$phone = esc_html( get_theme_mod( 'topnotch_phone', '+254 708 777192' ) );
 		$faqs  = array(
 			array( __( 'How soon can I get this delivered?', 'topnotch-mall' ), __( 'Nairobi orders are usually delivered the same or next working day. Upcountry orders take 2 to 7 working days depending on the destination, counted from dispatch. Delivery is a flat KSh 500 anywhere in Kenya, or free if you collect from our shop.', 'topnotch-mall' ) ),
-			array( __( 'How do I pay?', 'topnotch-mall' ), __( 'We accept M-PESA, Visa, Mastercard and cash on delivery where available. All online payments are processed securely.', 'topnotch-mall' ) ),
-			array( __( 'Is this product genuine and covered by warranty?', 'topnotch-mall' ), __( 'Yes. We stock only genuine products from authorised suppliers, backed by the manufacturer warranty where applicable.', 'topnotch-mall' ) ),
+			array( __( 'How do I pay?', 'topnotch-mall' ), __( 'We accept M-PESA, Visa and Mastercard. Cash on delivery is available where we confirm it for your location and order value. All online payments are processed securely.', 'topnotch-mall' ) ),
+			array( __( 'Is this product covered by warranty?', 'topnotch-mall' ), __( 'Items are covered by the manufacturer warranty where the manufacturer provides one. Terms vary by brand and product, so ask us and we will confirm what applies before you buy.', 'topnotch-mall' ) ),
 			array( __( 'Can I return it if there is a problem?', 'topnotch-mall' ), __( 'Yes. You can return most items within 7 days of delivery, including if you simply change your mind. We pay the return cost when an item is faulty, damaged or wrong. See our Return &amp; Refund Policy for details.', 'topnotch-mall' ) ),
 			array( __( 'How do I get help before buying?', 'topnotch-mall' ), __( 'Call or WhatsApp us and our team will help you choose the right tool for the job.', 'topnotch-mall' ) . ' ' . $phone ),
 		);
