@@ -67,7 +67,7 @@ defined( 'ABSPATH' ) || exit;
 					array(
 						'img'   => TOPNOTCH_URI . 'assets/img/banner-machinery.webp',
 						'title' => __( 'Generators, welding & pumps', 'topnotch-mall' ),
-						'text'  => __( 'Heavy-duty machinery delivered countrywide, backed by manufacturer warranty.', 'topnotch-mall' ),
+						'text'  => __( 'Heavy-duty machinery delivered countrywide, with warranty where the manufacturer provides it.', 'topnotch-mall' ),
 						'url'   => $rk_shop,
 					),
 				);
